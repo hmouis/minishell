@@ -39,7 +39,8 @@ int main()
 	line = readline("minishell~ ");
 	if (line == NULL)
 	{
-		printf("exit");
+		printf("exit\n");
+		free(line);
 		exit(0);
 	}
 	while (1)
