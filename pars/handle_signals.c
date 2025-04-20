@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -30,20 +31,29 @@ void	handle_ctrl_backslash(int sig)
 	return ;
 }
 
+void	exit_(char *line)
+{
+	if (line == NULL || strcmp(line, "exit") == 0)
+	{
+		printf("exit\n");
+		free(line);
+		exit(0);
+	}
+}
+
 int main()
 {
 	char	*line;
 
 	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, handle_ctrl_backslash);
-	line = readline("minishell~ ");
-	if (line == NULL)
-	{
-		printf("exit\n");
-		free(line);
-		exit(0);
-	}
 	while (1)
-		pause();
+	{
+		line = readline("minishell~ ");
+		exit_(line);
+		if (*line)
+			add_history(line);
+		free(line);
+	}
 	return 0;
 }
