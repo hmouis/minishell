@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void *new_node(void *content)
+void *new_node(char *content)
 {
 	t_lst *node;
 
@@ -48,7 +48,7 @@ t_lst *last_node(t_lst *lst)
 	return (lst);
 }
 
-void add_to_lst(t_lst **lst, void *content)
+void add_to_lst(t_lst **lst, char *content)
 {
 	t_lst *node;
 
