@@ -105,10 +105,12 @@ int token_quote(int *i, char *input, t_lst **lst, t_var *var)
 		(*i)++;
 		var->length++;
 		if (input[*i] == c)
+		{
+			(*i)++;
+			var->length++;
 			break;
+		}
 	}
-	(*i)++;
-	var->length++;
 	return (1);
 }
 
