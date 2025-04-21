@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-void *new_node(char *content)
+void	*new_node(char *content)
 {
-	t_lst *node;
+	t_lst	*node;
 
 	node = malloc(sizeof(t_lst));
 	if (!node)
@@ -24,9 +24,9 @@ void *new_node(char *content)
 	return (node);
 }
 
-void add_back(t_lst **lst, t_lst *node)
+void	add_back(t_lst **lst, t_lst *node)
 {
-	t_lst *last;
+	t_lst	*last;
 
 	if (!lst || !node)
 		return ;
@@ -39,7 +39,7 @@ void add_back(t_lst **lst, t_lst *node)
 		*lst = node;
 }
 
-t_lst *last_node(t_lst *lst)
+t_lst	*last_node(t_lst *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -48,9 +48,9 @@ t_lst *last_node(t_lst *lst)
 	return (lst);
 }
 
-void add_to_lst(t_lst **lst, char *content)
+void	add_to_lst(t_lst **lst, char *content)
 {
-	t_lst *node;
+	t_lst	*node;
 
 	node = new_node(content);
 	add_back(lst, node);

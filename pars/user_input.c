@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h" 
+#include "../minishell.h"
 
-int split_input(char *input, t_lst **lst)
+int	split_input(char *input, t_lst **lst)
 {
-	t_var var;
+	t_var	var;
 
 	var.i = 0;
 	var.y = 0;
@@ -22,51 +22,60 @@ int split_input(char *input, t_lst **lst)
 	var.length = 0;
 	while (1)
 	{
-		if (!input[var.i])
-		{
-			if (var.length > 0)
-			{
-				var.token = ft_strlcpy(var.token, input, var.length, var.y);
-				add_to_lst(lst, var.token);
-				var.token = NULL;
-				var.length = 0;
-			}
-			break;
-		}
-		if (is_operator(input[var.i]))
-		{
-			if (var.length > 0)
-			{
-				var.token = ft_strlcpy(var.token, input, var.length, var.y);
-				add_to_lst(lst, var.token);
-				var.token = NULL;
-				var.length = 0;
-				var.y = var.i;
-			}
-			var.length++;
-			if (valid_operator(input[var.i], input[var.i + 1]))
-				var.length++;
-			var.token = ft_strlcpy(var.token, input, var.length, var.y);
-			add_to_lst(lst, var.token);
-			var.token = NULL;
-			var.i += var.length;
-			var.length = 0;
-			var.y = var.i;
-			continue;
-		}
+		if (end_of_input(&var, input, lst))
+			break ;
+		if (token_operator(&var, input, lst))
+			continue ;
 		if (token_quote(&var.i, input, lst, &var))
-			continue;
+			continue ;
 		if (token_dollar_sign(&var.i, input, lst, &var))
-			continue;
+			continue ;
 		if (token_blank(&var, input, lst))
-			continue;
+			continue ;
 		var.i++;
 		var.length++;
 	}
 	return (0);
 }
 
-int token_blank(t_var *var, char *input,t_lst **lst)
+int	token_operator(t_var *var, char *input, t_lst **lst)
+{
+	if (!is_operator(input[var->i]))
+		return (0);
+	creat_token(var, input, lst);
+	var->length++;
+	if (valid_operator(input[var->i], input[var->i + 1]))
+		var->length++;
+	var->i += var->length;
+	creat_token(var, input, lst);
+	return (1);
+}
+
+int	end_of_input(t_var *var, char *input, t_lst **lst)
+{
+	if (input[var->i])
+		return (0);
+	if (var->length > 0)
+	{
+		var->token = ft_strlcpy(var->token, input, var->length, var->y);
+		add_to_lst(lst, var->token);
+	}
+	return (1);
+}
+
+int	creat_token(t_var *var, char *input, t_lst **lst)
+{
+	if (var->length == 0)
+		return (0);
+	var->token = ft_strlcpy(var->token, input, var->length, var->y);
+	add_to_lst(lst, var->token);
+	var->token = NULL;
+	var->length = 0;
+	var->y = var->i;
+	return (1);
+}
+
+int	token_blank(t_var *var, char *input, t_lst **lst)
 {
 	if (!white_space(input[var->i]))
 		return (0);
@@ -82,51 +91,3 @@ int token_blank(t_var *var, char *input,t_lst **lst)
 	var->y = var->i;
 	return (1);
 }
-
-int is_operator(char c)
-{
-	return (charchr("<>|", c));
-}
-
-int valid_operator(char c1, char c2)
-{
-	return (c1 == c2 && (c1 == '<' || c1 == '>'));
-}
-
-int token_quote(int *i, char *input, t_lst **lst, t_var *var)
-{
-	char c;
-
-	c = input[*i];
-	if (c != '"' && c != '\'')
-		return (0);
-	while (input[*i]) //39 = ' && 34 = "
-	{
-		(*i)++;
-		var->length++;
-		if (input[*i] == c)
-		{
-			(*i)++;
-			var->length++;
-			break;
-		}
-	}
-	return (1);
-}
-
-int token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var)
-{
-	if (input[*i] != '$')
-		return (0);
-	while (input[*i])
-	{
-		var->length++;
-		(*i)++;
-		if (white_space(input[*i]) || is_operator(input[*i]))
-			break;
-	}
-	return (1);
-}
-
-
-
