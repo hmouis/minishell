@@ -20,6 +20,7 @@ void	*new_node(char *content)
 	if (!node)
 		return (NULL);
 	node->content = content;
+	node->type = NULL;
 	node->next = NULL;
 	return (node);
 }
