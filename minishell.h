@@ -21,9 +21,10 @@
 
 typedef struct s_lst
 {
-	char			*content;
+	char	*content;
+	char	*type;
 	struct s_lst	*next;
-}					t_lst;
+}	t_lst;
 
 typedef struct s_var
 {
@@ -50,4 +51,5 @@ int					split_input(char *input, t_lst **lst);
 int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
 int					token_dollar_sign(int *i, char *input, t_lst **lst,
 						t_var *var);
+void	tokens_type(t_lst **list);
 #endif
