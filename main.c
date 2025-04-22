@@ -28,8 +28,7 @@ int	main(void)
 		while (lst)
 		{
 			tokens_type(&lst);
-			printf("token : %s\n", lst->content);
-			printf("type : %s\n", lst->type);
+			printf("token : %s -> type : %s\n", lst->content, lst->type);
 			lst = lst->next;
 		}
 	}
