@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-int charchr(char *str, int c)
+int	charchr(char *str, int c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -26,7 +26,7 @@ int charchr(char *str, int c)
 	return (0);
 }
 
-char *ft_strlcpy(char *token, char *input, int len, int j)
+char	*ft_strlcpy(char *token, char *input, int len, int j)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ char *ft_strlcpy(char *token, char *input, int len, int j)
 	return (token);
 }
 
-int white_space(char c)
+int	white_space(char c)
 {
 	if (c == '\t' || c == ' ')
 		return (1);
