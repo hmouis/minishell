@@ -89,7 +89,7 @@ int	is_env_variable(t_lst *list)
 	return (list->content[0] == '$');
 }
 
-int	is_quoted_string(t_lst *list)
+int	is_single_quote(t_lst *list)
 {
 	if (!list->content)
 		return 0;
@@ -99,7 +99,21 @@ int	is_quoted_string(t_lst *list)
 	length = 0;
 	s = list->content;
 	length = len(s);
-	return ((s[0] == '\'' && s[length - 1] == '\'') || (s[0] == '"' && s[length - 1] == '"'));
+	return (s[0] == '\'' && s[length - 1] == '\'');
+}
+
+int	is_double_quote(t_lst *list)
+{
+	if (!list->content)
+		return 0;
+	char	*s;
+	int	length;
+
+	length = 0;
+	s = list->content;
+	length = len(s);
+	return (s[0] == '"' && s[length - 1] == '"');
+
 }
 
 int	is_pipe(t_lst *list)
@@ -124,8 +138,10 @@ void	tokens_type(t_lst **list)
 		(*list)->type = "redirection";
 	else if (is_env_variable(*list))
 		(*list)->type = "environment variable";
-	else if (is_quoted_string(*list))
-		(*list)->type = "quoted string";
+	else if (is_single_quote(*list))
+		(*list)->type = "single quote";
+	else if (is_double_quote(*list))
+		(*list)->type = "double quote";
 	else if (is_pipe(*list))
 		(*list)->type = "pipe";
 	else
