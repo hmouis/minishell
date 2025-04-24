@@ -19,10 +19,17 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+enum	e_types
+{
+	op_redirection,
+	op_pipe,
+	op_word
+};
+
 typedef struct s_lst
 {
 	char	*content;
-	char	*type;
+	enum e_types	type;
 	struct s_lst	*next;
 }	t_lst;
 
