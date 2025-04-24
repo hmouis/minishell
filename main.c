@@ -12,6 +12,15 @@
 
 #include "minishell.h"
 
+void	enum_type(enum e_types tp)
+{
+	if (tp == 0)
+		printf("type : redirection\n");
+	else if (tp == 1)
+		printf("type : pipe\n");
+	else if (tp == 2)
+		printf("type : word\n");
+}
 int	main(void)
 {
 	char	*test_line;
@@ -28,7 +37,8 @@ int	main(void)
 		while (lst)
 		{
 			tokens_type(&lst);
-			printf("token : %s -> type : %s\n", lst->content, lst->type);
+			printf("token : %s -> ", lst->content);
+			enum_type(lst->type);
 			lst = lst->next;
 		}
 	}
