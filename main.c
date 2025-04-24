@@ -15,10 +15,16 @@
 void	enum_type(enum e_types tp)
 {
 	if (tp == 0)
-		printf("type : redirection\n");
+		printf("type : redirect input\n");
 	else if (tp == 1)
-		printf("type : pipe\n");
+		printf("type : redirect ouput\n");
 	else if (tp == 2)
+		printf("type : Left shift\n");
+	else if (tp == 3)
+		printf("type : Right shift\n");
+	else if (tp == 4)
+		printf("type : pipe\n");
+	else if (tp == 5)
 		printf("type : word\n");
 }
 int	main(void)
