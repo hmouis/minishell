@@ -21,9 +21,12 @@
 
 enum	e_types
 {
-	op_redirection,
+	op_redirect_input,// <
+	op_redirect_output,// >
+	op_left_shift,// <<
+	op_right_shift,// >>
 	op_pipe,
-	op_word
+	word
 };
 
 typedef struct s_lst
