@@ -21,18 +21,29 @@ int ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-int	is_redirection(t_lst *list, char **opr)
+int	is_redirection(t_lst *list)
 {
 	if (!list->content)
 		return 0;
-	int	i;
-
-	i = 0;
-	while (opr[i])
+	if (!ft_strcmp(list->content, "<"))
 	{
-		if (!ft_strcmp(list->content, opr[i]))
-			return 1;
-		i++;
+		list->type = op_redirect_input;
+		return 1;
+	}
+	else if (!ft_strcmp(list->content, ">"))
+	{
+		list->type = op_redirect_output;
+		return 1;
+	}
+	else if (!ft_strcmp(list->content, "<<"))
+	{
+		list->type = op_left_shift;
+		return 1;
+	}
+	else if (!ft_strcmp(list->content, ">>"))
+	{
+		list->type = op_right_shift;
+		return 1;
 	}
 	return 0;
 }
@@ -48,11 +59,10 @@ int	is_pipe(t_lst *list)
 
 void	tokens_type(t_lst **list)
 {
-	char	*opr[] = {"<<", ">>", ">", "<", NULL};
-	if (is_redirection(*list, opr))
-		(*list)->type = op_redirection;
+	if (is_redirection(*list))
+		return ;
 	else if (is_pipe(*list))
 		(*list)->type = op_pipe;
 	else
-		(*list)->type = op_word;
+		(*list)->type = word;
 }
