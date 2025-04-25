@@ -37,12 +37,12 @@ int	is_redirection(t_lst *list)
 	}
 	else if (!ft_strcmp(list->content, "<<"))
 	{
-		list->type = op_left_shift;
+		list->type = op_herdoc;
 		return 1;
 	}
 	else if (!ft_strcmp(list->content, ">>"))
 	{
-		list->type = op_right_shift;
+		list->type = op_append;
 		return 1;
 	}
 	return 0;

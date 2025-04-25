@@ -23,8 +23,8 @@ enum	e_types
 {
 	op_redirect_input,// <
 	op_redirect_output,// >
-	op_left_shift,// <<
-	op_right_shift,// >>
+	op_herdoc,// <<
+	op_append,// >>
 	op_pipe,
 	word
 };
