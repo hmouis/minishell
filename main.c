@@ -48,7 +48,7 @@ int	main(void)
 	print_banner();
 	while (1)
 	{
-		test_line = readline(g "✈ minishell: " "\033[0m");
+		test_line = readline(g "↬  minishell: " "\033[0m");
 		add_history(test_line);
 		if (!test_line)
 			break ;
