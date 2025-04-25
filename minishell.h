@@ -10,42 +10,59 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# ifndef MINISHELL_H
+#ifndef MINISHELL_H
 # define MINISHELL_H
 
-#include <stdio.h>
-#include <signal.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
+# include <stdio.h>
+# include <stdlib.h>
 
+# define g "\033[1;32m"
+# define b "\033[1;34m"
+
+enum	e_types
+{
+	op_redirect_input,// <
+	op_redirect_output,// >
+	op_left_shift,// <<
+	op_right_shift,// >>
+	op_pipe,
+	word
+};
 
 typedef struct s_lst
 {
-	char *content;
-	struct s_lst *next;
-}			t_lst;
+	char	*content;
+	enum e_types	type;
+	struct s_lst	*next;
+}	t_lst;
 
 typedef struct s_var
 {
-	int i;
-	int y;
-	char *token;
-	int length;
-}			t_var;
+	int				i;
+	int				y;
+	char			*token;
+	int				length;
+}					t_var;
 
-int token_blank(t_var *var, char *input,t_lst **lst);
-int is_operator(char c);
-int valid_operator(char c1, char c2);
-int white_space(char c);
-int is_operator(char c);
-int charchr(char *str, int c);
-char *ft_strlcpy(char *token, char *input, int len, int j);
-t_lst *last_node(t_lst *lst);
-void add_back(t_lst **lst, t_lst *node);
-void *new_node(char *content);
-void add_to_lst(t_lst **lst, char *content);
-int split_input(char *input, t_lst **lst);
-int token_quote(int *i, char *input, t_lst **lst, t_var *var);
-int token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var);
-# endif
+int					token_operator(t_var *var, char *input, t_lst **lst);
+int					end_of_input(t_var *var, char *input, t_lst **lst);
+int					creat_token(t_var *var, char *input, t_lst **lst);
+int					token_blank(t_var *var, char *input, t_lst **lst);
+int					valid_operator(char c1, char c2);
+int					white_space(char c);
+int					is_operator(char c);
+int					charchr(char *str, int c);
+char				*ft_strlcpy(char *token, char *input, int len, int j);
+t_lst				*last_node(t_lst *lst);
+void				add_back(t_lst **lst, t_lst *node);
+void				*new_node(char *content);
+void				add_to_lst(t_lst **lst, char *content);
+int					split_input(char *input, t_lst **lst);
+int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
+int					token_dollar_sign(int *i, char *input, t_lst **lst,
+						t_var *var);
+void	tokens_type(t_lst **list);
+#endif
