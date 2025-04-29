@@ -18,10 +18,10 @@ void	enum_type(enum e_types tp)
 		printf("type : redirect input\n");
 	else if (tp == 1)
 		printf("type : redirect ouput\n");
-	else if (tp == 2)
-		printf("type : Left shift\n");
 	else if (tp == 3)
-		printf("type : Right shift\n");
+		printf("type : append\n");
+	else if (tp == 2)
+		printf("type : herdoc\n");
 	else if (tp == 4)
 		printf("type : pipe\n");
 	else if (tp == 5)
@@ -43,7 +43,7 @@ int	main(void)
 		while (lst)
 		{
 			tokens_type(&lst);
-			printf("token : %s -> ", lst->content);
+			printf("token : %s --- ", lst->content);
 			enum_type(lst->type);
 			lst = lst->next;
 		}

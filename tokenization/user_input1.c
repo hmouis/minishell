@@ -51,6 +51,7 @@ int	token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var)
 	{
 		var->length++;
 		(*i)++;
+		token_quote(i, input, lst, var);
 		if (white_space(input[*i]) || is_operator(input[*i]))
 			break ;
 	}

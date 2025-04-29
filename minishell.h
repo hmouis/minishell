@@ -25,7 +25,7 @@ enum	e_types
 	op_redirect_output,// >
 	op_herdoc,// <<
 	op_append,// >>
-	op_pipe,
+	op_pipe,// |
 	word
 };
 
