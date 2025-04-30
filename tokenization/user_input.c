@@ -40,7 +40,7 @@ int	split_input(char *input, t_lst **lst)
 
 int	token_operator(t_var *var, char *input, t_lst **lst)
 {
-	if (!is_operator(input[var->i]))
+	if (!charchr("<>|", input[var->i]))
 		return (0);
 	creat_token(var, input, lst);
 	var->length++;

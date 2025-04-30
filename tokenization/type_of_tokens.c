@@ -12,14 +12,7 @@
 
 #include "../minishell.h"
 
-int ft_strcmp(char *s1, char *s2)
-{
-	int i = 0;
 
-	while(s1[i] && s2[i] && (s1[i] == s2[i]))
-		i++;
-	return (s1[i] - s2[i]);
-}
 
 int	is_redirection(t_lst *list)
 {
@@ -57,12 +50,14 @@ int	is_pipe(t_lst *list)
 	return 0;
 }
 
-void	tokens_type(t_lst **list)
-{
-	if (is_redirection(*list))
-		return ;
-	else if (is_pipe(*list))
-		(*list)->type = op_pipe;
-	else
-		(*list)->type = word;
-}
+/*void	tokens_type(t_lst *lst)*/
+/*{*/
+/*	if (!is_operator(lst->content))*/
+/*		lst->type = cmd;*/
+/*	while (lst)*/
+/*	{*/
+/*	}*/
+/**/
+/*}*/
+
+
