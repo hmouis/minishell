@@ -12,52 +12,87 @@
 
 #include "../minishell.h"
 
-
-
-int	is_redirection(t_lst *list)
+int	is_redirection(t_lst *lst)
 {
-	if (!list->content)
-		return 0;
-	if (!ft_strcmp(list->content, "<"))
+	if (!lst->content)
+		return (0);
+	if (!ft_strcmp(lst->content, "<"))
 	{
-		list->type = op_redirect_input;
-		return 1;
+		lst->type = op_redirect_input;
+		return (1);
 	}
-	else if (!ft_strcmp(list->content, ">"))
+	else if (!ft_strcmp(lst->content, ">"))
 	{
-		list->type = op_redirect_output;
-		return 1;
+		lst->type = op_redirect_output;
+		return (1);
 	}
-	else if (!ft_strcmp(list->content, "<<"))
+	else if (!ft_strcmp(lst->content, "<<"))
 	{
-		list->type = op_herdoc;
-		return 1;
+		lst->type = op_herdoc;
+		return (1);
 	}
-	else if (!ft_strcmp(list->content, ">>"))
+	else if (!ft_strcmp(lst->content, ">>"))
 	{
-		list->type = op_append;
-		return 1;
+		lst->type = op_append;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
-int	is_pipe(t_lst *list)
+void	is_pipe(t_lst **lst)
 {
-	if (!list->content)
-		return 0;
-	if (!ft_strcmp(list->content, "|"))
-		return 1;
-	return 0;
+	if (!*lst)
+		return ;
+	if (!ft_strcmp((*lst)->content, "|"))
+	{
+		(*lst)->type = op_pipe;
+		(*lst) = (*lst)->next;
+		if ((*lst) && !is_operator((*lst)->content))
+		{
+			(*lst)->type = cmd;
+			(*lst) = (*lst)->next;
+		}
+	}
 }
 
-/*void	tokens_type(t_lst *lst)*/
-/*{*/
-/*	if (!is_operator(lst->content))*/
-/*		lst->type = cmd;*/
-/*	while (lst)*/
-/*	{*/
-/*	}*/
-/**/
-/*}*/
+void	type_redirection(t_lst **lst)
+{
+	if ((*lst)->type != op_herdoc)
+	{
+		(*lst) = (*lst)->next;
+		if ((*lst) && !is_operator((*lst)->content))
+		{
+			(*lst)->type = file_name;
+			(*lst) = (*lst)->next;
+		}
+	}
+	else if ((*lst)->type == op_herdoc)
+	{
+		(*lst) = (*lst)->next;
+		if ((*lst) && !is_operator((*lst)->content))
+		{
+			(*lst)->type = delimiter;
+			(*lst) = (*lst)->next;
+		}
+	}
+}
 
-
+void	tokens_type(t_lst *lst)
+{
+	if (!is_operator(lst->content))
+	{
+		lst->type = cmd;
+		lst = lst->next;
+	}
+	while (lst)
+	{
+		while (lst && !is_operator(lst->content))
+		{
+			lst->type = argument;
+			lst = lst->next;
+		}
+		is_pipe(&lst);
+		if (lst && is_redirection(lst))
+			type_redirection(&lst);
+	}
+}

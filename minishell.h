@@ -19,34 +19,37 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-typedef enum	e_types
+# define g "\033[1;32m"
+# define b "\033[1;34m"
+
+typedef enum e_types
 {
-	op_redirect_input,// <
-	op_redirect_output,// >
-	op_herdoc,// <<
-	op_append,// >>
-	op_pipe,// |
+	op_redirect_input,  // <
+	op_redirect_output, // >
+	op_herdoc,          // <<
+	op_append,          // >>
+	op_pipe,            // |
 	argument,
 	file_name,
 	delimiter,
 	cmd,
-}              t_types;
+}					t_types;
 
 typedef struct s_cmd
 {
-	char *cmd;
-	char **arg;
-	char *file_name;
-	t_types type;
-	struct s_cmd *next;
-}            t_cmd;
+	char			*cmd;
+	char			**arg;
+	char			*file_name;
+	t_types			type;
+	struct s_cmd	*next;
+}					t_cmd;
 
 typedef struct s_lst
 {
-	char	*content;
+	char			*content;
 	enum e_types	type;
 	struct s_lst	*next;
-}	t_lst;
+}					t_lst;
 
 typedef struct s_var
 {
@@ -73,6 +76,6 @@ void				add_to_lst(t_lst **lst, char *content);
 int					split_input(char *input, t_lst **lst);
 int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
 int					token_dollar_sign(int *i, char *input, t_lst **lst,
-						  t_var *var);
-void	tokens_type(t_lst *lst);
+						t_var *var);
+void				tokens_type(t_lst *lst);
 #endif
