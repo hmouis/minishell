@@ -25,13 +25,7 @@ void	enum_type(enum e_types tp)
 	else if (tp == 4)
 		printf("type : pipe\n");
 	else if (tp == 5)
-		printf("type : argument\n");
-	else if (tp == 6)
-		printf("type : file name\n");
-	else if (tp == 7)
-		printf("type : delimiter\n");
-	else if (tp == 8)
-		printf("type : command\n");
+		printf("type : word\n");
 }
 int	main(void)
 {
@@ -51,7 +45,7 @@ int	main(void)
 			tokens_type(lst);
 		while (lst)
 		{
-			printf("token : %s <---> ", lst->content);
+			printf("token : %10s <---> ", lst->content);
 			enum_type(lst->type);
 			lst = lst->next;
 		}

@@ -14,8 +14,6 @@
 
 int	is_redirection(t_lst *lst)
 {
-	if (!lst->content)
-		return (0);
 	if (!ft_strcmp(lst->content, "<"))
 	{
 		lst->type = op_redirect_input;
@@ -39,60 +37,30 @@ int	is_redirection(t_lst *lst)
 	return (0);
 }
 
-void	is_pipe(t_lst **lst)
+int		is_pipe(t_lst *lst)
 {
-	if (!*lst)
-		return ;
-	if (!ft_strcmp((*lst)->content, "|"))
+	if (!lst)
+		return (0);
+	if (!ft_strcmp((lst)->content, "|"))
 	{
-		(*lst)->type = op_pipe;
-		(*lst) = (*lst)->next;
-		if ((*lst) && !is_operator((*lst)->content))
-		{
-			(*lst)->type = cmd;
-			(*lst) = (*lst)->next;
-		}
+		(lst)->type = op_pipe;
+		return (1);
 	}
-}
-
-void	type_redirection(t_lst **lst)
-{
-	if ((*lst)->type != op_herdoc)
-	{
-		(*lst) = (*lst)->next;
-		if ((*lst) && !is_operator((*lst)->content))
-		{
-			(*lst)->type = file_name;
-			(*lst) = (*lst)->next;
-		}
-	}
-	else if ((*lst)->type == op_herdoc)
-	{
-		(*lst) = (*lst)->next;
-		if ((*lst) && !is_operator((*lst)->content))
-		{
-			(*lst)->type = delimiter;
-			(*lst) = (*lst)->next;
-		}
-	}
+	return (0);
 }
 
 void	tokens_type(t_lst *lst)
 {
-	if (!is_operator(lst->content))
-	{
-		lst->type = cmd;
-		lst = lst->next;
-	}
 	while (lst)
 	{
 		while (lst && !is_operator(lst->content))
 		{
-			lst->type = argument;
+			lst->type = word;
 			lst = lst->next;
 		}
-		is_pipe(&lst);
+		if (lst &&	is_pipe(lst))
+			(lst) = (lst)->next;
 		if (lst && is_redirection(lst))
-			type_redirection(&lst);
+			lst = lst->next;
 	}
 }

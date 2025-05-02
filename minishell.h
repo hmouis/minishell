@@ -26,10 +26,7 @@ typedef enum e_types
 	op_herdoc,          // <<
 	op_append,          // >>
 	op_pipe,            // |
-	argument,
-	file_name,
-	delimiter,
-	cmd,
+	word,
 }					t_types;
 
 typedef struct s_cmd
