@@ -19,9 +19,6 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-# define g "\033[1;32m"
-# define b "\033[1;34m"
-
 typedef enum e_types
 {
 	op_redirect_input,  // <
