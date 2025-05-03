@@ -42,12 +42,20 @@ int	main(void)
 			break ;
 		split_input(test_line, &lst);
 		if (lst)
+		{
 			tokens_type(lst);
+			if (!pipe_line(lst))
+			{
+				printf("Syntax error\n");
+				return (1);
+			}
+		}
 		while (lst)
 		{
 			printf("token : %10s <---> ", lst->content);
 			enum_type(lst->type);
 			lst = lst->next;
 		}
+		lst = NULL;
 	}
 }

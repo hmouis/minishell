@@ -55,3 +55,15 @@ void	add_to_lst(t_lst **lst, char *content)
 	node = new_node(content);
 	add_back(lst, node);
 }
+
+void	free_lst(t_lst **lst)
+{
+	t_lst	*save;
+
+	while (*lst)
+	{
+		save = (*lst)->next;
+		free(*lst);
+		*lst = save;
+	}
+}

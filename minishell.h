@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/04/18 10:39:48 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/02 18:17:54 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,6 @@ typedef enum e_types
 	word,
 }					t_types;
 
-typedef struct s_cmd
-{
-	char			*cmd;
-	char			**arg;
-	char			*file_name;
-	t_types			type;
-	struct s_cmd	*next;
-}					t_cmd;
-
 typedef struct s_lst
 {
 	char			*content;
@@ -53,6 +44,18 @@ typedef struct s_var
 	int				length;
 }					t_var;
 
+typedef struct s_cmd
+{
+	t_lst	*arg;
+	t_lst	*redirect;
+	t_lst	*next;
+}					t_cmd;
+
+void	free_lst(t_lst **lst);
+int pipe_line(t_lst *lst);
+int simple_command(t_lst **lst);
+int					is_redirection(t_lst *lst);
+int					is_pipe(t_lst *lst);
 int					ft_strcmp(char *s1, char *s2);
 int					token_operator(t_var *var, char *input, t_lst **lst);
 int					end_of_input(t_var *var, char *input, t_lst **lst);
@@ -70,6 +73,6 @@ void				add_to_lst(t_lst **lst, char *content);
 int					split_input(char *input, t_lst **lst);
 int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
 int					token_dollar_sign(int *i, char *input, t_lst **lst,
-						t_var *var);
+						  t_var *var);
 void				tokens_type(t_lst *lst);
 #endif
