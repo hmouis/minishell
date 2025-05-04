@@ -17,6 +17,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdio.h>
+# include <unistd.h>
 # include <stdlib.h>
 
 typedef enum e_types
@@ -42,6 +43,8 @@ typedef struct s_var
 	int				y;
 	char			*token;
 	int				length;
+	char			*oldpwd;
+	char			*pwd;
 }					t_var;
 
 typedef struct s_cmd
@@ -50,6 +53,7 @@ typedef struct s_cmd
 	t_lst	*redirect;
 	t_lst	*next;
 }					t_cmd;
+
 
 void	free_lst(t_lst **lst);
 int pipe_line(t_lst *lst);
@@ -75,4 +79,10 @@ int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
 int					token_dollar_sign(int *i, char *input, t_lst **lst,
 						  t_var *var);
 void				tokens_type(t_lst *lst);
+
+int	is_builtins(char *cmd);
+char	*ft_strdup(char *s);
+void	ft_putstr_fd(char *s, int fd);
+
+
 #endif
