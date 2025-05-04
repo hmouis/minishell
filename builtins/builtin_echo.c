@@ -10,17 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
+#include "../minishell.h"
 
 int	is_builtins(char *cmd)
 {
 	if (!cmd)
 		return -1;
-	return (!strcmp(cmd, "echo") || !strcmp(cmd, "cd") 
-		|| !strcmp(cmd, "pwd") || !strcmp(cmd, "export")
-		|| !strcmp(cmd, "unset") || !strcmp(cmd, "env")
-		|| !strcmp(cmd, "exit"));
+	return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") 
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "exit"));
 }
 
 void	builtin_echo(char **args)
@@ -29,7 +28,7 @@ void	builtin_echo(char **args)
 
 	i = 2;
 	newline = 1;
-	if (args[i] && strcmp(args[i], "-n") == 0)
+	if (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
 		newline = 0;
 		i++;
