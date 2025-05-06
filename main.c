@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/04/17 18:09:32 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:21:01 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,13 @@ int	main(void)
 {
 	char	*test_line;
 	t_lst	*lst;
+	t_cmd	*cmd;
+	char	*err_msg;
+	int		i;
 
+	cmd = NULL;
+	err_msg = NULL;
+	i = 1;
 	lst = NULL;
 	test_line = NULL;
 	while (1)
@@ -44,18 +50,36 @@ int	main(void)
 		if (lst)
 		{
 			tokens_type(lst);
-			if (!pipe_line(lst))
+			err_msg = pipe_line(lst);
+			if (err_msg)
 			{
-				printf("Syntax error\n");
-				return (1);
+				error_msg(err_msg);
+				printf("\n");
+			}
+			cmd = creat_cmd_struct(&cmd, lst);
+			while (cmd)
+			{
+				printf("command number %i : \n", i);
+				i++;
+				while (cmd->redirect)
+				{
+					printf("cmd->redirect :  '%s'\n", cmd->redirect->content);
+					cmd->redirect = cmd->redirect->next;
+				}
+				while (cmd->arg)
+				{
+					printf("cmd->arg : %10s\n", cmd->arg->content);
+					cmd->arg = cmd->arg->next;
+				}
+				cmd = cmd->next;
 			}
 		}
-		while (lst)
-		{
-			printf("token : %10s <---> ", lst->content);
-			enum_type(lst->type);
-			lst = lst->next;
-		}
+		/*while (lst)*/
+		/*{*/
+		/*	printf("token : %10s <---> ", lst->content);*/
+		/*	enum_type(lst->type);*/
+		/*	lst = lst->next;*/
+		/*}*/
 		lst = NULL;
 	}
 }

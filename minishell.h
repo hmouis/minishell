@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/02 18:17:54 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/06 10:04:09 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@
 
 typedef enum e_types
 {
-	op_redirect_input,  // <
-	op_redirect_output, // >
-	op_herdoc,          // <<
-	op_append,          // >>
-	op_pipe,            // |
+	op_redirect_input,
+	op_redirect_output,
+	op_herdoc,
+	op_append,
+	op_pipe,
 	word,
 }					t_types;
 
@@ -46,14 +46,16 @@ typedef struct s_var
 
 typedef struct s_cmd
 {
-	t_lst	*arg;
-	t_lst	*redirect;
-	t_lst	*next;
+	t_lst			*arg;
+	t_lst			*redirect;
+	struct s_cmd	*next;
 }					t_cmd;
 
-void	free_lst(t_lst **lst);
-int pipe_line(t_lst *lst);
-int simple_command(t_lst **lst);
+void				error_msg(char *str);
+t_cmd				*creat_cmd_struct(t_cmd **cmd, t_lst *lst);
+void				free_lst(t_lst **lst);
+char				*pipe_line(t_lst *lst);
+char				*simple_command(t_lst **lst);
 int					is_redirection(t_lst *lst);
 int					is_pipe(t_lst *lst);
 int					ft_strcmp(char *s1, char *s2);
@@ -73,6 +75,6 @@ void				add_to_lst(t_lst **lst, char *content);
 int					split_input(char *input, t_lst **lst);
 int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
 int					token_dollar_sign(int *i, char *input, t_lst **lst,
-						  t_var *var);
+						t_var *var);
 void				tokens_type(t_lst *lst);
 #endif

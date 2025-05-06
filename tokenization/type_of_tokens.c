@@ -37,7 +37,7 @@ int	is_redirection(t_lst *lst)
 	return (0);
 }
 
-int		is_pipe(t_lst *lst)
+int	is_pipe(t_lst *lst)
 {
 	if (!lst)
 		return (0);
@@ -58,7 +58,7 @@ void	tokens_type(t_lst *lst)
 			lst->type = word;
 			lst = lst->next;
 		}
-		if (lst &&	is_pipe(lst))
+		if (lst && is_pipe(lst))
 			(lst) = (lst)->next;
 		if (lst && is_redirection(lst))
 			lst = lst->next;
