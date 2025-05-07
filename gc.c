@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_utils.c                                       :+:      :+:    :+:   */
+/*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/06 09:38:59 by hmouis           ###   ########.fr       */
+/*   Created: 2025/05/07 10:05:27 by hmouis            #+#    #+#             */
+/*   Updated: 2025/05/07 10:26:30 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	error_msg(char *str)
+void	free_lst(t_lst **lst)
 {
-	printf("bash: syntax error near unexpected token `%s'", str);
+	t_lst	*save;
+
+	while (*lst)
+	{
+		save = (*lst)->next;
+		free(*lst);
+		*lst = save;
+	}
 }
 
-t_cmd	*node(t_lst *lst)
+void free_cmd(t_cmd **cmd)
 {
-	t_cmd	*cmd;
+	while (*cmd)
+	{
+		free_lst(&(*cmd)->arg);
+		free_lst(&(*cmd)->redirect);
+		*cmd = (*cmd)->next;
+	}
+}
 
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->arg = NULL;
-	cmd->redirect = NULL;
-	cmd->next = NULL;
-	return (cmd);
+void free_all(t_lst **lst, t_cmd **cmd)
+{
+	free_lst(lst);
+	free_cmd(cmd);
 }

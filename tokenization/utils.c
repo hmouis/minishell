@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:16 by hmouis            #+#    #+#             */
-/*   Updated: 2025/04/17 18:05:06 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/07 10:21:20 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,3 @@ void	add_to_lst(t_lst **lst, char *content)
 	add_back(lst, node);
 }
 
-void	free_lst(t_lst **lst)
-{
-	t_lst	*save;
-
-	while (*lst)
-	{
-		save = (*lst)->next;
-		free(*lst);
-		*lst = save;
-	}
-}

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/06 10:37:17 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/07 11:06:11 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,6 @@ char	*simple_command(t_lst **lst)
 		*lst = (*lst)->next;
 	}
 	return (NULL);
-}
-
-t_cmd	*node(t_lst *lst)
-{
-	t_cmd	*cmd;
-
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	cmd->arg = NULL;
-	cmd->redirect = NULL;
-	cmd->next = NULL;
-	return (cmd);
 }
 
 t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
