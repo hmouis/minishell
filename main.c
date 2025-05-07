@@ -30,32 +30,13 @@ void	enum_type(enum e_types tp)
 int	main(void)
 {
 	char	*test_line;
-	t_lst	*lst;
+	t_var	*var;
 
-	lst = NULL;
 	test_line = NULL;
 	while (1)
 	{
 		test_line = readline("minishell: ");
 		add_history(test_line);
-		if (!test_line)
-			break ;
-		split_input(test_line, &lst);
-		if (lst)
-		{
-			tokens_type(lst);
-			if (!pipe_line(lst))
-			{
-				printf("Syntax error\n");
-				return (1);
-			}
-		}
-		while (lst)
-		{
-			printf("token : %10s <---> ", lst->content);
-			enum_type(lst->type);
-			lst = lst->next;
-		}
-		lst = NULL;
+		builtin_cd(test_line, var);
 	}
 }

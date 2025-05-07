@@ -83,6 +83,7 @@ void				tokens_type(t_lst *lst);
 int	is_builtins(char *cmd);
 char	*ft_strdup(char *s);
 void	ft_putstr_fd(char *s, int fd);
+int	builtin_cd(char *cwd, t_var *var);
 
 
 #endif
