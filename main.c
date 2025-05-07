@@ -27,16 +27,8 @@ void	enum_type(enum e_types tp)
 	else if (tp == 5)
 		printf("type : word\n");
 }
-int	main(void)
-{
-	char	*test_line;
-	t_var	*var;
 
-	test_line = NULL;
-	while (1)
-	{
-		test_line = readline("minishell: ");
-		add_history(test_line);
-		builtin_cd(test_line, var);
-	}
+int	main(int ac, char **av, char **env)
+{
+	//Nothing
 }
