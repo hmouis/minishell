@@ -32,10 +32,17 @@ typedef enum e_types
 
 typedef struct s_lst
 {
-	char			*content;
+	char		*content;
 	enum e_types	*type;
 	struct s_lst	*next;
 }					t_lst;
+
+typedef struct	s_env
+{
+	char		*key;
+	char		*data;
+	struct s_env	*next;
+}			t_env;
 
 typedef struct s_var
 {
@@ -45,8 +52,6 @@ typedef struct s_var
 	int				length;
 	char				*oldpwd;
 	char				*pwd;
-	char				*key;
-	char				*data_key;
 }					t_var;
 
 typedef struct s_cmd
@@ -86,6 +91,7 @@ int					is_builtins(char *cmd);
 char					*ft_strdup(char *s);
 void					ft_putstr_fd(char *s, int fd);
 int					builtin_cd(char **cwd, t_var *var);
+t_env					*env_new_node(char *key, char *data);
 
 
 #endif
