@@ -59,29 +59,29 @@ int	main(void)
 			else
 			{
 				cmd = creat_cmd_struct(&cmd, lst);
-				while (cmd)
-				{
-					printf("command number %i : \n", i);
-					i++;
-					while (cmd->redirect)
-					{
-						printf("cmd->redirect :  '%s'\n", cmd->redirect->content);
-						cmd->redirect = cmd->redirect->next;
-					}
-					while (cmd->arg)
-					{
-						printf("cmd->arg : %10s\n", cmd->arg->content);
-						cmd->arg = cmd->arg->next;
-					}
-					cmd = cmd->next;
-				}
+				/*while (cmd)*/
+				/*{*/
+				/*	while (cmd->redirect)*/
+				/*	{*/
+				/*		printf("cmd->redirect :  '%s'\n", cmd->redirect->content);*/
+				/*		enum_type(cmd->redirect->type);*/
+				/*		cmd->redirect = cmd->redirect->next;*/
+				/*	}*/
+				/*	while (cmd->arg)*/
+				/*	{*/
+				/*		printf("cmd->arg : %10s\n", cmd->arg->content);*/
+				/*		enum_type(cmd->arg->type);*/
+				/*		cmd->arg = cmd->arg->next;*/
+				/*	}*/
+				/*	cmd = cmd->next;*/
+				/*}*/
 			}
-			while (lst)
-			{
-				printf("token : %10s <---> ", lst->content);
-				enum_type(lst->type);
-				lst = lst->next;
-			}
+			/*while (lst)*/
+			/*{*/
+			/*	printf("token : %10s <---> \n", lst->content);*/
+			/*	enum_type(lst->type);*/
+			/*	lst = lst->next;*/
+			/*}*/
 		}
 			free_all(&lst, &cmd);
 			cmd = NULL;
