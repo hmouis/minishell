@@ -49,6 +49,27 @@ char	*simple_command(t_lst **lst)
 	return (NULL);
 }
 
+t_lst	*new_node_c(t_lst *node)
+{
+	t_lst *new_node;
+
+	new_node = malloc(sizeof(t_lst));
+	if (!new_node)
+		return (NULL);
+	new_node->content = node->content;
+	new_node->type = node->type;
+	new_node->next = NULL;
+	return (new_node);	
+}
+
+void add_to_lst_c(t_lst **lst, t_lst *node)
+{
+	t_lst *new_node;
+
+	new_node =  new_node_c(node);
+	add_back(lst, new_node);
+}
+
 t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 {
 	t_cmd	*head;
@@ -59,14 +80,14 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 	{
 		while (lst && lst->type == word)
 		{
-			add_to_lst(&(*cmd)->arg, lst->content);
+			add_to_lst_c(&(*cmd)->arg, lst);
 			lst = lst->next;
 		}
 		if (lst && lst->type != op_pipe)
 		{
-			add_to_lst(&(*cmd)->redirect, lst->content);
+			add_to_lst_c(&(*cmd)->redirect, lst);
 			lst = lst->next;
-			add_to_lst(&(*cmd)->redirect, lst->content);
+			add_to_lst_c(&(*cmd)->redirect, lst);
 			lst = lst->next;
 		}
 		if (lst && lst->type == op_pipe)
@@ -78,3 +99,5 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 	}
 	return (head);
 }
+
+
