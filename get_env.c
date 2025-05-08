@@ -24,6 +24,20 @@ int	ft_strlen(char *s)
 	return i;
 }
 
+t_env	*env_new_node(char *key, char *data)
+{
+	t_env	*node;
+
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return NULL;
+	node->key = key;
+	node->data = data;
+	node->next = NULL;
+
+	return node;
+}
+
 char	*get_key_env(char *env)
 {
 	int	i;
@@ -68,3 +82,42 @@ char	*get_data_env(char *env)
 	return data;
 }
 
+void	add_env_to_list(t_env **lst, char **env) 
+{
+	if (!env || !*env)
+		return ;
+	int	i;
+	t_env	*temp = NULL;
+	t_env	*first = NULL;
+
+	first = env_new_node(get_key_env(env[0]), get_data_env(env[0]));
+	if (!first)
+		return ;
+	i = 1;
+	temp = first;
+	while (env[i])
+	{
+		temp->next = env_new_node(get_key_env(env[i]), get_data_env(env[i]));
+		if (!temp->next)
+		    return ; 
+		temp = temp->next;
+		i++;
+	}
+	*lst = first;
+}
+
+int main(int ac, char **av, char **env)
+{
+	t_env	*list, *first;
+
+	list = NULL;
+	add_env_to_list(&list, env);
+	first = list;
+	while (first)
+	{
+		printf("%s\n", first->key);
+		first = first->next;
+	}
+	
+	return 0;
+}
