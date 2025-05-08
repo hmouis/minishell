@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 
+/*type of tokens*/
 typedef enum e_types
 {
 	op_redirect_input,  // <
@@ -61,6 +62,8 @@ typedef struct s_gc
 void				error_msg(char *str);
 char				*pipe_line(t_lst *lst);
 char				*simple_command(t_lst **lst);
+void add_to_lst_c(t_lst **lst, t_lst *node);
+t_lst	*new_node_c(t_lst *node);
 
 /*helper functions*/
 int					ft_strcmp(char *s1, char *s2);
