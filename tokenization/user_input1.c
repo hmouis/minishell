@@ -43,7 +43,7 @@ int	token_quote(int *i, char *input, t_lst **lst, t_var *var)
 	{
 		(*i)++;
 		var->length++;
-		if (input[*i] == c)
+		if (input[*i] && input[*i] == c)
 		{
 			(*i)++;
 			var->length++;
@@ -59,11 +59,12 @@ int	token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var)
 		return (0);
 	while (input[*i])
 	{
-		var->length++;
-		(*i)++;
-		token_quote(i, input, lst, var);
+		if (token_quote(i, input, lst, var))
+			continue;
 		if (white_space(input[*i]) || charchr("<>|", input[*i]))
 			break ;
+		var->length++;
+		(*i)++;
 	}
 	return (1);
 }
