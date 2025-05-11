@@ -26,6 +26,10 @@ void	enum_type(enum e_types tp)
 		printf("type : pipe\n");
 	else if (tp == 5)
 		printf("type : word\n");
+	else if (tp == 6)
+		printf("type : var\n");
+	else if (tp == 7)
+		printf("type : string\n");
 }
 int	main(void)
 {
@@ -34,8 +38,10 @@ int	main(void)
 	t_cmd	*cmd;
 	char	*err_msg;
 	int		i;
+	t_exp *exp;
 
 	cmd = NULL;
+	exp = NULL;
 	err_msg = NULL;
 	i = 1;
 	lst = NULL;
@@ -47,6 +53,12 @@ int	main(void)
 		if (!test_line)
 			break ;
 		split_input(test_line, &lst);
+		/*while (lst)*/
+		/*{*/
+		/*	printf("token : %10s \n", lst->content);*/
+		/*	lst = lst->next;*/
+		/*}*/
+		/*continue;*/
 		if (lst)
 		{
 			tokens_type(lst);
@@ -61,16 +73,17 @@ int	main(void)
 				cmd = creat_cmd_struct(&cmd, lst);
 				/*while (cmd)*/
 				/*{*/
+				/*	printf("----------------\n");*/
 				/*	while (cmd->redirect)*/
 				/*	{*/
 				/*		printf("cmd->redirect :  '%s'\n", cmd->redirect->content);*/
-				/*		enum_type(cmd->redirect->type);*/
+				/*	//	enum_type(cmd->redirect->type);*/
 				/*		cmd->redirect = cmd->redirect->next;*/
 				/*	}*/
 				/*	while (cmd->arg)*/
 				/*	{*/
 				/*		printf("cmd->arg : %10s\n", cmd->arg->content);*/
-				/*		enum_type(cmd->arg->type);*/
+				/*	//	enum_type(cmd->arg->type);*/
 				/*		cmd->arg = cmd->arg->next;*/
 				/*	}*/
 				/*	cmd = cmd->next;*/
@@ -78,12 +91,32 @@ int	main(void)
 			}
 			/*while (lst)*/
 			/*{*/
-			/*	printf("token : %10s <---> \n", lst->content);*/
-			/*	enum_type(lst->type);*/
+			/*	printf("token : %10s \n", lst->content);*/
 			/*	lst = lst->next;*/
 			/*}*/
 		}
+		while (lst)
+		{
+			if (lst->type == word && charchr(lst->content ,'$'))
+			{
+				if (!tokenize_dollar_sign(&exp, lst->content))
+				{
+					printf("bash: syntax error: unexpected end of file\n");
+					break;
+				}
+				type_of_var(exp);
+				expand_var(exp);
+				/*while (exp)*/
+				/*{*/
+				/*		printf("string = %s\n", exp->content);*/
+				/*	exp = exp->next;*/
+				/*}*/
+			}
+			exp = NULL;
+			lst = lst->next;
+		}
 			free_all(&lst, &cmd);
+			exp = NULL;
 			cmd = NULL;
 			lst = NULL;
 	}
