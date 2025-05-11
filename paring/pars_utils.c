@@ -29,3 +29,10 @@ t_cmd	*node(t_lst *lst)
 	cmd->next = NULL;
 	return (cmd);
 }
+
+int is_quote(char c)
+{
+	if (c == '\'' || c == '"')
+		return (1);
+	return (0);
+}

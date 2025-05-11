@@ -22,12 +22,39 @@ char	*pipe_line(t_lst *lst)
 	while (lst)
 	{
 		while (lst && lst->type == word)
+		{
+			err_msg = check_quote(lst->content);
+			if (err_msg)
+				return (err_msg);
 			lst = lst->next;
+		}
 		err_msg = simple_command(&lst);
 		if (err_msg)
 			return (err_msg);
 	}
 	return (NULL);
+}
+
+char *check_quote(char *str)
+{
+	int i;
+	char quote;
+
+	i = 0;
+	while (str[i])
+	{
+		if (is_quote(str[i]))
+		{
+			quote = str[i];
+			i++;
+			while (str[i] && str[i] != quote)
+				i++;
+			if (str[i] == '\0')
+				return ("end of file");
+		}
+		i++;
+	}
+	return(NULL);
 }
 
 char	*simple_command(t_lst **lst)
