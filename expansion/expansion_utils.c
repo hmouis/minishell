@@ -1,0 +1,351 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 09:46:17 by hmouis            #+#    #+#             */
+/*   Updated: 2025/05/08 10:38:28 by hmouis           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char *replace_empty_var(char *str)
+{
+	str[0] = '\0';
+	return (str);
+}
+
+int var_char(char c)
+{
+	if (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+
+int str_len(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
+
+t_exp *new_var_node(char *content)
+{
+	t_exp *new_node;
+
+	new_node = malloc(sizeof(t_exp));
+	if (!new_node)
+		return (NULL);
+	new_node->content = content;
+	new_node->type = 0;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+t_exp	*last_node_var(t_exp *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	add_var_back(t_exp **lst, t_exp *node)
+{
+	t_exp	*last;
+
+	if (!lst || !node)
+		return ;
+	if (*lst)
+	{
+		last = last_node_var(*lst);
+		last->next = node;
+	}
+	else
+	*lst = node;
+}
+
+void add_to_var_lst(t_exp **lst, char *content)
+{
+	t_exp *node;
+
+	node = new_var_node(content);
+	add_var_back(lst, node);
+}
+
+int tokenize_dollar_sign(t_exp **exp, char *str)
+{
+	char *new_str;
+	int i;
+	int len;
+	int start;
+
+	i = 0;
+	len = 0;
+	start = 0;
+	new_str = NULL;
+	while (str[i])
+	{
+		if (!var_char(str[i]))
+		{
+			if ((str[start] == '$' || str[i] == '$') && len > 0)
+			{
+				new_str = ft_strlcpy(new_str, str, len, start);
+				start = i;
+				len = 0;
+				add_to_var_lst(exp, new_str);
+				new_str = NULL;
+			}
+			if (str[i] == '\'')
+			{
+				i++;
+				len++;
+				while (str[i] && str[i] != '\'')
+				{
+					i++;
+					len++;
+				}
+				if (str[i] == '\0')
+					return (0);
+			}
+			if (str[i] == '"')
+			{
+				if (len > 0)
+				{
+					new_str = ft_strlcpy(new_str, str, len, start);
+					start = i;
+					len = 0;
+					add_to_var_lst(exp, new_str);
+					new_str = NULL;
+				}
+				i++;
+				len++;
+				while (str[i] && str[i] != '"')
+				{
+					i++;
+					len++;
+				}
+				if (str[i] == '\0')
+					return (0);
+				i++;
+				new_str = ft_strlcpy(new_str, str, len + 1, start);
+				start = i;
+				len = 0;
+				add_to_var_lst(exp, new_str);
+				new_str = NULL;
+				if (str[i] == '\0')
+					return (1);
+				continue;
+			}
+		}
+		i++;
+		len++;
+	}
+	if (len > 0)
+	{
+		new_str = ft_strlcpy(new_str, str, len, start);
+		add_to_var_lst(exp, new_str);
+		new_str = NULL;
+		return (1);
+	}
+	return (1);
+}
+
+void expand_quote(t_exp **lst, char *str)
+{
+	int i = 0;
+	int len = 0;
+	char *new_str = NULL;
+	int start = 0;
+
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			new_str = ft_strlcpy(new_str, str, len, start);
+			start = i;
+			len = 0;
+			add_to_var_lst(lst, new_str);
+			new_str = NULL;
+			i++;
+			len++;
+			while (str[i] && var_char(str[i]))
+			{
+				i++;
+				len++;
+			}
+			new_str = ft_strlcpy(new_str, str, len, start);
+			start = i;
+			len = 0;
+			add_to_var_lst(lst, new_str);
+			new_str = NULL;
+		}
+		i++;
+		len++;
+	}
+	if (len > 0)
+	{
+		new_str = ft_strlcpy(new_str, str, len, start);
+		add_to_var_lst(lst, new_str);
+		new_str = NULL;
+	}
+}
+
+
+void type_of_var(t_exp *exp)
+{
+	while (exp)
+	{
+		if (exp->content[0] == '$')
+			exp->type = var;
+		else
+			exp->type = string;
+		exp = exp->next;
+	}
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	if (!s2)
+		return (s1);
+	new = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1 && s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		new[i + j] = s2[j];
+		j++;
+	}
+	new[i + j] = '\0';
+	return (new);
+}
+
+void expand_var(t_exp *exp)
+{
+	char *str;
+	char *tmp;
+	t_exp *exp_quote;
+
+	str = NULL;
+	tmp = NULL;
+	while (exp)
+	{
+		if (exp->type == var)
+		{
+			tmp = getenv(exp->content + 1);
+			if (!tmp)
+				exp->content = replace_empty_var(exp->content);
+			str = ft_strjoin(str, tmp);
+		}
+		else if (exp->content[0] == '"')
+		{
+			expand_quote(&exp_quote, exp->content);
+			while (exp_quote)
+			{
+				if (exp_quote->content[0] == '$')
+				{
+					tmp = getenv(exp_quote->content + 1);
+					if (!tmp)
+						exp->content = replace_empty_var(exp->content);
+					str = ft_strjoin(str, tmp);
+				}
+				else
+					str = ft_strjoin(str, exp_quote->content);
+				exp_quote = exp_quote->next;
+			}
+		}
+		else
+			str = ft_strjoin(str, exp->content);
+		exp = exp->next;
+	}
+	if (!str)
+		return ;
+	int i = 0;
+	int count = 0;
+	int count2 = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+			count++;
+		else if (str[i] == '"')
+			count2++;
+		i++;
+	}
+	char *final_str;
+	final_str = malloc(sizeof(char) * (i - count - count2) + 1);
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		while (str[i] && (str[i] == '\'' || str[i] == '"'))
+			i++;
+		final_str[count] = str[i];
+		count++;
+		i++;
+	}
+	final_str[count] = '\0';
+	printf("%s\n", final_str);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
