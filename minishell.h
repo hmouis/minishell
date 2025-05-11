@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/07 11:05:59 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/08 09:56:51 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ typedef enum e_types
 	op_append,       // >>
 	op_pipe,        // |
 	word,
+	var,
+	string,
 }					t_types;
 
 typedef struct s_lst
@@ -45,6 +47,13 @@ typedef struct s_var
 	int				length;
 }					t_var;
 
+typedef struct s_exp
+{
+	char *content;
+	enum e_types type;
+	struct s_exp *next;
+}				t_exp;
+
 typedef struct s_cmd
 {
 	t_lst			*arg;
@@ -58,12 +67,27 @@ typedef struct s_gc
 	t_cmd **cmd;
 }			t_gc;
 
+/*expansion*/
+int str_len(char *str);
+char				*replace_empty_var(char *str);
+void expand_quote(t_exp **lst, char *str);
+void expand_var(t_exp *exp);
+void type_of_var(t_exp *exp);
+int					var_char(char c);
+t_exp				*new_var_node(char *content);
+t_exp				*last_node_var(t_exp *lst);
+void				add_var_back(t_exp **lst, t_exp *node);
+void				add_to_var_lst(t_exp **lst, char *content);
+int					tokenize_dollar_sign(t_exp **exp, char *str);
+
 /*syntax errors*/
 void				error_msg(char *str);
+char				*check_quote(char *str);
+int					is_quote(char c);
 char				*pipe_line(t_lst *lst);
 char				*simple_command(t_lst **lst);
-void add_to_lst_c(t_lst **lst, t_lst *node);
-t_lst	*new_node_c(t_lst *node);
+void				add_to_lst_c(t_lst **lst, t_lst *node);
+t_lst				*new_node_c(t_lst *node);
 
 /*helper functions*/
 int					ft_strcmp(char *s1, char *s2);
