@@ -171,11 +171,14 @@ void expand_quote(t_exp **lst, char *str)
 	{
 		if (str[i] == '$')
 		{
-			new_str = ft_strlcpy(new_str, str, len, start);
-			start = i;
-			len = 0;
-			add_to_var_lst(lst, new_str);
-			new_str = NULL;
+			if (len > 0)
+			{
+				new_str = ft_strlcpy(new_str, str, len, start);
+				start = i;
+				len = 0;
+				add_to_var_lst(lst, new_str);
+				new_str = NULL;
+			}
 			i++;
 			len++;
 			while (str[i] && var_char(str[i]))
@@ -188,6 +191,7 @@ void expand_quote(t_exp **lst, char *str)
 			len = 0;
 			add_to_var_lst(lst, new_str);
 			new_str = NULL;
+			continue;
 		}
 		i++;
 		len++;
@@ -252,10 +256,15 @@ void expand_var(t_exp *exp)
 	{
 		if (exp->type == var)
 		{
-			tmp = getenv(exp->content + 1);
-			if (!tmp)
-				exp->content = replace_empty_var(exp->content);
-			str = ft_strjoin(str, tmp);
+			if (!ft_strcmp("$", exp->content))
+				str = ft_strjoin(str, exp->content);
+			else
+			{
+				tmp = getenv(exp->content + 1);
+				if (!tmp)
+					exp->content = replace_empty_var(exp->content);
+				str = ft_strjoin(str, tmp);
+			}
 		}
 		else if (exp->content[0] == '"')
 		{
@@ -264,10 +273,15 @@ void expand_var(t_exp *exp)
 			{
 				if (exp_quote->content[0] == '$')
 				{
-					tmp = getenv(exp_quote->content + 1);
-					if (!tmp)
-						exp->content = replace_empty_var(exp->content);
-					str = ft_strjoin(str, tmp);
+					if (!ft_strcmp("$", exp_quote->content))
+						str = ft_strjoin(str, exp_quote->content);
+					else
+					{
+						tmp = getenv(exp_quote->content + 1);
+						if (!tmp)
+							exp->content = replace_empty_var(exp->content);
+						str = ft_strjoin(str, tmp);
+					}
 				}
 				else
 					str = ft_strjoin(str, exp_quote->content);
