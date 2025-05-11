@@ -12,6 +12,35 @@
 
 #include "../minishell.h"
 
+int	is_alpha(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return 1;
+	return 0;
+}
+
+char	*ft_strchr(char *s, char c)
+{
+	if (!s)
+		return NULL;
+	while (*s)
+	{
+		if (*s == c)
+			return s;
+		s++;
+	}
+	if (*s == c)
+		return s;
+	return NULL;
+}
+
+int	is_alnum(char c)
+{
+	if (is_alpha(c) || (c >= '0' && c <= '9'))
+		return 1;
+	return 0;
+}
+
 char	*ft_strdup(char *s)
 {
 	int	i;

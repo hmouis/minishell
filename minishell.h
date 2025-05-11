@@ -88,10 +88,22 @@ int					token_dollar_sign(int *i, char *input, t_lst **lst,
 void					tokens_type(t_lst *lst);
 
 int					is_builtins(char *cmd);
-char					*ft_strdup(char *s);
-void					ft_putstr_fd(char *s, int fd);
 int					builtin_cd(char **cwd, t_var *var);
+void					builtin_env(t_env *env);
+void					builtin_echo(char **args);
+void					builtin_export(t_env **env, char *s);
+void					ft_putstr_fd(char *s, int fd);
 t_env					*env_new_node(char *key, char *data);
+void					add_env_to_list(t_env **lst, char **env); 
+char					*ft_strdup(char *s);
+
+char	*get_key_env(char *env);
+char	*get_data_env(char *env);
+
+int	is_alpha(char c);
+int	is_alnum(char c);
+char	*ft_strchr(char *s, char c);
+
 
 
 #endif

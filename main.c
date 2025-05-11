@@ -28,7 +28,9 @@ void	enum_type(enum e_types tp)
 		printf("type : word\n");
 }
 
-int	main(int ac, char **av, char **env)
+int main(int ac, char **av, char **env)
 {
-	//Nothing
+	t_env	*lst;
+	add_env_to_list(&lst, env);
+	builtin_export(&lst, av[1]);
 }
