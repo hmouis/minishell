@@ -76,11 +76,14 @@ typedef struct s_gc
 	t_cmd **cmd;
 }			t_gc;
 
+/*remove quotes*/
+void remove_quote(t_cmd **cmd, int check);
+
 /*expansion*/
 int str_len(char *str);
 char				*replace_empty_var(char *str);
 void expand_quote(t_exp **lst, char *str);
-void expand_var(t_exp *exp);
+char *expand_var(t_exp *exp);
 void type_of_var(t_exp *exp);
 int					var_char(char c);
 t_exp				*new_var_node(char *content);
