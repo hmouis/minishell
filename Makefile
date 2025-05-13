@@ -1,6 +1,6 @@
 NAME=minishell
 
-SRC= gc.c main.c expansion/expansion_utils.c parsing/pars_utils.c parsing/syntax_error.c tokenization/type_of_tokens.c tokenization/user_input1.c tokenization/user_input.c tokenization/utils1.c tokenization/utils.c
+SRC= gc.c main.c expansion/expansion_utils.c parsing/pars_utils.c parsing/syntax_error.c tokenization/type_of_tokens.c tokenization/user_input1.c tokenization/user_input.c tokenization/utils1.c tokenization/utils.c parsing/get_env.c
 
 CC= cc
 CFLAGS= -g

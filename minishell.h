@@ -18,6 +18,15 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+
+/*env*/
+typedef struct	s_env
+{
+	char		*key;
+	char		*data;
+	struct s_env	*next;
+}			t_env;
 
 /*type of tokens*/
 typedef enum e_types
@@ -123,5 +132,10 @@ void				add_to_lst(t_lst **lst, char *content);
 void				free_cmd(t_cmd **cmd);
 void				free_lst(t_lst **lst);
 void				free_all(t_lst **lst, t_cmd **cmd);
+
+char	*ft_strchr(char *s, char c);
+char					*ft_strdup(char *s);
+char	*get_key_env(char *env);
+char	*get_data_env(char *env);
 
 #endif

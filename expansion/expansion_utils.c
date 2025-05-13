@@ -321,8 +321,73 @@ void expand_var(t_exp *exp)
 	printf("%s\n", final_str);
 }
 
+void remove_quote(t_cmd **cmd, int check)
+{
+	int i = 0;
+	int count = 0;
+	char *new_str = NULL;
 
+	
+	if (check == 1)
+	{
+		while ((*cmd)->arg->content[i])
+		{
+			while ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+				i++;
+			i++;
+			count++;
+		}
+		new_str = malloc(sizeof(char) * count + 1);
+		i = 0;
+		count = 0;
+		while ((*cmd)->arg->content[i])
+		{
+			while ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+				i++;
+			new_str[count] = (*cmd)->arg->content[i];
+			count++;
+			i++;
+		}
+		new_str[count] = '\0';
+		i = 0;
+		while (new_str[i])
+		{
+			(*cmd)->arg->content[i] = new_str[i];
+			i++;
+		}
+	   	(*cmd)->arg->content[i] = '\0';
 
+	}
+	else 
+	{
+		while ((*cmd)->redirect->content[i])
+		{
+			while ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+				i++;
+			i++;
+			count++;
+		}
+		new_str = malloc(sizeof(char) * count + 1);
+		i = 0;
+		count = 0;
+		while ((*cmd)->redirect->content[i])
+		{
+			while ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+				i++;
+			new_str[count] = (*cmd)->redirect->content[i];
+			count++;
+			i++;
+		}
+		new_str[count] = '\0';
+		i = 0;
+		while (new_str[i])
+		{
+			(*cmd)->redirect->content[i] = new_str[i];
+			i++;
+		}
+	   	(*cmd)->redirect->content[i] = '\0';
+	}
+}
 
 
 
