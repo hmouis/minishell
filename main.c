@@ -36,6 +36,7 @@ int	main(void)
 	char	*test_line;
 	t_lst	*lst;
 	t_cmd	*cmd;
+	t_cmd	*head;
 	char	*err_msg;
 	int		i;
 	t_exp *exp;
@@ -67,6 +68,8 @@ int	main(void)
 			{
 				error_msg(err_msg);
 				printf("\n");
+				lst = NULL;
+				continue;
 			}
 			else
 			{
@@ -95,25 +98,32 @@ int	main(void)
 			/*	lst = lst->next;*/
 			/*}*/
 		}
-		while (lst)
+		head = cmd;
+		while (cmd->arg)
 		{
-			if (lst->type == word && charchr(lst->content ,'$'))
+			if (cmd->arg->type == word && charchr(cmd->arg->content ,'$'))
 			{
-				if (!tokenize_dollar_sign(&exp, lst->content))
+				if (!tokenize_dollar_sign(&exp, cmd->arg->content))
 				{
 					printf("bash: syntax error: unexpected end of file\n");
 					break;
 				}
 				type_of_var(exp);
-				expand_var(exp);
+				cmd->arg->content[0] = '\0';
+				cmd->arg->content = expand_var(exp);
 				/*while (exp)*/
 				/*{*/
 				/*		printf("string = %s\n", exp->content);*/
 				/*	exp = exp->next;*/
 				/*}*/
 			}
+			else if (cmd->arg->content[0] == '"' && !charchr(lst->content ,'$'))
+			{
+				remove_quote(&cmd, 1);
+			}
+			printf("new string : %s\n", head->arg->content);
 			exp = NULL;
-			lst = lst->next;
+			cmd->arg = cmd->arg->next;
 		}
 			free_all(&lst, &cmd);
 			exp = NULL;
