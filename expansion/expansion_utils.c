@@ -244,11 +244,11 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
-void expand_var(t_exp *exp)
+char *expand_var(t_exp *exp)
 {
 	char *str;
 	char *tmp;
-	t_exp *exp_quote;
+	t_exp *exp_quote = NULL;
 
 	str = NULL;
 	tmp = NULL;
@@ -293,7 +293,7 @@ void expand_var(t_exp *exp)
 		exp = exp->next;
 	}
 	if (!str)
-		return ;
+		return (NULL);
 	int i = 0;
 	int count = 0;
 	int count2 = 0;
@@ -311,14 +311,17 @@ void expand_var(t_exp *exp)
 	count = 0;
 	while (str[i])
 	{
-		while (str[i] && (str[i] == '\'' || str[i] == '"'))
+		if (str[i] && (str[i] == '\'' || str[i] == '"'))
+		{
 			i++;
+			continue;
+		}
 		final_str[count] = str[i];
 		count++;
 		i++;
 	}
 	final_str[count] = '\0';
-	printf("%s\n", final_str);
+	return (final_str);
 }
 
 void remove_quote(t_cmd **cmd, int check)
@@ -332,8 +335,11 @@ void remove_quote(t_cmd **cmd, int check)
 	{
 		while ((*cmd)->arg->content[i])
 		{
-			while ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+			if ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+			{
 				i++;
+				continue;
+			}
 			i++;
 			count++;
 		}
@@ -342,8 +348,11 @@ void remove_quote(t_cmd **cmd, int check)
 		count = 0;
 		while ((*cmd)->arg->content[i])
 		{
-			while ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+			if ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
+			{
 				i++;
+				continue;
+			}
 			new_str[count] = (*cmd)->arg->content[i];
 			count++;
 			i++;
@@ -362,8 +371,11 @@ void remove_quote(t_cmd **cmd, int check)
 	{
 		while ((*cmd)->redirect->content[i])
 		{
-			while ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+			if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+			{
 				i++;
+				continue;
+			}
 			i++;
 			count++;
 		}
@@ -372,8 +384,11 @@ void remove_quote(t_cmd **cmd, int check)
 		count = 0;
 		while ((*cmd)->redirect->content[i])
 		{
-			while ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+			if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
+			{
 				i++;
+				continue;
+			}
 			new_str[count] = (*cmd)->redirect->content[i];
 			count++;
 			i++;
