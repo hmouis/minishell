@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:57:17 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/14 09:35:49 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	enum_type(enum e_types tp)
 	else if (tp == 7)
 		printf("type : string\n");
 }
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char	*test_line;
 	t_lst	*lst;
@@ -40,6 +40,7 @@ int	main(void)
 	char	*err_msg;
 	int		i;
 	t_exp *exp;
+	t_env	*list;
 
 	cmd = NULL;
 	exp = NULL;
@@ -99,6 +100,13 @@ int	main(void)
 			/*}*/
 		}
 		head = cmd;
+		add_env_to_list(&list, env);
+		/*while (list)*/
+		/*{*/
+		/*	printf("\nkey : %s\n", list->key);*/
+		/*	printf("data : %s\n\n", list->data);*/
+		/*	list = list->next;*/
+		/*}*/
 		while (cmd->arg)
 		{
 			if (cmd->arg->type == word && charchr(cmd->arg->content ,'$'))
@@ -110,7 +118,7 @@ int	main(void)
 				}
 				type_of_var(exp);
 				cmd->arg->content[0] = '\0';
-				cmd->arg->content = expand_var(exp);
+				cmd->arg->content = expand_var(exp, list);
 				/*while (exp)*/
 				/*{*/
 				/*		printf("string = %s\n", exp->content);*/
