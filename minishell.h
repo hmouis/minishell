@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/08 09:56:51 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/14 09:41:27 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ typedef struct s_gc
 }			t_gc;
 
 /*remove quotes*/
-void remove_quote(t_cmd **cmd, int check);
+void				remove_quote(t_cmd **cmd, int check);
 
 /*expansion*/
-int str_len(char *str);
+int					str_len(char *str);
 char				*replace_empty_var(char *str);
-void expand_quote(t_exp **lst, char *str);
-char *expand_var(t_exp *exp);
-void type_of_var(t_exp *exp);
+void				expand_quote(t_exp **lst, char *str);
+char				*expand_var(t_exp *exp, t_env *lst);
+void				type_of_var(t_exp *exp);
 int					var_char(char c);
 t_exp				*new_var_node(char *content);
 t_exp				*last_node_var(t_exp *lst);
@@ -136,9 +136,17 @@ void				free_cmd(t_cmd **cmd);
 void				free_lst(t_lst **lst);
 void				free_all(t_lst **lst, t_cmd **cmd);
 
-char	*ft_strchr(char *s, char c);
-char					*ft_strdup(char *s);
-char	*get_key_env(char *env);
-char	*get_data_env(char *env);
+/*get env*/
+char				*ft_strdup(char *s);
+char				*ft_strncpy(char *dest, const char *src, size_t n);
+int					is_in_set(char c, const char *set);
+t_env				*env_new_node(char *key, char *data);
+char				*ft_strtrim(char *s1, const char *set);
+char				*get_env(char *str, t_env *env);
+char				*ft_strchr(char *s, char c);
+char				*ft_strdup(char *s);
+char				*get_key_env(char *env);
+char				*get_data_env(char *env);
+void				add_env_to_list(t_env **lst, char **env); 
 
 #endif
