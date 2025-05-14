@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 09:46:17 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/08 10:38:28 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/14 09:35:20 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
-char *expand_var(t_exp *exp)
+char *expand_var(t_exp *exp, t_env *env)
 {
 	char *str;
 	char *tmp;
@@ -260,7 +260,7 @@ char *expand_var(t_exp *exp)
 				str = ft_strjoin(str, exp->content);
 			else
 			{
-				tmp = getenv(exp->content + 1);
+				tmp = get_env(exp->content + 1, env);
 				if (!tmp)
 					exp->content = replace_empty_var(exp->content);
 				str = ft_strjoin(str, tmp);
@@ -277,7 +277,7 @@ char *expand_var(t_exp *exp)
 						str = ft_strjoin(str, exp_quote->content);
 					else
 					{
-						tmp = getenv(exp_quote->content + 1);
+						tmp = get_env(exp_quote->content + 1, env);
 						if (!tmp)
 							exp->content = replace_empty_var(exp->content);
 						str = ft_strjoin(str, tmp);
