@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "string.h"
 
 int	ft_strlen(char *s)
 {
@@ -100,10 +99,7 @@ char	*get_key_env(char *s)
 
 	equals_sign = ft_strchr(s, '=');
 	if (!equals_sign)
-	{
-		equals_sign = ft_strchr(s, ' ');
-		length = equals_sign - s; 
-	}
+		length = ft_strlen(s); 
 	else
 		length = equals_sign - s; 
 	key = malloc(length + 1);
@@ -116,8 +112,9 @@ char	*get_key_env(char *s)
 
 char	*get_data_env(char *s)
 {
-	char *equals_sign;
-	char *data;
+	char	*equals_sign;
+	char	*data;
+	int	length;
 
 	equals_sign = ft_strchr(s, '=');
 	if (!equals_sign)
@@ -141,38 +138,49 @@ void	add_env_to_list(t_env **lst, char **env)
 		return ;
 	i = 1;
 	temp = first;
-    while (env[i])
-    {
-        char *key = get_key_env(env[i]);
-        char *data = get_data_env(env[i]);
-	if (!key || !data)
+	while (env[i])
 	{
-	    while (first)
-	    {
-		temp = first->next;
-		free(first->key);
-		free(first->data);
-		free(first);
-		first = temp;
-	    }
-	    return;
+		char *key = get_key_env(env[i]);
+		char *data = get_data_env(env[i]);
+		if (!key || !data)
+		{
+			while (first)
+			{
+				temp = first->next;
+				free(first->key);
+				free(first->data);
+				free(first);
+				first = temp;
+			}
+			return;
+		}
+		temp->next = env_new_node(key, data);
+		if (!temp->next)
+		{
+			while (first)
+			{
+				temp = first->next;
+				free(first->key);
+				free(first->data);
+				free(first);
+				first = temp;
+			}
+			return;
+		}
+		temp = temp->next;
+		i++;
 	}
-	temp->next = env_new_node(key, data);
-	if (!temp->next)
-	{
-	    while (first)
-	    {
-		temp = first->next;
-		free(first->key);
-		free(first->data);
-		free(first);
-		first = temp;
-	    }
-	    return;
-	}
-        temp = temp->next;
-        i++;
-    }
 	*lst = first;
 }
 
+int main(int ac, char **av, char **env)
+{
+	t_env *list;
+	add_env_to_list(&list, env);
+	t_env *temp = list;
+	while (temp)
+	{
+		printf("%s=%s\n", temp->key, temp->data);
+		temp = temp->next;
+	}
+}
