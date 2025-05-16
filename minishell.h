@@ -18,6 +18,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <unistd.h>
 # include <string.h>
 
 /*env*/
@@ -70,11 +71,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
-typedef struct s_gc
-{
-	t_lst **lst;
-	t_cmd **cmd;
-}			t_gc;
 
 /*remove quotes*/
 void				remove_quote(t_cmd **cmd, int check);
@@ -131,14 +127,17 @@ void				add_back(t_lst **lst, t_lst *node);
 void				*new_node(char *content);
 void				add_to_lst(t_lst **lst, char *content);
 
-/*Garbage Collector*/
-void				free_cmd(t_cmd **cmd);
-void				free_lst(t_lst **lst);
-void				free_all(t_lst **lst, t_cmd **cmd);
-
 /*get env*/
 char				*ft_strdup(char *s);
 char				*ft_strncpy(char *dest, const char *src, size_t n);
+int	is_alpha(char c);
+int	is_alnum(char c);
+int					is_builtins(char *cmd);
+int					builtin_cd(char **cwd, t_var *var);
+void					builtin_env(t_env *env);
+void					builtin_echo(char **args);
+void					builtin_export(t_env **env, char *s);
+void					ft_putstr_fd(char *s, int fd);
 int					is_in_set(char c, const char *set);
 t_env				*env_new_node(char *key, char *data);
 char				*ft_strtrim(char *s1, const char *set);
