@@ -1,0 +1,12 @@
+total 1400
+-rwxr-xr-x 1 hmouis candidates 1377456 May 15 14:39 a
+drwxr-xr-x 2 hmouis candidates      56 May 15 14:39 expansion
+-rw-r--r-- 1 hmouis candidates       0 May 15 14:40 file
+-rw-r--r-- 1 hmouis candidates    1243 May 12 10:39 gc.c
+-rw-r--r-- 1 hmouis candidates    5400 May 15 14:39 gc.o
+-rw-r--r-- 1 hmouis candidates    3787 May 15 14:39 main.c
+-rw-r--r-- 1 hmouis candidates   18136 May 15 14:39 main.o
+-rw-r--r-- 1 hmouis candidates     450 May 15 14:38 Makefile
+-rw-r--r-- 1 hmouis candidates    4575 May 15 14:24 minishell.h
+drwxr-xr-x 2 hmouis candidates     116 May 15 14:39 parsing
+drwxr-xr-x 2 hmouis candidates    4096 May 15 14:39 tokenization
