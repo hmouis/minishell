@@ -107,35 +107,42 @@ int	main(int ac, char **av, char **env)
 		/*	printf("data : %s\n\n", list->data);*/
 		/*	list = list->next;*/
 		/*}*/
-		while (cmd->arg)
+		/*static int j = 0;*/
+		/*if (j == 0)*/
+		/*{*/
+		/*	builtin_export(&list, "a=\"");*/
+		/*	j = 1;*/
+		/*}*/
+		while (cmd)
 		{
-			if (cmd->arg->type == word && charchr(cmd->arg->content ,'$'))
+			while (cmd && cmd->arg)
 			{
-				if (!tokenize_dollar_sign(&exp, cmd->arg->content))
+				if (cmd->arg->type == word && charchr(cmd->arg->content ,'$'))
 				{
-					printf("bash: syntax error: unexpected end of file\n");
-					break;
+					if (!tokenize_dollar_sign(&exp, cmd->arg->content))
+					{
+						printf("bash: syntax error: unexpected end of file\n");
+						break;
+					}
+					type_of_var(exp);
+					cmd->arg->content[0] = '\0';
+					cmd->arg->content = expand_var(exp, list);
+					/*while (exp)*/
+					/*{*/
+					/*		printf("string = %s\n", exp->content);*/
+					/*	exp = exp->next;*/
+					/*}*/
 				}
-				type_of_var(exp);
-				cmd->arg->content[0] = '\0';
-				cmd->arg->content = expand_var(exp, list);
-				/*while (exp)*/
-				/*{*/
-				/*		printf("string = %s\n", exp->content);*/
-				/*	exp = exp->next;*/
-				/*}*/
+				else if (charchr(cmd->arg->content, '\'') || charchr(cmd->arg->content, '"'))
+					remove_quote(&cmd, 1);
+				printf("new string : %s\n", cmd->arg->content);
+				exp = NULL;
+				cmd->arg = cmd->arg->next;
 			}
-			else if (cmd->arg->content[0] == '"' && !charchr(lst->content ,'$'))
-			{
-				remove_quote(&cmd, 1);
-			}
-			printf("new string : %s\n", head->arg->content);
-			exp = NULL;
-			cmd->arg = cmd->arg->next;
+			cmd = cmd->next;
 		}
-			free_all(&lst, &cmd);
-			exp = NULL;
-			cmd = NULL;
-			lst = NULL;
+		exp = NULL;
+		cmd = NULL;
+		lst = NULL;
 	}
 }
