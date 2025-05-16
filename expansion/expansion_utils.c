@@ -20,7 +20,7 @@ char *replace_empty_var(char *str)
 
 int var_char(char c)
 {
-	if (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
 		return (1);
 	return (0);
 }
@@ -82,6 +82,13 @@ void add_to_var_lst(t_exp **lst, char *content)
 	add_var_back(lst, node);
 }
 
+int is_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
 int tokenize_dollar_sign(t_exp **exp, char *str)
 {
 	char *new_str;
@@ -97,7 +104,7 @@ int tokenize_dollar_sign(t_exp **exp, char *str)
 	{
 		if (!var_char(str[i]))
 		{
-			if ((str[start] == '$' || str[i] == '$') && len > 0)
+			if ((str[start] == '$' || str[i] == '$' || is_digit(str[start + 1])) && len > 0)
 			{
 				new_str = ft_strlcpy(new_str, str, len, start);
 				start = i;
@@ -284,12 +291,12 @@ char *expand_var(t_exp *exp, t_env *env)
 					}
 				}
 				else
-					str = ft_strjoin(str, exp_quote->content);
+				str = ft_strjoin(str, exp_quote->content);
 				exp_quote = exp_quote->next;
 			}
 		}
 		else
-			str = ft_strjoin(str, exp->content);
+		str = ft_strjoin(str, exp->content);
 		exp = exp->next;
 	}
 	if (!str)
@@ -324,84 +331,117 @@ char *expand_var(t_exp *exp, t_env *env)
 	return (final_str);
 }
 
+char *char_join(char *str, int count, char c)
+{
+	int j = 0;
+	char *new_str;
+	new_str = malloc(sizeof(char) * count + 1);
+	if (!new_str)
+		return (NULL);
+	while (str && str[j])
+	{
+		new_str[j] = str[j];
+		j++;
+	}
+	new_str[j] = c;
+	j++;
+	new_str[j] = '\0';
+	return (new_str);
+}
+
+char *skip_quotes(char *str, int *i, int *count, char *new_str)
+{
+	char quote;
+
+	quote = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != quote)
+	{
+		(*count)++;
+		new_str = char_join(new_str, *count, str[*i]); 
+		(*i)++;
+	}
+	(*i)++;
+	return (new_str);
+}
+
+
 void remove_quote(t_cmd **cmd, int check)
 {
 	int i = 0;
 	int count = 0;
 	char *new_str = NULL;
 
-	
-	if (check == 1)
-	{
-		while ((*cmd)->arg->content[i])
-		{
-			if ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
-			{
-				i++;
-				continue;
-			}
-			i++;
-			count++;
-		}
-		new_str = malloc(sizeof(char) * count + 1);
-		i = 0;
-		count = 0;
-		while ((*cmd)->arg->content[i])
-		{
-			if ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')
-			{
-				i++;
-				continue;
-			}
-			new_str[count] = (*cmd)->arg->content[i];
-			count++;
-			i++;
-		}
-		new_str[count] = '\0';
-		i = 0;
-		while (new_str[i])
-		{
-			(*cmd)->arg->content[i] = new_str[i];
-			i++;
-		}
-	   	(*cmd)->arg->content[i] = '\0';
 
-	}
-	else 
+	while ((*cmd)->arg->content[i])
 	{
-		while ((*cmd)->redirect->content[i])
+		if (is_quote((*cmd)->arg->content[i]))
 		{
-			if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
-			{
-				i++;
-				continue;
-			}
-			i++;
-			count++;
+			new_str = skip_quotes((*cmd)->arg->content, &i, &count, new_str);
+			continue;
 		}
-		new_str = malloc(sizeof(char) * count + 1);
-		i = 0;
-		count = 0;
-		while ((*cmd)->redirect->content[i])
-		{
-			if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')
-			{
-				i++;
-				continue;
-			}
-			new_str[count] = (*cmd)->redirect->content[i];
-			count++;
-			i++;
-		}
-		new_str[count] = '\0';
-		i = 0;
-		while (new_str[i])
-		{
-			(*cmd)->redirect->content[i] = new_str[i];
-			i++;
-		}
-	   	(*cmd)->redirect->content[i] = '\0';
+		count++;
+		new_str = char_join(new_str, count, (*cmd)->arg->content[i]);
+		i++;
 	}
+	/*new_str = malloc(sizeof(char) * count + 1);*/
+	/*i = 0;*/
+	/*count = 0;*/
+	/*while ((*cmd)->arg->content[i])*/
+	/*{*/
+	/*	if ((*cmd)->arg->content[i] && (*cmd)->arg->content[i] == '"')*/
+	/*	{*/
+	/*		i++;*/
+	/*		continue;*/
+	/*	}*/
+	/*	new_str[count] = (*cmd)->arg->content[i];*/
+	/*	count++;*/
+	/*	i++;*/
+	/*}*/
+	/*new_str[count] = '\0';*/
+	i = 0;
+	while (new_str && new_str[i])
+	{
+		(*cmd)->arg->content[i] = new_str[i];
+		i++;
+	}
+	(*cmd)->arg->content[i] = '\0';
+
+	/*else */
+	/*{*/
+	/*	while ((*cmd)->redirect->content[i])*/
+	/*	{*/
+	/*		if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')*/
+	/*		{*/
+	/*			i++;*/
+	/*			continue;*/
+	/*		}*/
+	/*		i++;*/
+	/*		count++;*/
+	/*	}*/
+	/*	new_str = malloc(sizeof(char) * count + 1);*/
+	/*	i = 0;*/
+	/*	count = 0;*/
+	/*	while ((*cmd)->redirect->content[i])*/
+	/*	{*/
+	/*		if ((*cmd)->redirect->content[i] && (*cmd)->redirect->content[i] == '"')*/
+	/*		{*/
+	/*			i++;*/
+	/*			continue;*/
+	/*		}*/
+	/*		new_str[count] = (*cmd)->redirect->content[i];*/
+	/*		count++;*/
+	/*		i++;*/
+	/*	}*/
+	/*	new_str[count] = '\0';*/
+	/*	i = 0;*/
+	/*	while (new_str[i])*/
+	/*	{*/
+	/*		(*cmd)->redirect->content[i] = new_str[i];*/
+	/*		i++;*/
+	/*	}*/
+	/*   	(*cmd)->redirect->content[i] = '\0';*/
+	/*}*/
 }
 
 
