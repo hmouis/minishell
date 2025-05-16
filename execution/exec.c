@@ -12,23 +12,18 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 #include <stdio.h>
 
-int	exec_simple_cmd(char **cmd)
-{
-	if (!cmd || !*cmd)
-		return -1;
-	if (execve(cmd[1], &cmd[1], NULL) == -1)
-	{
-		perror("Error:");
-		return -1;
-	}
-	return 0;
-}
 
-int main(int ac, char **av)
+int main(int ac, char **av, char **env)
 {
-	if (ac < 2)
-		return -1;
-	exec_simple_cmd(av);
+	char *buff;
+	int pid_child = fork();
+	int exit_status;
+	if (pid_child == 0)
+		execve(av[1], &av[1], NULL);
+	else 
+		wait(&exit_status);
 }

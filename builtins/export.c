@@ -53,12 +53,12 @@ void	builtin_export(t_env **env, char *s)
 	equals_sign = ft_strchr(s, '=');
 	if (equals_sign && (equals_sign > s && equals_sign[-1] == ' '))
 	{
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
+		ft_putstr_fd("export: `=': not a valid identifier\n", 2);
 		return;
 	}
 	if (equals_sign && equals_sign[1] == ' ')
 	{
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
+		ft_putstr_fd("export: `=': not a valid identifier\n", 2);
 		return;
 	}
 	if (equals_sign)
@@ -81,7 +81,7 @@ void	builtin_export(t_env **env, char *s)
 	data = get_data_env(s);
 	if (!key || !data)
 	{
-		ft_putstr_fd("export: error parsing input\n", 2);
+		ft_putstr_fd("export: error\n", 2);
 		free(key); 
 		free(data); 
 		return;
