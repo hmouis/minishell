@@ -219,3 +219,148 @@ char *get_env(char *str, t_env *env)
 	}
 	return (NULL);
 }
+
+int	parsing_key(char *key)
+{
+	int	i;
+
+	if (!key || !key[0] || (!is_alpha(key[0]) && key[0] != '_' ))
+	{
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(key, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (0);
+	}
+	i = 1;
+	while (key[i])
+	{
+		if (!is_alnum(key[i]) && key[i] != '_')
+		{
+			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd(key, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (0);
+		}
+		i++;
+	}
+	return 1;
+}
+
+int	parsing_data(char *data)
+{
+	if (!data)
+		return 0;
+	return 1;
+}
+
+void	builtin_export(t_env **env, char *s)
+{
+	t_env *last, *first, *current;
+	char	*key, *data, *equals_sign;
+
+	equals_sign = ft_strchr(s, '=');
+	if (equals_sign && (equals_sign > s && equals_sign[-1] == ' '))
+	{
+		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
+		return;
+	}
+	if (equals_sign && equals_sign[1] == ' ')
+	{
+		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
+		return;
+	}
+	if (equals_sign)
+	{
+		if (equals_sign > s && equals_sign[-1] == ' ')
+		{
+		    ft_putstr_fd("export: `=': not a valid identifier\n", 2);
+		    return;
+		}
+
+		if (equals_sign[1] == ' ')
+		{
+		    ft_putstr_fd("export: `", 2);
+		    ft_putstr_fd(equals_sign + 1, 2);
+		    ft_putstr_fd("': not a valid identifier\n", 2);
+		    return;
+		}
+	}
+	key = get_key_env(s);
+	data = get_data_env(s);
+	if (!key || !data)
+	{
+		ft_putstr_fd("export: error parsing input\n", 2);
+		free(key); 
+		free(data); 
+		return;
+	}
+	if (!parsing_key(key))
+		return (free(key));
+	if (*env == NULL)
+		*env = env_new_node(key, data) ;
+	first = *env;
+	while (first)
+	{
+		if (ft_strcmp(first->key, key) == 0)
+		{	
+			free(first->data);
+			first->data = ft_strdup(data);
+			first->data = data;
+			free(key);
+			return ;
+		}
+		if (first->next == NULL)
+			last = first;
+		first = first->next;
+	}
+	first = *env;
+	last->next = env_new_node(key, data);
+	while (first)
+	{
+		printf("%s=%s\n", first->key, first->data);
+		first = first->next;
+	}
+}
+int	is_alpha(char c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return 1;
+	return 0;
+}
+
+/*char	*ft_strchr(char *s, char c)*/
+/*{*/
+/*	if (!s)*/
+/*		return NULL;*/
+/*	while (*s)*/
+/*	{*/
+/*		if (*s == c)*/
+/*			return s;*/
+/*		s++;*/
+/*	}*/
+/*	if (*s == c)*/
+/*		return s;*/
+/*	return NULL;*/
+/*}*/
+
+int	is_alnum(char c)
+{
+	if (is_alpha(c) || (c >= '0' && c <= '9'))
+		return 1;
+	return 0;
+}
+
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i] != '\0')
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
