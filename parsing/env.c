@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 09:11:47 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/14 09:43:14 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:37:39 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int	parsing_key(char *key)
 		{
 			ft_putstr_fd("export: `", 2);
 			ft_putstr_fd(key, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			ft_putstr_fd("': not a valid identifier here\n", 2);
 			return (0);
 		}
 		i++;
@@ -273,7 +273,7 @@ void	builtin_export(t_env **env, char *s)
 	{
 		if (equals_sign > s && equals_sign[-1] == ' ')
 		{
-		    ft_putstr_fd("export: `=': not a valid identifier\n", 2);
+		    ft_putstr_fd("export: `=': not a valid identifier here\n", 2);
 		    return;
 		}
 
@@ -281,7 +281,7 @@ void	builtin_export(t_env **env, char *s)
 		{
 		    ft_putstr_fd("export: `", 2);
 		    ft_putstr_fd(equals_sign + 1, 2);
-		    ft_putstr_fd("': not a valid identifier\n", 2);
+		    ft_putstr_fd("': not a valid identifier here\n", 2);
 		    return;
 		}
 	}
@@ -315,11 +315,11 @@ void	builtin_export(t_env **env, char *s)
 	}
 	first = *env;
 	last->next = env_new_node(key, data);
-	while (first)
-	{
-		printf("%s=%s\n", first->key, first->data);
-		first = first->next;
-	}
+	/*while (first)*/
+	/*{*/
+	/*	printf("%s=%s\n", first->key, first->data);*/
+	/*	first = first->next;*/
+	/*}*/
 }
 int	is_alpha(char c)
 {
