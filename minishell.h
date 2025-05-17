@@ -77,6 +77,7 @@ void				remove_quote(t_cmd **cmd, int check);
 
 /*expansion*/
 int					str_len(char *str);
+char *char_join(char *str, int count, char c);
 char				*replace_empty_var(char *str);
 void				expand_quote(t_exp **lst, char *str);
 char				*expand_var(t_exp *exp, t_env *lst);
