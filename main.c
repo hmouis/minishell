@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/14 09:35:49 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:41:26 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,7 @@ int	main(int ac, char **av, char **env)
 		/*	printf("data : %s\n\n", list->data);*/
 		/*	list = list->next;*/
 		/*}*/
-		/*static int j = 0;*/
-		/*if (j == 0)*/
-		/*{*/
-		/*	builtin_export(&list, "a=\"");*/
-		/*	j = 1;*/
-		/*}*/
+		builtin_export(&list, "aaa=\"a       b        \"");
 		while (cmd)
 		{
 			while (cmd && cmd->arg)
