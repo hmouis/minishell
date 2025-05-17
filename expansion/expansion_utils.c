@@ -251,6 +251,41 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (new);
 }
 
+int split_char(char c)
+{
+	if (c == ' ' || c == '\t' || c == '\n')
+		return (1);
+	return (0);
+}
+
+char *split_var_arg(char *str)
+{
+	char *new_str = NULL;
+	int i = 0;
+	int count = 0;
+	int remainder = 0;
+
+	while (str && str[i])
+	{
+		if (split_char(str[i]))
+		{
+			i++;
+			remainder = 1;
+			continue;
+		}
+		count++;
+		if (remainder == 1)
+		{
+			new_str = char_join(new_str, count, ' ');
+			count++;
+			remainder = 0;
+		}
+		new_str = char_join(new_str, count, str[i]);
+		i++;
+	}
+	return (new_str);
+}
+
 char *expand_var(t_exp *exp, t_env *env)
 {
 	char *str;
@@ -270,7 +305,7 @@ char *expand_var(t_exp *exp, t_env *env)
 				tmp = get_env(exp->content + 1, env);
 				if (!tmp)
 					exp->content = replace_empty_var(exp->content);
-				str = ft_strjoin(str, tmp);
+				str = ft_strjoin(str, split_var_arg(tmp));
 			}
 		}
 		else if (exp->content[0] == '"')
@@ -291,7 +326,7 @@ char *expand_var(t_exp *exp, t_env *env)
 					}
 				}
 				else
-				str = ft_strjoin(str, exp_quote->content);
+					str = ft_strjoin(str, exp_quote->content);
 				exp_quote = exp_quote->next;
 			}
 		}
