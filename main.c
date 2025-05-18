@@ -107,7 +107,7 @@ int	main(int ac, char **av, char **env)
 		/*	printf("data : %s\n\n", list->data);*/
 		/*	list = list->next;*/
 		/*}*/
-		builtin_export(&list, "aaa=\"a       b        \"");
+		builtin_export(&list, "aaa=\"l1   l2\"");
 		while (cmd)
 		{
 			while (cmd && cmd->arg)
@@ -128,8 +128,6 @@ int	main(int ac, char **av, char **env)
 					/*	exp = exp->next;*/
 					/*}*/
 				}
-				else if (charchr(cmd->arg->content, '\'') || charchr(cmd->arg->content, '"'))
-					remove_quote(&cmd, 1);
 				printf("new string : %s\n", cmd->arg->content);
 				exp = NULL;
 				cmd->arg = cmd->arg->next;
