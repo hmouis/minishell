@@ -55,12 +55,6 @@ int	main(int ac, char **av, char **env)
 		if (!test_line)
 			break ;
 		split_input(test_line, &lst);
-		/*while (lst)*/
-		/*{*/
-		/*	printf("token : %10s \n", lst->content);*/
-		/*	lst = lst->next;*/
-		/*}*/
-		/*continue;*/
 		if (lst)
 		{
 			tokens_type(lst);
@@ -73,41 +67,11 @@ int	main(int ac, char **av, char **env)
 				continue;
 			}
 			else
-			{
 				cmd = creat_cmd_struct(&cmd, lst);
-				/*while (cmd)*/
-				/*{*/
-				/*	printf("----------------\n");*/
-				/*	while (cmd->redirect)*/
-				/*	{*/
-				/*		printf("cmd->redirect :  '%s'\n", cmd->redirect->content);*/
-				/*	//	enum_type(cmd->redirect->type);*/
-				/*		cmd->redirect = cmd->redirect->next;*/
-				/*	}*/
-				/*	while (cmd->arg)*/
-				/*	{*/
-				/*		printf("cmd->arg : %10s\n", cmd->arg->content);*/
-				/*	//	enum_type(cmd->arg->type);*/
-				/*		cmd->arg = cmd->arg->next;*/
-				/*	}*/
-				/*	cmd = cmd->next;*/
-				/*}*/
-			}
-			/*while (lst)*/
-			/*{*/
-			/*	printf("token : %10s \n", lst->content);*/
-			/*	lst = lst->next;*/
-			/*}*/
 		}
 		head = cmd;
 		add_env_to_list(&list, env);
-		/*while (list)*/
-		/*{*/
-		/*	printf("\nkey : %s\n", list->key);*/
-		/*	printf("data : %s\n\n", list->data);*/
-		/*	list = list->next;*/
-		/*}*/
-		builtin_export(&list, "aaa=\"l1   l2\"");
+		builtin_export(&list, "x=\"    ls   -l  \"");
 		while (cmd)
 		{
 			while (cmd && cmd->arg)
@@ -122,13 +86,12 @@ int	main(int ac, char **av, char **env)
 					type_of_var(exp);
 					cmd->arg->content[0] = '\0';
 					cmd->arg->content = expand_var(exp, list);
-					/*while (exp)*/
-					/*{*/
-					/*		printf("string = %s\n", exp->content);*/
-					/*	exp = exp->next;*/
-					/*}*/
+					while (exp)
+					{
+							printf("string = %s\n", exp->content);
+						exp = exp->next;
+					}
 				}
-				printf("new string : %s\n", cmd->arg->content);
 				exp = NULL;
 				cmd->arg = cmd->arg->next;
 			}
