@@ -67,15 +67,13 @@ typedef struct s_exp
 typedef struct s_cmd
 {
 	t_lst			*arg;
+	char			**args;
 	t_lst			*redirect;
 	struct s_cmd	*next;
 }					t_cmd;
 
-
-/*remove quotes*/
-void				remove_quote(t_cmd **cmd, int check);
-
 /*expansion*/
+char	**ft_split(char *s, char c);
 int					str_len(char *str);
 char *char_join(char *str, int count, char c);
 char				*replace_empty_var(char *str);
