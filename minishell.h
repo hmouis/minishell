@@ -130,22 +130,14 @@ void				*new_node(char *content);
 void				add_to_lst(t_lst **lst, char *content);
 
 /*get env*/
-char				*ft_strdup(char *s);
-char				*ft_strncpy(char *dest, const char *src, size_t n);
-int				is_alpha(char c);
-int				is_alnum(char c);
-int				is_builtins(char *cmd);
-int				builtin_cd(char **cwd, t_var *var);
+int					is_builtins(char *cmd);
+int					builtin_cd(char **cwd, t_var *var);
 void				builtin_env(t_env *env);
 void				builtin_echo(char **args);
 void				builtin_export(t_env **env, char *s);
-void				ft_putstr_fd(char *s, int fd);
-int				is_in_set(char c, const char *set);
+int					is_in_set(char c, const char *set);
 t_env				*env_new_node(char *key, char *data);
-char				*ft_strtrim(char *s1, const char *set);
 char				*get_env(char *str, t_env *env);
-char				*ft_strchr(char *s, char c);
-char				*ft_strdup(char *s);
 char				*get_key_env(char *env);
 char				*get_data_env(char *env);
 void				add_env_to_list(t_env **lst, char **env); 
@@ -154,8 +146,19 @@ void				add_env_to_list(t_env **lst, char **env);
 
 char				*ft_strcat(char *s1, char *s2);
 char				*ft_strtok(char *str, char *delim);
-int				split_char(char c);
+int					split_char(char c);
 char				*split_var_arg(char *str);
+
+//libft
+char				*ft_strdup(char *s);
+char				*ft_strncpy(char *dest, const char *src, size_t n);
+int					is_alpha(char c);
+int					is_alnum(char c);
+int					ft_is_digits(char c);
+char				*ft_strchr(char *s, char c);
+char				*ft_substr(char *s, int start, int len);
+void				ft_putstr_fd(char *s, int fd);
+char				*ft_strtrim(char *s1, const char *set);
 
 
 
