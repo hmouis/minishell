@@ -67,9 +67,6 @@ char	*file_path(char *file)
 			return file;
 		else
 		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
 			return NULL;
 		}
 	}
@@ -96,6 +93,12 @@ int main(int ac, char **av)
 		{
 			if (execve(path2, &av[1], NULL) == -1)
 				perror("ERROR");
+		}
+		else
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(av[1], 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 		}
 	}
 	else
