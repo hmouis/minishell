@@ -31,7 +31,6 @@ char	*file_location(char *file, char *full_path)
 	char		*tmp_path;
 	char		*path;
 	char		*token;
-	char		*file_loc;
 
 	tmp_path = ft_strdup(full_path);
 	token = ft_strtok(tmp_path, ":");
@@ -60,21 +59,48 @@ char	*file_location(char *file, char *full_path)
 	return NULL;
 }
 
+char	*file_path(char *file)
+{
+	if (file != NULL || file[0] == '/')
+	{
+		if (access(file, X_OK) == 0)
+			return file;
+		else
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(file, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			return NULL;
+		}
+	}
+	return NULL;
+}
+
 int main(int ac, char **av)
 {
 	if (ac < 2)
 		return 0;
 	char	*path = file_location(av[1], get_path());
+	char	*path2 = file_path(av[1]);
 	int	pid;
 	int	status;
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, &av[1], NULL) == -1)
-			perror("ERROR");
+		if(path)
+		{
+			if (execve(path, &av[1], NULL) == -1)
+				perror("ERROR");
+		}
+		else if (path2)
+		{
+			if (execve(path2, &av[1], NULL) == -1)
+				perror("ERROR");
+		}
 	}
 	else
 	{
 		wait(NULL);
+		free(path);
 	}
 }
