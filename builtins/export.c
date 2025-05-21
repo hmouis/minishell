@@ -12,67 +12,95 @@
 
 #include "../minishell.h"
 
-char	*get_env_key(char *s)
+int	is_valid_env_key(const char *s)
 {
-	int	i;
-
-	i = 0;
+	int i = 0;
 	if (!s || s[0] == '=' || ft_is_digits(s[0]))
-	{
-		ft_putstr_fd("minishell: export `" , 2);
-		ft_putstr_fd(s, 2);
-		ft_putstr_fd(" : not a valid identifier\n", 2);
-		return NULL;
-	}
+		return 0;
 	while (s[i] && s[i] != '=')
 	{
 		if (!is_alnum(s[i]) && s[i] != '_')
-		  return NULL;
+			return 0;
 		i++;
 	}
-	return ft_substr(s, 0, i);
+	return (i != 0);
 }
 
-char	*get_env_data(char *s)
+void	add_or_update_env(t_env **env, char *key, char *value)
 {
-	char	*equal;
+	t_env	*current;
+	t_env	*new_node;	
+	t_env *last = NULL;
 
-	equal = ft_strchr(s, '=');
-	if (!equal)
-		return NULL;
-	return ft_strdup(equal + 1);
-}
-
-void	builtin_export(t_env **env, char *s)
-{
-	t_env *last, *first;
-	char	*key, *data, *equals_sign;
-
-	key = get_env_key(s);
-	data = get_env_data(s);
-	if (!key || !data)
+	current = *env;
+	while (current)
 	{
-		ft_putstr_fd("export: not a valid identifier\n", 2);
-		free(key); 
-		free(data); 
-		return;
+		if (ft_strcmp(current->key, key) == 0)
+		{
+			free(current->data);
+			current->data = ft_strdup(value);
+			return;
+		}
+		last = current;
+		current = current->next;
 	}
-	if (*env == NULL)
-		*env = env_new_node(key, data) ;
-	first = *env;
-	while (first)
+	new_node = env_new_node(ft_strdup(key), ft_strdup(value));
+	if (last)
+		last->next = new_node;
+	else
+		*env = new_node;
+}
+
+void	builtin_export(t_env **env, char **args)
+{
+	int	i, length;
+	char	*s, (*equal);
+	char *key, *value;
+	i = 0;
+	while (args[i])
 	{
-		if (ft_strcmp(first->key, key) == 0)
-		{	
-			free(first->data);
-			first->data = ft_strdup(data);
+		s = args[i];
+		equal = ft_strchr(s, '=');
+		if (equal)
+		{
+			length = equal - s;
+			key = ft_substr(s, 0, length);
+			value = ft_strdup(equal + 1);
+		}
+		else
+		{
+			key = ft_strdup(s);
+			value = NULL;
+		}
+		if (!is_valid_env_key(key))
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(s, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			free(key);
 			return ;
 		}
-		if (first->next == NULL)
-			last = first;
-		first = first->next;
+		if (value)
+			add_or_update_env(env, key, value);
+		else
+		    add_or_update_env(env, key, "");
+		free(key);
+		if (value) 
+			free(value);
+		i++;
 	}
-	first = *env;
-	last->next = env_new_node(key, data);
+	t_env	*tmp;
+	tmp = *env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->key, tmp->data);
+		tmp = tmp->next;
+	}
+}
+
+int main(int ac, char **av, char **env)
+{
+	t_env	*list, *tmp;
+	add_env_to_list(&list, env);
+	builtin_export(&list, &av[1]);
 }
