@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-char	*pars_input_key(char *s)
+char	*get_env_key(char *s)
 {
 	int	i;
 
@@ -33,7 +33,7 @@ char	*pars_input_key(char *s)
 	return ft_substr(s, 0, i);
 }
 
-char	*pars_input_data(char *s)
+char	*get_env_data(char *s)
 {
 	char	*equal;
 
@@ -48,8 +48,8 @@ void	builtin_export(t_env **env, char *s)
 	t_env *last, *first;
 	char	*key, *data, *equals_sign;
 
-	key = pars_input_key(s);
-	data = pars_input_data(s);
+	key = get_env_key(s);
+	data = get_env_data(s);
 	if (!key || !data)
 	{
 		ft_putstr_fd("export: not a valid identifier\n", 2);
@@ -75,11 +75,4 @@ void	builtin_export(t_env **env, char *s)
 	}
 	first = *env;
 	last->next = env_new_node(key, data);
-}
-
-int main(int ac, char **av, char **env)
-{
-	t_env	**list;
-	add_env_to_list(list, env);
-	builtin_export(list, av[1]);
 }
