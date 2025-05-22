@@ -53,9 +53,10 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 
 void	builtin_export(t_env **env, char **args)
 {
-	int	i, length;
+	int	i;
 	char	*s, (*equal);
-	char *key, *value;
+	char	*key, (*value);
+
 	i = 0;
 	while (args[i])
 	{
@@ -63,8 +64,7 @@ void	builtin_export(t_env **env, char **args)
 		equal = ft_strchr(s, '=');
 		if (equal)
 		{
-			length = equal - s;
-			key = ft_substr(s, 0, length);
+			key = ft_substr(s, 0, equal - s);
 			value = ft_strdup(equal + 1);
 		}
 		else
