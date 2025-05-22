@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/14 09:41:27 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:44:09 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef enum e_types
 	word,
 	var,
 	string,
+	single_quote,
+	double_quote,
 }					t_types;
 
 typedef struct s_lst
@@ -62,10 +64,34 @@ typedef struct s_var
 
 typedef struct s_exp
 {
-	char *content;
-	enum e_types type;
+	char 		 *content;
+	t_types type;
 	struct s_exp *next;
 }				t_exp;
+
+typedef struct s_gnl
+{
+	char *str;
+	struct s_gnl *next;
+}				t_gnl;
+
+typedef struct	s_exec
+{
+	char		**args;
+}				t_exec;
+
+typedef struct s_final_struct
+{
+	t_gnl	*args;
+	t_gnl	*redirect;
+	struct s_final_struct	*next;
+}				t_final_struct;
+
+typedef struct s_new_exp
+{
+	t_lst 		 *string;
+	struct s_new_exp *next;
+}				t_new_exp;
 
 typedef struct s_cmd
 {
@@ -75,8 +101,15 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+/*new expansion*/
+t_final_struct			*creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
+char				*ft_strjoin(char *s1, char *s2);
+void				expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
+
 /*expansion*/
 char				**ft_split(char *s, char c);
+char				*char_join(char *str, int count, char c);
+int				is_digit(char c);
 int				str_len(char *str);
 char				*char_join(char *str, int count, char c);
 char				*replace_empty_var(char *str);
@@ -100,12 +133,12 @@ void				add_to_lst_c(t_lst **lst, t_lst *node);
 t_lst				*new_node_c(t_lst *node);
 
 /*helper functions*/
-int				ft_strcmp(char *s1, char *s2);
 int				valid_operator(char c1, char c2);
 int				white_space(char c);
 int				is_operator(char *str);
 int				charchr(char *str, int c);
 char				*ft_strlcpy(char *token, char *input, int len, int j);
+t_exec				*gnl_to_array(t_gnl *head);
 
 /*tokenizing*/
 int				token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var);
@@ -145,10 +178,9 @@ void				add_env_to_list(t_env **lst, char **env);
 
 
 
-char				*ft_strcat(char *s1, char *s2);
-char				*ft_strtok(char *str, char *delim);
 int				split_char(char c);
-char				*split_var_arg(char *str);
+int				split_var_arg(char *str, char **field_str);
+
 
 //libft
 char				*ft_strdup(char *s);
@@ -159,7 +191,10 @@ int				ft_is_digits(char c);
 char				*ft_strchr(char *s, char c);
 char				*ft_substr(char *s, int start, int len);
 void				ft_putstr_fd(char *s, int fd);
-char				*ft_strtrim(char *s1, const char *set);
+char				*ft_strcat(char *s1, char *s2);
+char				*ft_strtok(char *str, char *delim);
+int				ft_strcmp(char *s1, char *s2);
+
 
 
 

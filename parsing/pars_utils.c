@@ -25,6 +25,7 @@ t_cmd	*node(t_lst *lst)
 	if (!cmd)
 		return (NULL);
 	cmd->arg = NULL;
+	cmd->args = NULL;
 	cmd->redirect = NULL;
 	cmd->next = NULL;
 	return (cmd);

@@ -6,48 +6,27 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/16 11:41:26 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:49:20 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	enum_type(enum e_types tp)
-{
-	if (tp == 0)
-		printf("type : redirect input\n");
-	else if (tp == 1)
-		printf("type : redirect output\n");
-	else if (tp == 2)
-		printf("type : herdoc\n");
-	else if (tp == 3)
-		printf("type : append\n");
-	else if (tp == 4)
-		printf("type : pipe\n");
-	else if (tp == 5)
-		printf("type : word\n");
-	else if (tp == 6)
-		printf("type : var\n");
-	else if (tp == 7)
-		printf("type : string\n");
-}
 int	main(int ac, char **av, char **env)
 {
-	char	*test_line;
-	t_lst	*lst;
-	t_cmd	*cmd;
-	t_cmd	*head;
-	char	*err_msg;
-	int		i;
-	t_exp *exp;
-	t_env	*list;
+	char	*test_line = NULL;
+	t_lst	*lst = NULL;
+	t_final_struct	*fnl = NULL;
+	t_cmd	*cmd = NULL;
+	t_cmd	*head = NULL;
+	char	*err_msg = NULL;
+	int		i = 1;
+	t_exp *exp = NULL;
+	t_env	*list = NULL;
+	t_gnl *gnl = NULL;
+	t_new_exp *new_exp = NULL;
+	t_final_struct *final_struct = NULL;
 
-	cmd = NULL;
-	exp = NULL;
-	err_msg = NULL;
-	i = 1;
-	lst = NULL;
-	test_line = NULL;
 	while (1)
 	{
 		test_line = readline("minishell: ");
@@ -69,36 +48,42 @@ int	main(int ac, char **av, char **env)
 			else
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
-		head = cmd;
 		add_env_to_list(&list, env);
-		builtin_export(&list, "x=\"    ls   -l  \"");
-		while (cmd)
+		builtin_export(&list, "a= a   b c ");
+		if (cmd)
+		   fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
+		while (fnl)
 		{
-			while (cmd && cmd->arg)
+			while (fnl->args)
 			{
-				if (cmd->arg->type == word && charchr(cmd->arg->content ,'$'))
-				{
-					if (!tokenize_dollar_sign(&exp, cmd->arg->content))
-					{
-						printf("bash: syntax error: unexpected end of file\n");
-						break;
-					}
-					type_of_var(exp);
-					cmd->arg->content[0] = '\0';
-					cmd->arg->content = expand_var(exp, list);
-					while (exp)
-					{
-							printf("string = %s\n", exp->content);
-						exp = exp->next;
-					}
-				}
-				exp = NULL;
-				cmd->arg = cmd->arg->next;
+				printf("args = %s\n",fnl->args->str);
+				fnl->args = fnl->args->next;
 			}
-			cmd = cmd->next;
+			while (fnl->redirect)
+			{
+				printf("redirection = %s\n",fnl->redirect->str);
+				fnl->redirect = fnl->redirect->next;
+			}
+			fnl = fnl->next;
+			if (fnl)
+				printf ("there is a pipe here\n");
 		}
-		exp = NULL;
+		/*while (new_exp)*/
+		/*{*/
+		/*	while (new_exp->string)*/
+		/*	{*/
+		/*		printf("new_str = {%s}-->{type = %d}\n",new_exp->string->content, new_exp->string->type);*/
+		/*		new_exp->string = new_exp->string->next;*/
+		/*	}*/
+		/*	new_exp = new_exp->next;*/
+		/*	printf("--------------------\n");*/
+		/*}*/
 		cmd = NULL;
 		lst = NULL;
 	}
 }
+
+
+
+
+

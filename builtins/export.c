@@ -98,9 +98,3 @@ void	builtin_export(t_env **env, char **args)
 	}
 }
 
-int main(int ac, char **av, char **env)
-{
-	t_env	*list, *tmp;
-	add_env_to_list(&list, env);
-	builtin_export(&list, &av[1]);
-}

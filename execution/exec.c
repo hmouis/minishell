@@ -73,37 +73,3 @@ char	*file_path(char *file)
 	return NULL;
 }
 
-int main(int ac, char **av)
-{
-	if (ac < 2)
-		return 0;
-	char	*path = file_location(av[1], get_path());
-	char	*path2 = file_path(av[1]);
-	int	pid;
-	int	status;
-	pid = fork();
-	if (pid == 0)
-	{
-		if(path)
-		{
-			if (execve(path, &av[1], NULL) == -1)
-				perror("ERROR");
-		}
-		else if (path2)
-		{
-			if (execve(path2, &av[1], NULL) == -1)
-				perror("ERROR");
-		}
-		else
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(av[1], 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-		}
-	}
-	else
-	{
-		wait(NULL);
-		free(path);
-	}
-}
