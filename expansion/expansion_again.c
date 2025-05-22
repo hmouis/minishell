@@ -208,7 +208,36 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 	}
 	return (head);
 }
+int is_digit(char c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+char *replace_empty_var(char *str)
+{
+	str[0] = '\0';
+	return (str);
+}
 
+int var_char(char c)
+{
+	if (c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
+int str_len(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
 char *expand_double_quote(char *str, t_env *env)
 {
 	int i = 0;
@@ -419,4 +448,47 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 		str = NULL;
 	}
 
+}
+char	*ft_strjoin(char *s1, char *s2)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	if (!s2)
+		return (s1);
+	new = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1 && s1[i])
+	{
+		new[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		new[i + j] = s2[j];
+		j++;
+	}
+	new[i + j] = '\0';
+	return (new);
+}
+char *char_join(char *str, int count, char c)
+{
+	int j = 0;
+	char *new_str;
+	new_str = malloc(sizeof(char) * count + 1);
+	if (!new_str)
+		return (NULL);
+	while (str && str[j])
+	{
+		new_str[j] = str[j];
+		j++;
+	}
+	new_str[j] = c;
+	j++;
+	new_str[j] = '\0';
+	return (new_str);
 }
