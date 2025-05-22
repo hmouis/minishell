@@ -219,83 +219,82 @@ char *get_env(char *str, t_env *env)
 	}
 	return (NULL);
 }
+int	ft_is_digits(char c)
+{
+	if (c >= '0' && c <= '9')
+		return 1;
+	return 0;
+}
+char	*ft_substr(char *s, int start, int len)
+{
+	char	*sub;
+	int		i;
+	int		s_length;
 
-int	parsing_key(char *key)
+	i = 0;
+	if (!s)
+		return NULL;
+	s_length = strlen(s);
+	if (start >= s_length)
+		return ft_strdup("");
+	if (len > s_length - start)
+		len = s_length - start;
+	sub = malloc(len + 1);
+	if (!sub)
+		return NULL;
+	while (i < len && s[start + i])
+	{
+		sub[i] = s[start + i];
+		i++;
+	}
+	sub[i] = '\0';
+	return sub;
+}
+char	*pars_input_key(char *s)
 {
 	int	i;
 
-	if (!key || !key[0] || (!is_alpha(key[0]) && key[0] != '_' ))
+	i = 0;
+	if (!s || s[0] == '=' || ft_is_digits(s[0]))
 	{
-		ft_putstr_fd("export: `", 2);
-		ft_putstr_fd(key, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (0);
+		ft_putstr_fd("minishell: export `" , 2);
+		ft_putstr_fd(s, 2);
+		ft_putstr_fd(" : not a valid identifier\n", 2);
+		return NULL;
 	}
-	i = 1;
-	while (key[i])
+	while (s[i] && s[i] != '=')
 	{
-		if (!is_alnum(key[i]) && key[i] != '_')
-		{
-			ft_putstr_fd("export: `", 2);
-			ft_putstr_fd(key, 2);
-			ft_putstr_fd("': not a valid identifier here\n", 2);
-			return (0);
-		}
+		if (!is_alnum(s[i]) && s[i] != '_')
+		  return NULL;
 		i++;
 	}
-	return 1;
+	return ft_substr(s, 0, i);
 }
 
-int	parsing_data(char *data)
+char	*pars_input_data(char *s)
 {
-	if (!data)
-		return 0;
-	return 1;
+	char	*equal;
+
+	equal = ft_strchr(s, '=');
+	if (!equal)
+		return NULL;
+	return ft_strdup(equal + 1);
 }
 
 void	builtin_export(t_env **env, char *s)
 {
-	t_env *last, *first, *current;
+	t_env *last, *first;
 	char	*key, *data, *equals_sign;
 
-	equals_sign = ft_strchr(s, '=');
-	if (equals_sign && (equals_sign > s && equals_sign[-1] == ' '))
-	{
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
-		return;
-	}
-	if (equals_sign && equals_sign[1] == ' ')
-	{
-		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);
-		return;
-	}
-	if (equals_sign)
-	{
-		if (equals_sign > s && equals_sign[-1] == ' ')
-		{
-		    ft_putstr_fd("export: `=': not a valid identifier here\n", 2);
-		    return;
-		}
-
-		if (equals_sign[1] == ' ')
-		{
-		    ft_putstr_fd("export: `", 2);
-		    ft_putstr_fd(equals_sign + 1, 2);
-		    ft_putstr_fd("': not a valid identifier here\n", 2);
-		    return;
-		}
-	}
-	key = get_key_env(s);
-	data = get_data_env(s);
+	key = pars_input_key(s);
+	data = pars_input_data(s);
 	if (!key || !data)
 	{
-		ft_putstr_fd("export: error parsing input\n", 2);
+		ft_putstr_fd("export: not a valid identifier\n", 2);
 		free(key); 
 		free(data); 
 		return;
 	}
-	if (!parsing_key(key))
-		return (free(key));
 	if (*env == NULL)
 		*env = env_new_node(key, data) ;
 	first = *env;
@@ -305,7 +304,6 @@ void	builtin_export(t_env **env, char *s)
 		{	
 			free(first->data);
 			first->data = ft_strdup(data);
-			first->data = data;
 			free(key);
 			return ;
 		}
@@ -315,12 +313,109 @@ void	builtin_export(t_env **env, char *s)
 	}
 	first = *env;
 	last->next = env_new_node(key, data);
-	/*while (first)*/
-	/*{*/
-	/*	printf("%s=%s\n", first->key, first->data);*/
-	/*	first = first->next;*/
-	/*}*/
 }
+
+/*int	parsing_key(char *key)*/
+/*{*/
+/*	int	i;*/
+/**/
+/*	if (!key || !key[0] || (!is_alpha(key[0]) && key[0] != '_' ))*/
+/*	{*/
+/*		ft_putstr_fd("export: `", 2);*/
+/*		ft_putstr_fd(key, 2);*/
+/*		ft_putstr_fd("': not a valid identifier\n", 2);*/
+/*		return (0);*/
+/*	}*/
+/*	i = 1;*/
+/*	while (key[i])*/
+/*	{*/
+/*		if (!is_alnum(key[i]) && key[i] != '_')*/
+/*		{*/
+/*			ft_putstr_fd("export: `", 2);*/
+/*			ft_putstr_fd(key, 2);*/
+/*			ft_putstr_fd("': not a valid identifier here\n", 2);*/
+/*			return (0);*/
+/*		}*/
+/*		i++;*/
+/*	}*/
+/*	return 1;*/
+/*}*/
+/**/
+/*int	parsing_data(char *data)*/
+/*{*/
+/*	if (!data)*/
+/*		return 0;*/
+/*	return 1;*/
+/*}*/
+/**/
+/*void	builtin_export(t_env **env, char *s)*/
+/*{*/
+/*	t_env *last, *first, *current;*/
+/*	char	*key, *data, *equals_sign;*/
+/**/
+/*	equals_sign = ft_strchr(s, '=');*/
+/*	if (equals_sign && (equals_sign > s && equals_sign[-1] == ' '))*/
+/*	{*/
+/*		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);*/
+/*		return;*/
+/*	}*/
+/*	if (equals_sign && equals_sign[1] == ' ')*/
+/*	{*/
+/*		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);*/
+/*		return;*/
+/*	}*/
+/*	if (equals_sign)*/
+/*	{*/
+/*		if (equals_sign > s && equals_sign[-1] == ' ')*/
+/*		{*/
+/*		    ft_putstr_fd("export: `=': not a valid identifier here\n", 2);*/
+/*		    return;*/
+/*		}*/
+/**/
+/*		if (equals_sign[1] == ' ')*/
+/*		{*/
+/*		    ft_putstr_fd("export: `", 2);*/
+/*		    ft_putstr_fd(equals_sign + 1, 2);*/
+/*		    ft_putstr_fd("': not a valid identifier here\n", 2);*/
+/*		    return;*/
+/*		}*/
+/*	}*/
+/*	key = get_key_env(s);*/
+/*	data = get_data_env(s);*/
+/*	if (!key || !data)*/
+/*	{*/
+/*		ft_putstr_fd("export: error parsing input\n", 2);*/
+/*		free(key); */
+/*		free(data); */
+/*		return;*/
+/*	}*/
+/*	if (!parsing_key(key))*/
+/*		return (free(key));*/
+/*	if (*env == NULL)*/
+/*		*env = env_new_node(key, data) ;*/
+/*	first = *env;*/
+/*	while (first)*/
+/*	{*/
+/*		if (ft_strcmp(first->key, key) == 0)*/
+/*		{	*/
+/*			free(first->data);*/
+/*			first->data = ft_strdup(data);*/
+/*			first->data = data;*/
+/*			free(key);*/
+/*			return ;*/
+/*		}*/
+/*		if (first->next == NULL)*/
+/*			last = first;*/
+/*		first = first->next;*/
+/*	}*/
+/*	first = *env;*/
+/*	last->next = env_new_node(key, data);*/
+/*	/*while (first)*/
+/*	/*{*/
+/*	/*	printf("%s=%s\n", first->key, first->data);*/
+/*	/*	first = first->next;*/
+/*	/*}*/
+/*}*/
 int	is_alpha(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
