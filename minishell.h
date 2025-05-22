@@ -134,7 +134,7 @@ int				is_builtins(char *cmd);
 int				builtin_cd(char **cwd, t_var *var);
 void				builtin_env(t_env *env);
 void				builtin_echo(char **args);
-void				builtin_export(t_env **env, char *s);
+void				builtin_export(t_env **env, char **args);
 int				is_in_set(char c, const char *set);
 t_env				*env_new_node(char *key, char *data);
 char				*get_env(char *str, t_env *env);
