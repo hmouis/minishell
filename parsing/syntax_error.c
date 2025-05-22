@@ -127,4 +127,3 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 	return (head);
 }
 
-
