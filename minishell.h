@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/14 09:41:27 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:44:09 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef enum e_types
 	word,
 	var,
 	string,
+	single_quote,
+	double_quote,
 }					t_types;
 
 typedef struct s_lst
@@ -59,10 +61,30 @@ typedef struct s_var
 
 typedef struct s_exp
 {
-	char *content;
-	enum e_types type;
+	char 		 *content;
+	t_types type;
 	struct s_exp *next;
 }				t_exp;
+
+typedef struct s_gnl
+{
+	char *str;
+	struct s_gnl *next;
+}				t_gnl;
+
+
+typedef struct s_final_struct
+{
+	t_gnl *args;
+	t_gnl *redirect;
+	struct s_final_struct *next;
+}				t_final_struct;
+
+typedef struct s_new_exp
+{
+	t_lst 		 *string;
+	struct s_new_exp *next;
+}				t_new_exp;
 
 typedef struct s_cmd
 {
@@ -72,7 +94,13 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+/*new expansion*/
+t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
+char	*ft_strjoin(char *s1, char *s2);
+void expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
+
 /*expansion*/
+int is_digit(char c);
 char	**ft_split(char *s, char c);
 int					str_len(char *str);
 char *char_join(char *str, int count, char c);
