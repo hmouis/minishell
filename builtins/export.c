@@ -51,43 +51,40 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 		*env = new_node;
 }
 
-void	builtin_export(t_env **env, char **args)
+void	builtin_export(t_env **env, char *str)
 {
-	int	i;
-	char	*s, (*equal);
-	char	*key, (*value);
+	int		i;
+	char	*equal;
+	char	*key, *value;
 
 	i = 0;
-	while (args[i])
+	 if (!str)
+		return ;
+	equal = ft_strchr(str, '=');
+	if (!equal)
 	{
-		s = args[i];
-		equal = ft_strchr(s, '=');
-		if (equal)
-		{
-			key = ft_substr(s, 0, equal - s);
-			value = ft_strdup(equal + 1);
-		}
-		else
-		{
-			key = ft_strdup(s);
-			value = NULL;
-		}
-		if (!is_valid_env_key(key))
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(s, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			free(key);
-			return ;
-		}
-		if (value)
-			add_or_update_env(env, key, value);
-		else
-		    add_or_update_env(env, key, "");
-		free(key);
-		if (value) 
-			free(value);
-		i++;
+		key = ft_substr(str, 0, equal - str);
+		value = ft_strdup(equal + 1);
 	}
+	else
+	{
+		key = ft_strdup(str);
+		value = NULL;
+	}
+	if (!is_valid_env_key(key))
+	{
+		ft_putstr_fd("minishell: export: `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		free(key);
+		return ;
+	}
+	if (value)
+		add_or_update_env(env, key, value);
+	else
+		add_or_update_env(env, key, "");
+	free(key);
+	if (value) 
+		free(value);
 }
 
