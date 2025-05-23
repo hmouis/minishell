@@ -89,12 +89,5 @@ void	builtin_export(t_env **env, char **args)
 			free(value);
 		i++;
 	}
-	t_env	*tmp;
-	tmp = *env;
-	while (tmp)
-	{
-		printf("%s=%s\n", tmp->key, tmp->data);
-		tmp = tmp->next;
-	}
 }
 
