@@ -61,13 +61,19 @@ char	*file_location(char *file, char *full_path)
 
 char	*file_path(char *file)
 {
+	char	*file1;
+
+	file = file_location(file, get_path());
 	if (file != NULL || file[0] == '/')
 	{
 		if (access(file, X_OK) == 0)
 			return file;
 		else
 		{
-			return NULL;
+			if (file1 != NULL)
+				return file1;
+			else
+				return NULL;
 		}
 	}
 	return NULL;
