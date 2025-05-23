@@ -74,6 +74,17 @@ char	*get_env_data(char *s)
 	return ft_strdup(equal + 1);
 }
 
+char *get_env(char *str, t_env *env)
+{
+	while (env)
+	{
+		if (!ft_strcmp(str, env->key))
+			return (env->data);
+		env = env->next;
+	}
+	return (NULL);
+}
+
 void	add_env_to_list(t_env **lst, char **env) 
 {
 	if (!env || !*env)
