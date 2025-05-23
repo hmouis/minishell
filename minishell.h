@@ -109,24 +109,24 @@ void				expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
 /*expansion*/
 char				**ft_split(char *s, char c);
 char				*char_join(char *str, int count, char c);
-int				is_digit(char c);
-int				str_len(char *str);
+int					is_digit(char c);
+int					str_len(char *str);
 char				*char_join(char *str, int count, char c);
 char				*replace_empty_var(char *str);
 void				expand_quote(t_exp **lst, char *str);
 char				*expand_var(t_exp *exp, t_env *lst);
 void				type_of_var(t_exp *exp);
-int				var_char(char c);
+int					var_char(char c);
 t_exp				*new_var_node(char *content);
 t_exp				*last_node_var(t_exp *lst);
 void				add_var_back(t_exp **lst, t_exp *node);
 void				add_to_var_lst(t_exp **lst, char *content);
-int				tokenize_dollar_sign(t_exp **exp, char *str);
+int					tokenize_dollar_sign(t_exp **exp, char *str);
 
 /*syntax errors*/
 void				error_msg(char *str);
 char				*check_quote(char *str);
-int				is_quote(char c);
+int					is_quote(char c);
 char				*pipe_line(t_lst *lst);
 char				*simple_command(t_lst **lst);
 void				add_to_lst_c(t_lst **lst, t_lst *node);
@@ -137,8 +137,8 @@ int				valid_operator(char c1, char c2);
 int				white_space(char c);
 int				is_operator(char *str);
 int				charchr(char *str, int c);
-char				*ft_strlcpy(char *token, char *input, int len, int j);
-t_exec				*gnl_to_array(t_gnl *head);
+char			*ft_strlcpy(char *token, char *input, int len, int j);
+t_exec			*gnl_to_array(t_gnl *head);
 
 /*tokenizing*/
 int				token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var);
@@ -167,7 +167,7 @@ int				is_builtins(char *cmd);
 int				builtin_cd(char **cwd, t_var *var);
 void				builtin_env(t_env *env);
 void				builtin_echo(char **args);
-void				builtin_export(t_env **env, char **args);
+void				builtin_export(t_env **env, char *str);
 int				is_in_set(char c, const char *set);
 t_env				*env_new_node(char *key, char *data);
 char				*get_env(char *str, t_env *env);
