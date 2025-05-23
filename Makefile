@@ -39,16 +39,15 @@ libft/ft_substr.c \
 
 
 CC= cc
-CFLAGS= -g3 
-#-fsanitize=address
-RFLAG= -lreadline
+# CFLAGS= -g2 -fsanitize=address
+RFLAG= -lreadline -lncurses
 
 OBJS= $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(RFLAG) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(RFLAG) 
 
 clean:
 	rm -f $(OBJS)
