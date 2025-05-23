@@ -39,7 +39,7 @@ libft/ft_substr.c \
 
 
 CC= cc
-# CFLAGS= -g2 -fsanitize=address
+CFLAGS= -g2 -fsanitize=address
 RFLAG= -lreadline -lncurses
 
 OBJS= $(SRC:.c=.o)
