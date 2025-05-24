@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/22 18:13:45 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/24 12:58:47 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int ac, char **av, char **env)
 	t_env	*list = NULL;
 	t_gnl *gnl = NULL;
 	t_new_exp *new_exp = NULL;
+	t_herdoc *herdoc = NULL;
 	t_final_struct *final_struct = NULL;
 
 	while (1)
@@ -53,33 +54,31 @@ int	main(int ac, char **av, char **env)
 		add_env_to_list(&list, env);
 		builtin_export(&list, "x=    ls   -l ");
 		if (cmd)
-		   fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
+			fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
+		if (fnl)
+			herdoc = fill_herdoc(fnl->redirect, list, &herdoc);
 		while (fnl)
 		{
-			while (fnl->args)
+			/*while (fnl->args)*/
+			/*{*/
+			/*	printf("args = %s\n",fnl->args->str);*/
+			/*	fnl->args = fnl->args->next;*/
+			/*}*/
+			/*while (fnl->redirect)*/
+			/*{*/
+			/*	printf("redirection = %s\n",fnl->redirect->str);*/
+			/*	fnl->redirect = fnl->redirect->next;*/
+			/*}*/
+			while (herdoc->list)
 			{
-				printf("args = %s\n",fnl->args->str);
-				fnl->args = fnl->args->next;
-			}
-			while (fnl->redirect)
-			{
-				printf("redirection = %s\n",fnl->redirect->str);
-				fnl->redirect = fnl->redirect->next;
+				printf("%s\n",herdoc->list->str);
+				herdoc->list	= herdoc->list->next;
 			}
 			fnl = fnl->next;
 			if (fnl)
 				printf ("------------------------\n---------------------\n");
 		}
-		/*while (new_exp)*/
-		/*{*/
-		/*	while (new_exp->string)*/
-		/*	{*/
-		/*		printf("new_str = {%s}-->{type = %d}\n",new_exp->string->content, new_exp->string->type);*/
-		/*		new_exp->string = new_exp->string->next;*/
-		/*	}*/
-		/*	new_exp = new_exp->next;*/
-		/*	printf("--------------------\n");*/
-		/*}*/
+		fnl = NULL;
 		cmd = NULL;
 		lst = NULL;
 	}
