@@ -33,7 +33,7 @@ typedef struct	s_env
 }			t_env;
 
 /*type of tokens*/
-typedef enum e_types
+typedef enum	e_types
 {
 	op_redirect_input,  // <
 	op_redirect_output,// >
@@ -45,52 +45,64 @@ typedef enum e_types
 	string,
 	single_quote,
 	double_quote,
-}					t_types;
+}		t_types;
+
+
+typedef enum	e_builtins_type
+{
+	e_echo,
+	e_cd,
+	e_pwd,
+	e_export,
+	e_unset,
+	e_env,
+	e_exit,
+}		t_builtins_type;
 
 typedef struct s_lst
 {
 	char			*content;
-	enum e_types	type;
-	struct s_lst	*next;
-}					t_lst;
+	enum e_types		type;
+	struct s_lst		*next;
+}				t_lst;
 
 typedef struct s_var
 {
-	int				i;
-	int				y;
+	int			i;
+	int			y;
 	char			*token;
-	int				length;
-}					t_var;
+	int			length;
+}				t_var;
 
 typedef struct s_exp
 {
-	char 		 *content;
-	t_types type;
-	struct s_exp *next;
+	char 			*content;
+	t_types			type;
+	struct s_exp		*next;
 }				t_exp;
 
 typedef struct s_gnl
 {
-	char *str;
-	struct s_gnl *next;
+	char			*str;
+	struct s_gnl		*next;
 }				t_gnl;
 
 typedef struct	s_exec
 {
-	char		**args;
+	char			**args;
 }				t_exec;
 
 typedef struct s_final_struct
 {
-	t_gnl	*args;
-	t_gnl	*redirect;
+	t_gnl			*args;
+	t_gnl			*redirect;
 	struct s_final_struct	*next;
 }				t_final_struct;
 
 typedef struct s_new_exp
 {
-	t_lst 		 *string;
-	struct s_new_exp *next;
+	t_lst 			*string;
+	struct s_new_exp	*next;
 }				t_new_exp;
 
 typedef struct s_cmd
@@ -98,8 +110,8 @@ typedef struct s_cmd
 	t_lst			*arg;
 	char			**args;
 	t_lst			*redirect;
-	struct s_cmd	*next;
-}					t_cmd;
+	struct s_cmd		*next;
+}				t_cmd;
 
 /*new expansion*/
 t_final_struct			*creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
@@ -196,6 +208,8 @@ char				*ft_strtok(char *str, char *delim);
 int				ft_strcmp(char *s1, char *s2);
 
 
-
+//exec
+int	exec_builtins(char *cmd);
+void	exec_simple_cmd(char **cmd, char *path);
 
 #endif
