@@ -14,10 +14,10 @@
 
 char	*get_path()
 {
-	char	*path;
+	char *path;
 
 	path = getenv("PATH");
-	if (!path)
+	if (!path) 
 	{
 		perror("getenv");
 		return NULL;
@@ -27,16 +27,14 @@ char	*get_path()
 
 char	*file_location(char *file, char *full_path)
 {
-	struct stat	file_inf;
-	char		*tmp_path;
-	char		*path;
-	char		*token;
-
-	tmp_path = ft_strdup(full_path);
-	token = ft_strtok(tmp_path, ":");
+	char	*tmp_path = ft_strdup(full_path);
+	if (!tmp_path)
+		return NULL;
+	char *token = ft_strtok(tmp_path, ":");
 	while (token)
 	{
-		path = malloc(str_len(token) + 1 + str_len(file) + 1);
+		size_t len = str_len(token) + 1 + str_len(file) + 1;
+		char *path = malloc(len);
 		if (!path)
 		{
 			ft_putstr_fd("error: malloc failed\n", 2);
@@ -44,6 +42,7 @@ char	*file_location(char *file, char *full_path)
 			return NULL;
 		}
 		ft_strncpy(path, token, str_len(token));
+		path[str_len(token)] = '\0';
 		ft_strcat(path, "/");
 		ft_strcat(path, file);
 		if (access(path, X_OK) == 0)
@@ -52,7 +51,6 @@ char	*file_location(char *file, char *full_path)
 			return path;
 		}
 		free(path);
-		path = NULL;
 		token = ft_strtok(NULL, ":");
 	}
 	free(tmp_path);
@@ -61,39 +59,45 @@ char	*file_location(char *file, char *full_path)
 
 char	*file_path(char *file)
 {
-	char	*file1;
-
-	file1 = file_location(file, get_path());
-	if (file != NULL || file[0] == '/')
+	if (file && (file[0] == '/' || ft_strchr(file, '/')))
 	{
 		if (access(file, X_OK) == 0)
-			return file;
+			return ft_strdup(file);
 		else
-		{
-			if ((file1 != NULL) && (access(file1, X_OK) == 0))
-				return file1;
-			else
-				return NULL;
-		}
+		    return NULL;
 	}
-	return NULL;
+	char *path_env = get_path();
+	if (!path_env)
+		return NULL;
+	char *found = file_location(file, path_env);
+	return found;
 }
 
-void	exec_simple_cmd(char **cmd, char *path)
+int	exec_simple_cmd(char **cmd, char *path)
 {
-	int	child_pid;
-	char	*file;
-
 	if (!cmd || !*cmd || !path)
-		return ;
-	file = file_path(path);
-	child_pid = fork();
-
+		return 0;
+	char *file = file_path(path);
 	if (!file)
-		return ;
+		return 0;
+	int child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("fork");
+		free(file);
+		return 0;
+	}
 	if (child_pid == 0)
+	{
 		execve(file, cmd, NULL);
+		perror("execve");
+		_exit(127);
+	}
 	else 
-		wait(NULL);
+	{
+		int status;
+		waitpid(child_pid, &status, 0);
+		free(file);
+		return (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+	}
 }
-
