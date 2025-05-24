@@ -9,7 +9,8 @@ tokenization/user_input.c \
 tokenization/utils1.c \
 tokenization/utils.c \
 parsing/env.c \
-expansion/expansion_again.c 
+expansion/expansion_again.c \
+gc/garbage_collector.c
 
 
 CC= cc
