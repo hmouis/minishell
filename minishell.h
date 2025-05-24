@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/21 18:44:09 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/22 18:32:27 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ typedef enum e_types
 	string,
 	single_quote,
 	double_quote,
-}					t_types;
+}			t_types;
+
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
 
 typedef struct s_lst
 {
@@ -59,12 +65,6 @@ typedef struct s_var
 	int				length;
 }					t_var;
 
-typedef struct s_exp
-{
-	char 		 *content;
-	t_types type;
-	struct s_exp *next;
-}				t_exp;
 
 typedef struct s_gnl
 {
@@ -98,22 +98,12 @@ typedef struct s_cmd
 t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
 char	*ft_strjoin(char *s1, char *s2);
 void expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
-
-/*expansion*/
 int is_digit(char c);
 char	**ft_split(char *s, char c);
 int					str_len(char *str);
 char *char_join(char *str, int count, char c);
 char				*replace_empty_var(char *str);
-void				expand_quote(t_exp **lst, char *str);
-char				*expand_var(t_exp *exp, t_env *lst);
-void				type_of_var(t_exp *exp);
 int					var_char(char c);
-t_exp				*new_var_node(char *content);
-t_exp				*last_node_var(t_exp *lst);
-void				add_var_back(t_exp **lst, t_exp *node);
-void				add_to_var_lst(t_exp **lst, char *content);
-int					tokenize_dollar_sign(t_exp **exp, char *str);
 
 /*syntax errors*/
 void				error_msg(char *str);
@@ -174,5 +164,29 @@ char				*ft_strdup(char *s);
 char				*get_key_env(char *env);
 char				*get_data_env(char *env);
 void				add_env_to_list(t_env **lst, char **env); 
+
+/*garbage collector*/
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void *ft_malloc(size_t size, int flag);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstadd_front(t_list **lst, t_list *new_);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
