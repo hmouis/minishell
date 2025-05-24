@@ -24,6 +24,7 @@ int	main(int ac, char **av, char **env)
 	t_env	*list = NULL;
 	t_gnl *gnl = NULL;
 	t_new_exp *new_exp = NULL;
+	t_cmd *tmp = NULL;
 	t_herdoc *herdoc = NULL;
 	t_final_struct *final_struct = NULL;
 
@@ -54,9 +55,11 @@ int	main(int ac, char **av, char **env)
 		add_env_to_list(&list, env);
 		builtin_export(&list, "x=    ls   -l ");
 		if (cmd)
+		{
+			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
 			fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
-		if (fnl)
-			herdoc = fill_herdoc(fnl->redirect, list, &herdoc);
+			fnl->herdoc = herdoc;
+		}
 		while (fnl)
 		{
 			/*while (fnl->args)*/
@@ -69,10 +72,10 @@ int	main(int ac, char **av, char **env)
 			/*	printf("redirection = %s\n",fnl->redirect->str);*/
 			/*	fnl->redirect = fnl->redirect->next;*/
 			/*}*/
-			while (herdoc->list)
+			while (fnl->herdoc->list)
 			{
-				printf("%s\n",herdoc->list->str);
-				herdoc->list	= herdoc->list->next;
+				printf("%s",fnl->herdoc->list->str);
+				fnl->herdoc->list	= fnl->herdoc->list->next;
 			}
 			fnl = fnl->next;
 			if (fnl)
