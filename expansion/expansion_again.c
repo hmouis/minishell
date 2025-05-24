@@ -16,7 +16,7 @@ t_new_exp *new_lst_node()
 {
 	t_new_exp *new_node;
 
-	new_node = malloc(sizeof(t_new_exp));
+	new_node = ft_malloc(sizeof(t_new_exp), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->string = NULL;
@@ -28,7 +28,7 @@ static void	*new_node_(char *content, int flag)
 {
 	t_lst	*node;
 
-	node = malloc(sizeof(t_lst));
+	node = ft_malloc(sizeof(t_lst), 1);
 	if (!node)
 		return (NULL);
 	node->content = content;
@@ -150,7 +150,7 @@ t_final_struct *fnl_node()
 {
 	t_final_struct *new_node;
 
-	new_node = malloc(sizeof(t_final_struct));
+	new_node = ft_malloc(sizeof(t_final_struct), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->args = NULL;
@@ -317,7 +317,7 @@ t_gnl *final_node(char *content)
 {
 	t_gnl *new_node;
 
-	new_node = malloc(sizeof(t_gnl));
+	new_node = ft_malloc(sizeof(t_gnl), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->str = content;
@@ -457,7 +457,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s2)
 		return (s1);
-	new = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
+	new = ft_malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1), 1);
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -479,7 +479,7 @@ char *char_join(char *str, int count, char c)
 {
 	int j = 0;
 	char *new_str;
-	new_str = malloc(sizeof(char) * count + 1);
+	new_str = ft_malloc(sizeof(char) * count + 1, 1);
 	if (!new_str)
 		return (NULL);
 	while (str && str[j])
