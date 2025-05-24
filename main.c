@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **env)
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
 		add_env_to_list(&list, env);
-		builtin_export(&list, "a= a   b c ");
 		if (cmd)
 		   fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
 		if (is_builtins(fnl->args->str) != -1)
