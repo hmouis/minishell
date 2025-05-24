@@ -63,14 +63,14 @@ char	*file_path(char *file)
 {
 	char	*file1;
 
-	file = file_location(file, get_path());
+	file1 = file_location(file, get_path());
 	if (file != NULL || file[0] == '/')
 	{
 		if (access(file, X_OK) == 0)
 			return file;
 		else
 		{
-			if (file1 != NULL)
+			if ((file1 != NULL) && (access(file1, X_OK) == 0))
 				return file1;
 			else
 				return NULL;
@@ -89,10 +89,10 @@ void	exec_simple_cmd(char **cmd, char *path)
 	file = file_path(path);
 	child_pid = fork();
 
+	if (!file)
+		return ;
 	if (child_pid == 0)
-	{
 		execve(file, cmd, NULL);
-	}
 	else 
 		wait(NULL);
 }
