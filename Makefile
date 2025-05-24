@@ -10,12 +10,12 @@ tokenization/utils1.c \
 tokenization/utils.c \
 parsing/env.c \
 expansion/expansion_again.c \
-gc/garbage_collector.c
+gc/garbage_collector.c \
+parsing/herdoc.c
 
 
 CC= cc
-CFLAGS= -g3 
-#-fsanitize=address
+CFLAGS= -g3 -fsanitize=address
 RFLAG= -lreadline
 
 OBJS= $(SRC:.c=.o)
