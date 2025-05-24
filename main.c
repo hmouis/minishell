@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/21 18:49:20 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/22 18:13:45 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	main(int ac, char **av, char **env)
 	t_cmd	*head = NULL;
 	char	*err_msg = NULL;
 	int		i = 1;
-	t_exp *exp = NULL;
 	t_env	*list = NULL;
 	t_gnl *gnl = NULL;
 	t_new_exp *new_exp = NULL;
@@ -32,7 +31,10 @@ int	main(int ac, char **av, char **env)
 		test_line = readline("minishell: ");
 		add_history(test_line);
 		if (!test_line)
+		{
+			ft_malloc(0,0);
 			break ;
+		}
 		split_input(test_line, &lst);
 		if (lst)
 		{
@@ -49,7 +51,7 @@ int	main(int ac, char **av, char **env)
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
 		add_env_to_list(&list, env);
-		builtin_export(&list, "a= a   b c ");
+		builtin_export(&list, "x=    ls   -l ");
 		if (cmd)
 		   fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
 		while (fnl)
@@ -66,7 +68,7 @@ int	main(int ac, char **av, char **env)
 			}
 			fnl = fnl->next;
 			if (fnl)
-				printf ("there is a pipe here\n");
+				printf ("------------------------\n---------------------\n");
 		}
 		/*while (new_exp)*/
 		/*{*/
@@ -81,6 +83,7 @@ int	main(int ac, char **av, char **env)
 		cmd = NULL;
 		lst = NULL;
 	}
+
 }
 
 
