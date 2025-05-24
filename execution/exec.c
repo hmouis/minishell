@@ -79,3 +79,21 @@ char	*file_path(char *file)
 	return NULL;
 }
 
+void	exec_simple_cmd(char **cmd, char *path)
+{
+	int	child_pid;
+	char	*file;
+
+	if (!cmd || !*cmd || !path)
+		return ;
+	file = file_path(path);
+	child_pid = fork();
+
+	if (child_pid == 0)
+	{
+		execve(file, cmd, NULL);
+	}
+	else 
+		wait(NULL);
+}
+
