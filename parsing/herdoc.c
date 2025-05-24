@@ -65,14 +65,44 @@ t_herdoc *new_herdoc()
 	return (node);
 }
 
+char *remove_quotes(char *str)
+{
+	int i = 0;
+	int count = 0;
+	char quote;
+	char *new_str = NULL;
+
+	while (str[i])
+	{
+		if (is_quote(str[i]))
+		{
+			quote = str[i];
+			i++;
+			while (str[i] && str[i] != quote)
+			{
+				new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
+				i++;
+			}
+			i++;
+			continue;
+		}
+		new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
+		i++;
+	}
+	if (!new_str)
+		return (ft_strdup(""));
+	return (new_str);
+}
+
 t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 {
 	char *line = NULL;
 	int flag = 0;
 	char *var = NULL;
 
-	if (is_quote(del[0]))
+	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
 		flag = 1;
+	del = remove_quotes(del);
 	while (1)
 	{
 		line = readline("> ");
@@ -81,10 +111,10 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 			put_error_msg(del);
 			return (lst);
 		}
-		else if (line[0] == '\0')
-			line = char_join(line, 2, '\n');
 		else if (!ft_strcmp(line, del))
 			return (lst);
+		else if (line[0] == '\0')
+			line = char_join(line, 2, '\n');
 		else if (flag)
 		{
 			line = char_join(line, str_len(line) + 1, '\n');	
@@ -102,7 +132,7 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 	}
 }
 
-t_herdoc *fill_herdoc(t_gnl *redirect, t_env *env, t_herdoc **herdoc)
+t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 {
 	int remainder = 0;
 	t_herdoc *head = NULL;
@@ -111,7 +141,7 @@ t_herdoc *fill_herdoc(t_gnl *redirect, t_env *env, t_herdoc **herdoc)
 	head = *herdoc;
 	while (redirect)
 	{
-		if (!ft_strcmp("<<", redirect->str))
+		if (!ft_strcmp("<<", redirect->content))
 		{
 			if (remainder == 0)
 				remainder = 1;
@@ -121,9 +151,9 @@ t_herdoc *fill_herdoc(t_gnl *redirect, t_env *env, t_herdoc **herdoc)
 				*herdoc = (*herdoc)->next;
 			}
 			redirect = redirect->next;
-			(*herdoc)->list = her_doc(redirect->str, env, (*herdoc)->list);
+			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
 			if (!(*herdoc)->list)
-				(*herdoc)->list->str = ft_strdup("");
+				add_to_gnl_lst(&(*herdoc)->list, "");
 		}
 		redirect = redirect->next;
 	}
