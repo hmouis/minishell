@@ -52,32 +52,14 @@ int	main(int ac, char **av, char **env)
 		builtin_export(&list, "a= a   b c ");
 		if (cmd)
 		   fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
-		while (fnl)
+		if (is_builtins(fnl->args->str) != -1)
+			exec_builtins(fnl->args->str);
+		else
 		{
-			while (fnl->args)
-			{
-				printf("args = %s\n",fnl->args->str);
-				fnl->args = fnl->args->next;
-			}
-			while (fnl->redirect)
-			{
-				printf("redirection = %s\n",fnl->redirect->str);
-				fnl->redirect = fnl->redirect->next;
-			}
-			fnl = fnl->next;
-			if (fnl)
-				printf ("there is a pipe here\n");
+			t_exec *exec = gnl_to_array(fnl->args);
+			exec_simple_cmd(exec->args, fnl->args->str);
 		}
-		/*while (new_exp)*/
-		/*{*/
-		/*	while (new_exp->string)*/
-		/*	{*/
-		/*		printf("new_str = {%s}-->{type = %d}\n",new_exp->string->content, new_exp->string->type);*/
-		/*		new_exp->string = new_exp->string->next;*/
-		/*	}*/
-		/*	new_exp = new_exp->next;*/
-		/*	printf("--------------------\n");*/
-		/*}*/
+		fnl->args = fnl->args->next;
 		cmd = NULL;
 		lst = NULL;
 	}
