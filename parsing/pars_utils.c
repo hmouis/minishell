@@ -21,7 +21,7 @@ t_cmd	*node(t_lst *lst)
 {
 	t_cmd	*cmd;
 
-	cmd = malloc(sizeof(t_cmd));
+	cmd = ft_malloc(sizeof(t_cmd), 1);
 	if (!cmd)
 		return (NULL);
 	cmd->arg = NULL;

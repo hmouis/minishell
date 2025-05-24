@@ -76,7 +76,7 @@ char	*ft_strdup(char *s)
 	i = 0;
 	while (s[i])
 		i++;
-	ptr = malloc(sizeof(char) * (i + 1));
+	ptr = ft_malloc(sizeof(char) * (i + 1), 1);
 	i = 0;
 	while (s[i])
 	{
@@ -101,7 +101,7 @@ char	*ft_strtrim(char *s1, const char *set)
 	while (end > start && is_in_set(s1[end - 1], set))
 		end--;
 	len = end - start;
-	trimmed = (char *)malloc(sizeof(char) * (len + 1));
+	trimmed = (char *)ft_malloc(sizeof(char) * (len + 1), 1);
 	if (!trimmed)
 		return (NULL);
 	strncpy(trimmed, &s1[start], len);
@@ -115,7 +115,7 @@ t_env	*env_new_node(char *key, char *data)
 
 	if (!key || !data)
 		return NULL;
-	node = malloc(sizeof(t_env));
+	node = ft_malloc(sizeof(t_env), 1);
 	if (!node)
 		return NULL;
 	node->key = key;
@@ -139,7 +139,7 @@ char	*get_key_env(char *s)
 	}
 	else
 		length = equals_sign - s; 
-	key = malloc(length + 1);
+	key = ft_malloc(length + 1, 1);
 	if (!key)
 		return NULL;
 	strncpy(key, s, length);
@@ -239,7 +239,7 @@ char	*ft_substr(char *s, int start, int len)
 		return ft_strdup("");
 	if (len > s_length - start)
 		len = s_length - start;
-	sub = malloc(len + 1);
+	sub = ft_malloc(len + 1, 1);
 	if (!sub)
 		return NULL;
 	while (i < len && s[start + i])
@@ -314,108 +314,6 @@ void	builtin_export(t_env **env, char *s)
 	first = *env;
 	last->next = env_new_node(key, data);
 }
-
-/*int	parsing_key(char *key)*/
-/*{*/
-/*	int	i;*/
-/**/
-/*	if (!key || !key[0] || (!is_alpha(key[0]) && key[0] != '_' ))*/
-/*	{*/
-/*		ft_putstr_fd("export: `", 2);*/
-/*		ft_putstr_fd(key, 2);*/
-/*		ft_putstr_fd("': not a valid identifier\n", 2);*/
-/*		return (0);*/
-/*	}*/
-/*	i = 1;*/
-/*	while (key[i])*/
-/*	{*/
-/*		if (!is_alnum(key[i]) && key[i] != '_')*/
-/*		{*/
-/*			ft_putstr_fd("export: `", 2);*/
-/*			ft_putstr_fd(key, 2);*/
-/*			ft_putstr_fd("': not a valid identifier here\n", 2);*/
-/*			return (0);*/
-/*		}*/
-/*		i++;*/
-/*	}*/
-/*	return 1;*/
-/*}*/
-/**/
-/*int	parsing_data(char *data)*/
-/*{*/
-/*	if (!data)*/
-/*		return 0;*/
-/*	return 1;*/
-/*}*/
-/**/
-/*void	builtin_export(t_env **env, char *s)*/
-/*{*/
-/*	t_env *last, *first, *current;*/
-/*	char	*key, *data, *equals_sign;*/
-/**/
-/*	equals_sign = ft_strchr(s, '=');*/
-/*	if (equals_sign && (equals_sign > s && equals_sign[-1] == ' '))*/
-/*	{*/
-/*		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);*/
-/*		return;*/
-/*	}*/
-/*	if (equals_sign && equals_sign[1] == ' ')*/
-/*	{*/
-/*		ft_putstr_fd("bash: export: `=': not a valid identifier\n", 2);*/
-/*		return;*/
-/*	}*/
-/*	if (equals_sign)*/
-/*	{*/
-/*		if (equals_sign > s && equals_sign[-1] == ' ')*/
-/*		{*/
-/*		    ft_putstr_fd("export: `=': not a valid identifier here\n", 2);*/
-/*		    return;*/
-/*		}*/
-/**/
-/*		if (equals_sign[1] == ' ')*/
-/*		{*/
-/*		    ft_putstr_fd("export: `", 2);*/
-/*		    ft_putstr_fd(equals_sign + 1, 2);*/
-/*		    ft_putstr_fd("': not a valid identifier here\n", 2);*/
-/*		    return;*/
-/*		}*/
-/*	}*/
-/*	key = get_key_env(s);*/
-/*	data = get_data_env(s);*/
-/*	if (!key || !data)*/
-/*	{*/
-/*		ft_putstr_fd("export: error parsing input\n", 2);*/
-/*		free(key); */
-/*		free(data); */
-/*		return;*/
-/*	}*/
-/*	if (!parsing_key(key))*/
-/*		return (free(key));*/
-/*	if (*env == NULL)*/
-/*		*env = env_new_node(key, data) ;*/
-/*	first = *env;*/
-/*	while (first)*/
-/*	{*/
-/*		if (ft_strcmp(first->key, key) == 0)*/
-/*		{	*/
-/*			free(first->data);*/
-/*			first->data = ft_strdup(data);*/
-/*			first->data = data;*/
-/*			free(key);*/
-/*			return ;*/
-/*		}*/
-/*		if (first->next == NULL)*/
-/*			last = first;*/
-/*		first = first->next;*/
-/*	}*/
-/*	first = *env;*/
-/*	last->next = env_new_node(key, data);*/
-/*	/*while (first)*/
-/*	/*{*/
-/*	/*	printf("%s=%s\n", first->key, first->data);*/
-/*	/*	first = first->next;*/
-/*	/*}*/
-/*}*/
 int	is_alpha(char c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))

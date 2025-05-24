@@ -82,7 +82,7 @@ t_lst	*new_node_c(t_lst *node)
 {
 	t_lst *new_node;
 
-	new_node = malloc(sizeof(t_lst));
+	new_node = ft_malloc(sizeof(t_lst), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->content = node->content;
