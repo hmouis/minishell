@@ -1,0 +1,136 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 10:46:07 by hmouis            #+#    #+#             */
+/*   Updated: 2025/05/24 12:59:57 by hmouis           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+
+char *expand_herdoc(char *str, t_env *env)
+{
+	char *new_str = NULL;
+	char *var_str = NULL;
+	char *tmp = NULL;
+	int i = 0;
+	int len = 0;
+	int start = 0;
+
+	while (str && str[i])
+	{
+		if (str[i] == '$' && check_char(str[i + 1]))
+		{
+			start = i;
+			i++;
+			len++;
+			while (str[i] && var_char(str[i]))
+			{
+				i++;
+				len++;
+			}
+			var_str = ft_strlcpy(var_str, str, len, start);
+			tmp = get_env(var_str + 1, env);
+			if (tmp)
+				new_str = ft_strjoin(new_str, tmp);
+			tmp = NULL;
+			var_str = NULL;
+			continue;
+		}
+		new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
+		i++;
+	}
+	return (new_str);
+}
+
+void put_error_msg(char *str)
+{
+	printf("bash: warning: here-document delimited by end-of-file (wanted `%s')\n", str);
+}
+
+t_herdoc *new_herdoc()
+{
+	t_herdoc *node;
+
+	node = ft_malloc(sizeof(t_herdoc) ,1);
+	if (!node)
+		return (NULL);
+	node->list = NULL;
+	node->next = NULL;
+	return (node);
+}
+
+t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
+{
+	char *line = NULL;
+	int flag = 0;
+	char *var = NULL;
+
+	if (is_quote(del[0]))
+		flag = 1;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			put_error_msg(del);
+			return (lst);
+		}
+		else if (line[0] == '\0')
+			line = char_join(line, 2, '\n');
+		else if (!ft_strcmp(line, del))
+			return (lst);
+		else if (flag)
+			add_to_gnl_lst(&lst, line);
+		else
+		{
+			var = expand_herdoc(line, env);
+			if (var)
+				add_to_gnl_lst(&lst,var);
+		}
+	}
+}
+
+t_herdoc *fill_herdoc(t_gnl *redirect, t_env *env, t_herdoc **herdoc)
+{
+	int remainder = 0;
+	t_herdoc *head = NULL;
+
+	*herdoc = new_herdoc();
+	head = *herdoc;
+	while (redirect)
+	{
+		if (!ft_strcmp("<<", redirect->str))
+		{
+			if (remainder == 0)
+				remainder = 1;
+			else
+			{
+				(*herdoc)->next = new_herdoc();
+				*herdoc = (*herdoc)->next;
+			}
+			redirect = redirect->next;
+			(*herdoc)->list = her_doc(redirect->str, env, (*herdoc)->list);
+		}
+		redirect = redirect->next;
+	}
+	return (head);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
