@@ -25,6 +25,7 @@ execution/add_args_to_array.c \
 execution/exec.c \
 builtins/env.c \
 builtins/export.c \
+builtins/is_builtins.c \
 libft/ft_is_alnum.c \
 libft/ft_is_alpha.c \
 libft/ft_is_digits.c \
