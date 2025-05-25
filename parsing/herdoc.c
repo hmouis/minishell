@@ -115,7 +115,7 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 			return (lst);
 		else if (line[0] == '\0')
 			line = char_join(line, 2, '\n');
-		else if (flag)
+		if (flag)
 		{
 			line = char_join(line, str_len(line) + 1, '\n');	
 			add_to_gnl_lst(&lst, line);
