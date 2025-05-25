@@ -54,34 +54,48 @@ int	main(int ac, char **av, char **env)
 		}
 		add_env_to_list(&list, env);
 		builtin_export(&list, "x=    ls   -l ");
-		if (cmd)
+		int a = 0;
+		t_final_struct *tmp = NULL;
+		t_cmd *c_tmp = NULL;
+		c_tmp = cmd;
+
+		while (cmd)
 		{
-			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
-			fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
-			fnl->herdoc = herdoc;
-		}
-		while (fnl)
-		{
-			/*while (fnl->args)*/
-			/*{*/
-			/*	printf("args = %s\n",fnl->args->str);*/
-			/*	fnl->args = fnl->args->next;*/
-			/*}*/
-			/*while (fnl->redirect)*/
-			/*{*/
-			/*	printf("redirection = %s\n",fnl->redirect->str);*/
-			/*	fnl->redirect = fnl->redirect->next;*/
-			/*}*/
-			while (fnl->herdoc->list)
+			if (a == 1)
+				herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
+			if (a == 0)
 			{
-				printf("%s",fnl->herdoc->list->str);
-				fnl->herdoc->list	= fnl->herdoc->list->next;
+				herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
+				fnl	= creat_new_exp(list, &new_exp, cmd, &fnl);
+				tmp = fnl;
+				a = 1;
 			}
+			fnl->herdoc = herdoc;
+			cmd = cmd->next;
 			fnl = fnl->next;
-			if (fnl)
+		}
+		while (tmp)
+		{
+			/*while (tmp->args)*/
+			/*{*/
+			/*	printf("args = %s\n",tmp->args->str);*/
+			/*	tmp->args = tmp->args->next;*/
+			/*}*/
+			/*while (tmp->redirect)*/
+			/*{*/
+			/*	printf("redirection = %s\n",tmp->redirect->str);*/
+			/*	tmp->redirect = tmp->redirect->next;*/
+			/*}*/
+			while (tmp->herdoc && tmp->herdoc->list)
+			{
+				printf("%s",tmp->herdoc->list->str);
+				tmp->herdoc->list	= tmp->herdoc->list->next;
+			}
+			tmp = tmp->next;
+			if (tmp)
 				printf ("------------------------\n---------------------\n");
 		}
-		fnl = NULL;
+		tmp = NULL;
 		cmd = NULL;
 		lst = NULL;
 	}
