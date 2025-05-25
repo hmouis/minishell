@@ -54,7 +54,10 @@ int	main(int ac, char **av, char **env)
 		if (fnl && fnl->args)
 		{
 			if (is_builtins(fnl->args->str) != -1)
-				exec_builtins(fnl->args->str);
+			{
+				t_exec *exec = gnl_to_array(fnl->args);
+				exec_builtins(exec->args);
+			}
 			else
 			{
 				t_exec *exec = gnl_to_array(fnl->args);
