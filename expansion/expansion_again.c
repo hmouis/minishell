@@ -164,39 +164,43 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 {
 	t_final_struct *head;
 	t_new_exp *tmp = NULL;
+	t_lst *argm = NULL;
+	t_lst *red = NULL;
 
 	*fnl = fnl_node();
 	head = *fnl;
 	while (cmd)
 	{
-		if (cmd->arg)
+		argm = cmd->arg;
+		red = cmd->redirect;
+		if (argm)
 		{
 			*exp = new_lst_node();
 			tmp = *exp;
 		}
-		while (cmd->arg)
+		while (argm)
 		{
-			split_string(cmd->arg->content, exp);
-			cmd->arg = cmd->arg->next;
+			split_string(argm->content, exp);
+			argm = argm->next;
 			(*exp)->next = new_lst_node();
 			*exp = (*exp)->next;
-			if (!cmd->arg)
+			if (!argm)
 				expand(tmp, list, &(*fnl)->args);
 		}
 		*exp = NULL;
 		tmp = NULL;
-		if (cmd->redirect)
+		if (red)
 		{
 			*exp = new_lst_node();
 			tmp = *exp;
 		}
-		while (cmd->redirect)
+		while (red)
 		{
-			split_string(cmd->redirect->content, exp);
-			cmd->redirect = cmd->redirect->next;
+			split_string(red->content, exp);
+			red = red->next;
 			(*exp)->next = new_lst_node();
 			*exp = (*exp)->next;
-			if (!cmd->redirect)
+			if (!red)
 				expand(tmp, list, &(*fnl)->redirect);
 		}
 		cmd = cmd->next;
