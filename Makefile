@@ -15,7 +15,8 @@ parsing/herdoc.c
 
 
 CC= cc
-CFLAGS= -g3 -fsanitize=address
+CFLAGS= -g3 
+#-fsanitize=address
 RFLAG= -lreadline
 
 OBJS= $(SRC:.c=.o)
