@@ -29,41 +29,42 @@ int	main(int ac, char **av, char **env)
 
 	while (1)
 	{
-	    test_line = readline("minishell: ");
-	    add_history(test_line);
-	    if (!test_line)
-		break ;
-	    split_input(test_line, &lst);
-	    if (lst)
-	    {
-		tokens_type(lst);
-		err_msg = pipe_line(lst);
-		if (err_msg)
+		test_line = readline("minishell: ");
+		add_history(test_line);
+		if (!test_line)
+			break ;
+		split_input(test_line, &lst);
+		if (lst)
 		{
-		    error_msg(err_msg);
-		    printf("\n");
-		    lst = NULL;
-		    continue;
+			tokens_type(lst);
+			err_msg = pipe_line(lst);
+			if (err_msg)
+			{
+				error_msg(err_msg);
+				printf("\n");
+				lst = NULL;
+				continue;
+			}
+			else
+				cmd = creat_cmd_struct(&cmd, lst);
 		}
-		else
-		    cmd = creat_cmd_struct(&cmd, lst);
-	    }
-	    add_env_to_list(&list, env);
-	    if (cmd)
-	       fnl = creat_new_exp(list, &new_exp, cmd, &fnl);
-	    if (fnl && fnl->args) {
-		if (is_builtins(fnl->args->str) != -1)
-		    exec_builtins(fnl->args->str);
-		else
+		add_env_to_list(&list, env);
+		if (cmd)
+			fnl = creat_new_exp(list, &new_exp, cmd, &fnl);
+		if (fnl && fnl->args)
 		{
-		    t_exec *exec = gnl_to_array(fnl->args);
-		    if (exec_simple_cmd(exec->args, fnl->args->str) == 0)
-			printf("command not found\n");
-		}
+			if (is_builtins(fnl->args->str) != -1)
+				exec_builtins(fnl->args->str);
+			else
+			{
+				t_exec *exec = gnl_to_array(fnl->args);
+				if (exec_simple_cmd(exec->args, fnl->args->str) == 0)
+				printf("command not found\n");
+			}
 		fnl->args = fnl->args->next;
-	    }
-	    cmd = NULL;
-	    lst = NULL;
+		}
+		cmd = NULL;
+		lst = NULL;
 	}
 }
 
