@@ -210,6 +210,6 @@ int				ft_strcmp(char *s1, char *s2);
 
 //exec
 int	exec_builtins(char *cmd);
-void	exec_simple_cmd(char **cmd, char *path);
+int	exec_simple_cmd(char **cmd, char *path);
 
 #endif
