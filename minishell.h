@@ -175,12 +175,12 @@ void				*new_node(char *content);
 void				add_to_lst(t_lst **lst, char *content);
 
 /*get env*/
-int				is_builtins(char *cmd);
-int				builtin_cd(char **cwd, t_var *var);
+int					is_builtins(char *cmd);
+int					builtin_cd(char **cwd, t_var *var);
 void				builtin_env(t_env *env);
-void				builtin_echo(char **args);
+void				exec_echo(char **args);
 void				builtin_export(t_env **env, char *str);
-int				is_in_set(char c, const char *set);
+int					is_in_set(char c, const char *set);
 t_env				*env_new_node(char *key, char *data);
 char				*get_env(char *str, t_env *env);
 char				*get_env_key(char *s);
@@ -209,7 +209,7 @@ int				ft_strcmp(char *s1, char *s2);
 
 
 //exec
-int	exec_builtins(char *cmd);
+int	exec_builtins(char **cmd);
 int	exec_simple_cmd(char **cmd, char *path);
 
 #endif
