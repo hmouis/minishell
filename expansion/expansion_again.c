@@ -155,6 +155,7 @@ t_final_struct *fnl_node()
 		return (NULL);
 	new_node->args = NULL;
 	new_node->redirect = NULL;
+	new_node->herdoc= NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -175,7 +176,6 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 		}
 		while (cmd->arg)
 		{
-			/*printf("here in args\n");*/
 			split_string(cmd->arg->content, exp);
 			cmd->arg = cmd->arg->next;
 			(*exp)->next = new_lst_node();

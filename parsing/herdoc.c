@@ -100,6 +100,7 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 	int flag = 0;
 	char *var = NULL;
 
+	printf("%s\n",del);
 	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
 		flag = 1;
 	del = remove_quotes(del);
@@ -123,16 +124,13 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 		else
 		{
 			var = expand_herdoc(line, env);
-			if (var)
-			{
-				var	= char_join(var, str_len(var) + 1, '\n');	
-				add_to_gnl_lst(&lst,var);
-			}
+			var	= char_join(var, str_len(var) + 1, '\n');	
+			add_to_gnl_lst(&lst,var);
 		}
 	}
 }
 
-t_herdoc *fill_herdoc(t_gnl*redirect, t_env *env, t_herdoc **herdoc)
+t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 {
 	int remainder = 0;
 	t_herdoc *head = NULL;
@@ -141,7 +139,7 @@ t_herdoc *fill_herdoc(t_gnl*redirect, t_env *env, t_herdoc **herdoc)
 	head = *herdoc;
 	while (redirect)
 	{
-		if (!ft_strcmp("<<", redirect->str))
+		if (!ft_strcmp("<<", redirect->content))
 		{
 			if (remainder == 0)
 				remainder = 1;
@@ -151,7 +149,7 @@ t_herdoc *fill_herdoc(t_gnl*redirect, t_env *env, t_herdoc **herdoc)
 				*herdoc = (*herdoc)->next;
 			}
 			redirect = redirect->next;
-			(*herdoc)->list = her_doc(redirect->str, env, (*herdoc)->list);
+			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
 			if (!(*herdoc)->list)
 				add_to_gnl_lst(&(*herdoc)->list, "");
 		}

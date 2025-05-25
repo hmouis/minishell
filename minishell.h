@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/22 18:32:27 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/24 12:33:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,17 @@ typedef struct s_gnl
 	struct s_gnl *next;
 }				t_gnl;
 
+typedef struct s_herdoc
+{
+	t_gnl *list;
+	struct s_herdoc *next;
+}				t_herdoc;
 
 typedef struct s_final_struct
 {
 	t_gnl *args;
 	t_gnl *redirect;
+	t_herdoc *herdoc;
 	struct s_final_struct *next;
 }				t_final_struct;
 
@@ -94,7 +100,16 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+/*her_doc*/
+t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc);
+t_gnl *her_doc(char *del, t_env *env, t_gnl *lst);
+
 /*new expansion*/
+int check_char(char c);
+void add_to_gnl_lst(t_gnl **lst, char *content);
+void	add_gnl_back(t_gnl **lst, t_gnl *node);
+t_gnl *final_node(char *content);
+t_gnl	*last_node_gnl(t_gnl *lst);
 t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
 char	*ft_strjoin(char *s1, char *s2);
 void expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
