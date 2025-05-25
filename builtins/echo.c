@@ -12,16 +12,16 @@
 
 #include "../minishell.h"
 
-void	builtin_echo(char **args)
+void	exec_echo(char **args)
 {
 	int	newline;
 	int	i;
 
 	i = 1;
-	newline = 0;
+	newline = 1;
 	if (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
-		newline = 1;
+		newline = 0;
 		i++;
 	}
 	while (args[i])
