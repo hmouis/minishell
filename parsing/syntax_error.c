@@ -71,7 +71,7 @@ char	*simple_command(t_lst **lst)
 	{
 		if (!(*lst)->next)
 			return ("end of file");
-		if ((*lst)->next->type != word)
+		if ((*lst)->next->type == op_pipe)
 			return ((*lst)->next->content);
 		*lst = (*lst)->next;
 	}
