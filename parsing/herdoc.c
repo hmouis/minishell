@@ -100,7 +100,6 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 	int flag = 0;
 	char *var = NULL;
 
-	printf("%s\n",del);
 	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
 		flag = 1;
 	del = remove_quotes(del);
