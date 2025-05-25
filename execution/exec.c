@@ -33,7 +33,7 @@ char	*file_location(char *file, char *full_path)
 	char *token = ft_strtok(tmp_path, ":");
 	while (token)
 	{
-		size_t len = str_len(token) + 1 + str_len(file) + 1;
+		int len = str_len(token) + 1 + str_len(file) + 1;
 		char *path = malloc(len);
 		if (!path)
 		{
@@ -59,6 +59,8 @@ char	*file_location(char *file, char *full_path)
 
 char	*file_path(char *file)
 {
+	char	*found;
+	char	*path;
 	if (file && (file[0] == '/' || ft_strchr(file, '/')))
 	{
 		if (access(file, X_OK) == 0)
@@ -66,10 +68,10 @@ char	*file_path(char *file)
 		else
 		    return NULL;
 	}
-	char *path_env = get_path();
-	if (!path_env)
+	path = get_path();
+	if (!path)
 		return NULL;
-	char *found = file_location(file, path_env);
+	found = file_location(file, path);
 	return found;
 }
 
@@ -91,13 +93,13 @@ int	exec_simple_cmd(char **cmd, char *path)
 	{
 		execve(file, cmd, NULL);
 		perror("execve");
-		_exit(127);
+		return 0;
 	}
 	else 
 	{
 		int status;
 		waitpid(child_pid, &status, 0);
 		free(file);
-		return (WIFEXITED(status) && WEXITSTATUS(status) == 0);
+		return -1;
 	}
 }
