@@ -31,10 +31,10 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(char *cmd)
+int	exec_builtins(char **cmd)
 {
-/*	if (is_builtins(cmd) == e_echo)*/
-/*		exec_echo(cmd);*/
+	if (is_builtins(cmd[0]) == e_echo)
+		exec_echo(cmd);
 /*	else if (is_builtins(cmd) == e_cd)*/
 /*		exec_cd(cmd);*/
 /*	else if (is_builtins(cmd) == e_pwd)*/
