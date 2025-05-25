@@ -132,7 +132,7 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 	}
 }
 
-t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
+t_herdoc *fill_herdoc(t_gnl*redirect, t_env *env, t_herdoc **herdoc)
 {
 	int remainder = 0;
 	t_herdoc *head = NULL;
@@ -141,7 +141,7 @@ t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 	head = *herdoc;
 	while (redirect)
 	{
-		if (!ft_strcmp("<<", redirect->content))
+		if (!ft_strcmp("<<", redirect->str))
 		{
 			if (remainder == 0)
 				remainder = 1;
@@ -151,7 +151,7 @@ t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 				*herdoc = (*herdoc)->next;
 			}
 			redirect = redirect->next;
-			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
+			(*herdoc)->list = her_doc(redirect->str, env, (*herdoc)->list);
 			if (!(*herdoc)->list)
 				add_to_gnl_lst(&(*herdoc)->list, "");
 		}
