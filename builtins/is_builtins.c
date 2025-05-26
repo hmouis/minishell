@@ -31,20 +31,20 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(char **cmd)
+int	exec_builtins(t_env **lst_env, char **cmd)
 {
 	if (is_builtins(cmd[0]) == e_echo)
 		exec_echo(cmd);
 /*	else if (is_builtins(cmd) == e_cd)*/
 /*		exec_cd(cmd);*/
-/*	else if (is_builtins(cmd) == e_pwd)*/
-/*		exec_pwd(cmd);*/
-/*	else if (is_builtins(cmd) == e_export)*/
-/*		exec_export(cmd);*/
+	else if (is_builtins(cmd[0]) == e_pwd)
+		exec_pwd();
+	else if (is_builtins(cmd[0]) == e_export)
+		exec_export(lst_env, cmd);
 /*	else if (is_builtins(cmd) == e_unset)*/
 /*		exec_unset(cmd);*/
-/*	else if (is_builtins(cmd) == e_env)*/
-/*		exec_env(cmd);*/
+	else if (is_builtins(cmd[0]) == e_env)
+		exec_env(lst_env);
 /*	else if (is_builtins(cmd) == e_exit)*/
 /*		exec_exit(cmd);*/
 	return 0;
