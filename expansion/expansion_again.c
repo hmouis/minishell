@@ -198,10 +198,10 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 		{
 			split_string(red->content, exp);
 			red = red->next;
-			(*exp)->next = new_lst_node();
-			*exp = (*exp)->next;
 			if (!red)
 				expand(tmp, list, &(*fnl)->redirect);
+			(*exp)->next = new_lst_node();
+			*exp = (*exp)->next;
 		}
 		cmd = cmd->next;
 		if (cmd)
@@ -446,8 +446,9 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 				str = ft_strjoin(str, exp->string->content);
 			exp->string = exp->string->next;
 		}
-		if (str)
-			add_to_gnl_lst(gnl, str);
+		if (!str)
+			str = ft_strdup("");
+		add_to_gnl_lst(gnl, str);
 		exp = exp->next;
 		str = NULL;
 	}
