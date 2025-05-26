@@ -49,7 +49,6 @@ int	main(int ac, char **av, char **env)
 			else
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
-		add_env_to_list(&list, env);
 		if (cmd)
 			fnl = creat_new_exp(list, &new_exp, cmd, &fnl);
 		if (fnl && fnl->args)
