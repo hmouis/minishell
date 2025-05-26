@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-void	builtin_env(t_env *env)
+void	exec_env(t_env **lst)
 {
 	t_env *first;
 
-	first = env;
+	first = *lst;
 	while (first)
 	{
 		printf("%s=%s\n", first->key, first->data);
