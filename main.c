@@ -27,6 +27,7 @@ int	main(int ac, char **av, char **env)
 	t_new_exp *new_exp = NULL;
 	t_final_struct *final_struct = NULL;
 
+	add_env_to_list(&list, env);
 	while (1)
 	{
 		test_line = readline("minishell: ");
@@ -56,7 +57,7 @@ int	main(int ac, char **av, char **env)
 			if (is_builtins(fnl->args->str) != -1)
 			{
 				t_exec *exec = gnl_to_array(fnl->args);
-				exec_builtins(exec->args);
+				exec_builtins(&list, exec->args);
 			}
 			else
 			{
@@ -64,14 +65,10 @@ int	main(int ac, char **av, char **env)
 				if (exec_simple_cmd(exec->args, fnl->args->str) == 0)
 				printf("command not found\n");
 			}
-		fnl->args = fnl->args->next;
+			fnl->args = fnl->args->next;
 		}
 		cmd = NULL;
 		lst = NULL;
 	}
 }
-
-
-
-
 
