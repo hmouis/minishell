@@ -40,7 +40,7 @@ int	exec_builtins(t_env **lst_env, char **cmd)
 	else if (is_builtins(cmd[0]) == e_pwd)
 		exec_pwd();
 	else if (is_builtins(cmd[0]) == e_export)
-		exec_export(lst_env, cmd);
+		exec_export(lst_env, ++cmd);
 /*	else if (is_builtins(cmd) == e_unset)*/
 /*		exec_unset(cmd);*/
 	else if (is_builtins(cmd[0]) == e_env)
