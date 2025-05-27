@@ -75,7 +75,7 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_simple_cmd(char **cmd, char *path)
+int	exec_cmd(char **cmd, char *path ,char *filename, int redirect)
 {
 	if (!cmd || !*cmd || !path)
 		return 0;
@@ -91,8 +91,8 @@ int	exec_simple_cmd(char **cmd, char *path)
 	}
 	if (child_pid == 0)
 	{
+		apply_redirect(filename, redirect);
 		execve(file, cmd, NULL);
-		perror("execve");
 		return 0;
 	}
 	else 
