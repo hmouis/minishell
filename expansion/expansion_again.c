@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_new_exp *new_lst_node()
+t_new_exp *new_lst_node(int type)
 {
 	t_new_exp *new_node;
 
@@ -20,6 +20,7 @@ t_new_exp *new_lst_node()
 	if (!new_node)
 		return (NULL);
 	new_node->string = NULL;
+	new_node->type = type;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -160,6 +161,19 @@ t_final_struct *fnl_node()
 	return (new_node);
 }
 
+int redirect_type(char *str)
+{
+	if (str && !ft_strcmp(str, "<<"))
+		return (2);
+	if (str && !ft_strcmp(str, "<"))
+		return (0);
+	if (str && !ft_strcmp(str, ">>"))
+		return (3);
+	if (str && !ft_strcmp(str, ">"))
+		return (1);
+	return (-1);
+}
+
 t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl)
 {
 	t_final_struct *head;
@@ -175,7 +189,7 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 		red = cmd->redirect;
 		if (argm)
 		{
-			*exp = new_lst_node();
+			*exp = new_lst_node(-1);
 			tmp = *exp;
 		}
 		while (argm)
@@ -184,14 +198,14 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 			argm = argm->next;
 			if (!argm)
 				expand(tmp, list, &(*fnl)->args);
-			(*exp)->next = new_lst_node();
+			(*exp)->next = new_lst_node(-1);
 			*exp = (*exp)->next;
 		}
 		*exp = NULL;
 		tmp = NULL;
 		if (red)
 		{
-			*exp = new_lst_node();
+			*exp = new_lst_node(redirect_type(red->content));
 			tmp = *exp;
 		}
 		while (red)
@@ -199,8 +213,11 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 			split_string(red->content, exp);
 			red = red->next;
 			if (!red)
+			{
 				expand(tmp, list, &(*fnl)->redirect);
-			(*exp)->next = new_lst_node();
+				continue;
+			}
+			(*exp)->next = new_lst_node(redirect_type(red->content));
 			*exp = (*exp)->next;
 		}
 		cmd = cmd->next;
@@ -252,7 +269,7 @@ char *expand_double_quote(char *str, t_env *env)
 	int len = 0;
 	int flag = 0;
 
-	exp = new_lst_node();
+	exp = new_lst_node(-1);
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -317,7 +334,7 @@ char *expand_double_quote(char *str, t_env *env)
 	}
 	return (new_str);
 }
-t_gnl *final_node(char *content)
+t_gnl *final_node(char *content, int type)
 {
 	t_gnl *new_node;
 
@@ -325,6 +342,7 @@ t_gnl *final_node(char *content)
 	if (!new_node)
 		return (NULL);
 	new_node->str = content;
+	new_node->type = type;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -353,11 +371,11 @@ void	add_gnl_back(t_gnl **lst, t_gnl *node)
 	*lst = node;
 }
 
-void add_to_gnl_lst(t_gnl **lst, char *content)
+void add_to_gnl_lst(t_gnl **lst, char *content, int type)
 {
 	t_gnl *node;
 
-	node = final_node(content);
+	node = final_node(content, type);
 	add_gnl_back(lst, node);
 }
 
@@ -416,7 +434,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 					i = 0;
 					if (str && field_str[i] == ' ')
 					{
-						add_to_gnl_lst(gnl, str);
+						add_to_gnl_lst(gnl, str, exp->type);
 						str = NULL;
 					}
 					while (field_str[i])
@@ -430,7 +448,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 						}
 						if (field_str[i] == ' ')
 						{
-							add_to_gnl_lst(gnl, str);
+							add_to_gnl_lst(gnl, str, exp->type);
 							str = NULL;
 						}
 					}
@@ -448,7 +466,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 		}
 		if (!str)
 			str = ft_strdup("");
-		add_to_gnl_lst(gnl, str);
+		add_to_gnl_lst(gnl, str, exp->type);
 		exp = exp->next;
 		str = NULL;
 	}
