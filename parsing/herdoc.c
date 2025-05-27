@@ -118,13 +118,13 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 		if (flag)
 		{
 			line = char_join(line, str_len(line) + 1, '\n');	
-			add_to_gnl_lst(&lst, line);
+			add_to_gnl_lst(&lst, line, -1);
 		}
 		else
 		{
 			var = expand_herdoc(line, env);
 			var	= char_join(var, str_len(var) + 1, '\n');	
-			add_to_gnl_lst(&lst,var);
+			add_to_gnl_lst(&lst, var, -1);
 		}
 	}
 }
@@ -150,7 +150,7 @@ t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 			redirect = redirect->next;
 			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
 			if (!(*herdoc)->list)
-				add_to_gnl_lst(&(*herdoc)->list, "");
+				add_to_gnl_lst(&(*herdoc)->list, "", -1);
 		}
 		redirect = redirect->next;
 	}
