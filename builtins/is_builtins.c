@@ -33,11 +33,12 @@ int	is_builtins(char *cmd)
 
 int	exec_builtins(t_env **lst_env, char **cmd, char *filename, int redirect)
 {
-	int saved_stdout = dup(STDOUT_FILENO);
-	int saved_stdin = dup(STDIN_FILENO);
+	int saved_stdout;
+	int saved_stdin;
 
+	saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
 	apply_redirect(filename, redirect);
-
 	if (is_builtins(cmd[0]) == e_echo)
 		exec_echo(cmd);
 	else if (is_builtins(cmd[0]) == e_pwd)
@@ -46,8 +47,6 @@ int	exec_builtins(t_env **lst_env, char **cmd, char *filename, int redirect)
 		exec_export(lst_env, ++cmd);
 	else if (is_builtins(cmd[0]) == e_env)
 		exec_env(lst_env);
-
-	// Restore stdout and stdin
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
