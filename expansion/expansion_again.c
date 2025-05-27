@@ -197,7 +197,10 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 			split_string(argm->content, exp);
 			argm = argm->next;
 			if (!argm)
+			{
 				expand(tmp, list, &(*fnl)->args);
+				break;
+			}
 			(*exp)->next = new_lst_node(-1);
 			*exp = (*exp)->next;
 		}
@@ -215,7 +218,7 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 			if (!red)
 			{
 				expand(tmp, list, &(*fnl)->redirect);
-				continue;
+				break;
 			}
 			(*exp)->next = new_lst_node(redirect_type(red->content));
 			*exp = (*exp)->next;
@@ -417,6 +420,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 	char *field_str = NULL;
 	int i = 0;
 	int j = 0;
+	int flag = 0;
 
 	while (exp)
 	{
@@ -452,6 +456,8 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 							str = NULL;
 						}
 					}
+					if (i > 0 && field_str[i - 1] == ' ' && !exp->string->next)
+						flag = 1;
 				}
 				field_str = NULL;
 			}
@@ -460,13 +466,15 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 				str = ft_strjoin(str, expand_double_quote(exp->string->content ,env));
 				if(str == NULL)
 					str = ft_strdup("");
-			}else
+			}
+			else
 				str = ft_strjoin(str, exp->string->content);
 			exp->string = exp->string->next;
 		}
-		if (!str)
+		if (!str && flag == 0)
 			str = ft_strdup("");
-		add_to_gnl_lst(gnl, str, exp->type);
+		if (str)
+			add_to_gnl_lst(gnl, str, exp->type);
 		exp = exp->next;
 		str = NULL;
 	}
