@@ -58,8 +58,20 @@ void	exec_export(t_env **env, char **str)
 	char	*key, *value;
 
 	i = 0;
-	 if (!str || !*str)
+	 if (!*str)
+	{
+		t_env	*test = *env;
+		while (test)
+		{
+			printf("declare -x %s", (test)->key);
+			if ((test)->data && ft_strcmp(test->data, ""))
+				printf("=%s\n", (test)->data);
+			else
+				printf("\n");
+			test = test->next;
+		}
 		return ;
+	}
 	while (str[i])
 	{
 		char *s = str[i];
