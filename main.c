@@ -53,7 +53,7 @@ int	main(int ac, char **av, char **env)
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
 		add_env_to_list(&list, env);
-		builtin_export(&list, "x=hello ");
+		builtin_export(&list, "x=");
 		int a = 0;
 		t_final_struct *tmp = NULL;
 		t_cmd *c_tmp = NULL;
