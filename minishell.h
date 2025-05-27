@@ -69,6 +69,7 @@ typedef struct s_var
 typedef struct s_gnl
 {
 	char *str;
+	t_types type;
 	struct s_gnl *next;
 }				t_gnl;
 
@@ -89,6 +90,7 @@ typedef struct s_final_struct
 typedef struct s_new_exp
 {
 	t_lst 		 *string;
+	t_types type;
 	struct s_new_exp *next;
 }				t_new_exp;
 
@@ -106,9 +108,9 @@ t_gnl *her_doc(char *del, t_env *env, t_gnl *lst);
 
 /*new expansion*/
 int check_char(char c);
-void add_to_gnl_lst(t_gnl **lst, char *content);
+void add_to_gnl_lst(t_gnl **lst, char *content, int type);
 void	add_gnl_back(t_gnl **lst, t_gnl *node);
-t_gnl *final_node(char *content);
+t_gnl *final_node(char *content, int type);
 t_gnl	*last_node_gnl(t_gnl *lst);
 t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
 char	*ft_strjoin(char *s1, char *s2);
