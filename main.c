@@ -78,17 +78,17 @@ int	main(int ac, char **av, char **env)
 		{
 			while (tmp->args)
 			{
-				printf("args = %s\n",tmp->args->str);
+				printf("arg = %s <--> type %d \n",tmp->args->str, tmp->args->type);
 				tmp->args = tmp->args->next;
 			}
 			while (tmp->redirect)
 			{
-				printf("redirection = %s\n",tmp->redirect->str);
+				printf("red = %s <--> type %d \n",tmp->redirect->str, tmp->redirect->type);
 				tmp->redirect = tmp->redirect->next;
 			}
 			while (tmp->herdoc && tmp->herdoc->list)
 			{
-				printf("%s",tmp->herdoc->list->str);
+				printf("%s <--> type %d",tmp->herdoc->list->str, tmp->herdoc->list->type);
 				tmp->herdoc->list	= tmp->herdoc->list->next;
 			}
 			tmp = tmp->next;
