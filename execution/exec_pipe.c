@@ -24,19 +24,12 @@ int	existing_pipes(t_final_struct *list)
 int	exec_pipe(t_final_struct *list)
 {
 	int	fd[2];
-	if (pipe(fd) == -1)
-	{
-		printf("error: failed pipe\n");
+	int child_pid;
+
+	if (existing_pipes(list) != 1)
 		return -1;
-	}
-	int childpid = fork();
-	if (childpid == 0)
-	{
-		close(fd[1]);
-	}
-	else
-	{
-		close(fd[0]);
-	}
+	if (pipe(fd) == -1)
+		return (perror("pipe:"), -1);
+	dup2(fd[1], STDOUT_FILENO);
 	return 1;
 }
