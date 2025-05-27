@@ -23,7 +23,7 @@ tokenization/utils1.c \
 expansion/expansion_again.c \
 execution/add_args_to_array.c \
 execution/exec.c \
-execution/exec_redirections.c \
+execution/apply_redirect.c \
 builtins/env.c \
 builtins/echo.c \
 builtins/pwd.c \
