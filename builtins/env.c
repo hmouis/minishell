@@ -19,11 +19,7 @@ void	exec_env(t_env **lst)
 	first = *lst;
 	while (first)
 	{
-		printf("%s", first->key);
-		if (first->data && ft_strcmp(first->data, ""))
-			printf("=%s\n", first->data);
-		else
-			printf("\n");
+		printf("%s=%s\n", first->key, first->data);
 		first = first->next;
 	}
 }
