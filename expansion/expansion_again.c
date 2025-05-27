@@ -182,10 +182,10 @@ t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_
 		{
 			split_string(argm->content, exp);
 			argm = argm->next;
-			(*exp)->next = new_lst_node();
-			*exp = (*exp)->next;
 			if (!argm)
 				expand(tmp, list, &(*fnl)->args);
+			(*exp)->next = new_lst_node();
+			*exp = (*exp)->next;
 		}
 		*exp = NULL;
 		tmp = NULL;
