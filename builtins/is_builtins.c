@@ -31,21 +31,28 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(t_env **lst_env, char **cmd)
+int	exec_builtins(t_env **lst_env, char **cmd, char *filename, int redirect)
 {
+	int saved_stdout = dup(STDOUT_FILENO);
+	int saved_stdin = dup(STDIN_FILENO);
+
+	apply_redirect(filename, redirect);
+
 	if (is_builtins(cmd[0]) == e_echo)
 		exec_echo(cmd);
-/*	else if (is_builtins(cmd) == e_cd)*/
-/*		exec_cd(cmd);*/
 	else if (is_builtins(cmd[0]) == e_pwd)
 		exec_pwd();
 	else if (is_builtins(cmd[0]) == e_export)
 		exec_export(lst_env, ++cmd);
-/*	else if (is_builtins(cmd) == e_unset)*/
-/*		exec_unset(cmd);*/
 	else if (is_builtins(cmd[0]) == e_env)
 		exec_env(lst_env);
-/*	else if (is_builtins(cmd) == e_exit)*/
-/*		exec_exit(cmd);*/
+
+	// Restore stdout and stdin
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
+
 	return 0;
 }
+
