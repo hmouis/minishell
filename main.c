@@ -53,19 +53,22 @@ int	main(int ac, char **av, char **env)
 			fnl = creat_new_exp(list, &new_exp, cmd, &fnl);
 		if (fnl && fnl->args)
 		{
+			t_exec *exec = gnl_to_array(fnl->args);
+			int redirect = -1;
+			char *file = NULL;
+			if (fnl->redirect && fnl->redirect->next)
+				file = fnl->redirect->next->str;
+			if (fnl->redirect)
+			{
+				redirect = type_of_redirect(fnl->redirect->str);
+			}
 			if (is_builtins(fnl->args->str) != -1)
-			{
-				t_exec *exec = gnl_to_array(fnl->args);
-				exec_builtins(&list, exec->args);
-			}
+				exec_builtins(&list, exec->args, file, redirect);
 			else
-			{
-				t_exec *exec = gnl_to_array(fnl->args);
-				if (exec_simple_cmd(exec->args, fnl->args->str) == 0)
-				printf("command not found\n");
-			}
+				exec_cmd(exec->args, fnl->args->str, file, redirect);
 			fnl->args = fnl->args->next;
 		}
+		free(test_line);
 		cmd = NULL;
 		lst = NULL;
 	}
