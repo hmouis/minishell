@@ -19,16 +19,12 @@ int	main(int ac, char **av, char **env)
 	int status = 0;
 	t_final_struct	*fnl = NULL;
 	t_cmd	*cmd = NULL;
-	t_cmd	*head = NULL;
 	char	*err_msg = NULL;
-	int		i = 1;
 	t_env	*list = NULL;
-	t_gnl *gnl = NULL;
 	t_new_exp *new_exp = NULL;
-	t_cmd *tmp = NULL;
 	t_herdoc *herdoc = NULL;
-	t_final_struct *final_struct = NULL;
-
+	(void)ac;
+	(void)av;
 	while (1)
 	{
 		test_line = readline("minishell: ");
