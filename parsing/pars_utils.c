@@ -20,7 +20,7 @@ void	error_msg(char *str, int status)
 		printf("%s",str);
 }
 
-t_cmd	*node(t_lst *lst)
+t_cmd	*node()
 {
 	t_cmd	*cmd;
 

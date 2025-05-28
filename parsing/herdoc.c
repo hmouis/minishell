@@ -68,7 +68,6 @@ t_herdoc *new_herdoc()
 char *remove_quotes(char *str)
 {
 	int i = 0;
-	int count = 0;
 	char quote;
 	char *new_str = NULL;
 

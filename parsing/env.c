@@ -18,7 +18,7 @@ t_env	*env_new_node(char *key, char *data)
 
 	if (!key || !data)
 		return NULL;
-	node = malloc(sizeof(t_env));
+	node = ft_malloc(sizeof(t_env), 1);
 	if (!node)
 		return NULL;
 	node->key = key;

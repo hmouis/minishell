@@ -116,7 +116,7 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 {
 	t_cmd	*head;
 
-	*cmd = node(lst);
+	*cmd = node();
 	head = *cmd;
 	while (lst)
 	{
@@ -134,7 +134,7 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 		}
 		if (lst && lst->type == op_pipe)
 		{
-			(*cmd)->next = node(lst);
+			(*cmd)->next = node();
 			*cmd = (*cmd)->next;
 			lst = lst->next;
 		}
