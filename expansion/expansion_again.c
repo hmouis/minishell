@@ -62,6 +62,7 @@ int split_char(char c)
 }
 
 
+
 void split_string(char *str, t_new_exp **exp)
 {
 	int i = 0;
@@ -352,47 +353,47 @@ t_gnl *final_node(char *content, int type)
 
 t_gnl	*last_node_gnl(t_gnl *lst)
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+if (!lst)
+	return (NULL);
+while (lst->next)
+	lst = lst->next;
+return (lst);
 }
 
 void	add_gnl_back(t_gnl **lst, t_gnl *node)
 {
-	t_gnl	*last;
+t_gnl	*last;
 
-	if (!lst || !node)
-		return ;
-	if (*lst)
-	{
-		last = last_node_gnl(*lst);
-		last->next = node;
-	}
-	else
-	*lst = node;
+if (!lst || !node)
+	return ;
+if (*lst)
+{
+	last = last_node_gnl(*lst);
+	last->next = node;
+}
+else
+*lst = node;
 }
 
 void add_to_gnl_lst(t_gnl **lst, char *content, int type)
 {
-	t_gnl *node;
+t_gnl *node;
 
-	node = final_node(content, type);
-	add_gnl_back(lst, node);
+node = final_node(content, type);
+add_gnl_back(lst, node);
 }
 
 int split_var_arg(char *str, char **field_str)
 {
-	int i = 0;
-	int count = 0;
-	int remainder = 0;
-	int check = 0;
+int i = 0;
+int count = 0;
+int remainder = 0;
+int check = 0;
 
-	while (str && str[i])
+while (str && str[i])
+{
+	if (split_char(str[i]))
 	{
-		if (split_char(str[i]))
-		{
 			i++;
 			remainder = 1;
 			check = 1;

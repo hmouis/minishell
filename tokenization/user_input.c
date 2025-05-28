@@ -26,9 +26,9 @@ int	split_input(char *input, t_lst **lst)
 			break ;
 		if (token_operator(&var, input, lst))
 			continue ;
-		if (token_quote(&var.i, input, lst, &var))
+		if (token_quote(&var.i, input, &var))
 			continue ;
-		if (token_dollar_sign(&var.i, input, lst, &var))
+		if (token_dollar_sign(&var.i, input, &var))
 			continue ;
 		if (token_blank(&var, input, lst))
 			continue ;
