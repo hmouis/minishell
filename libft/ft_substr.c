@@ -26,7 +26,7 @@ char	*ft_substr(char *s, int start, int len)
 		return ft_strdup("");
 	if (len > s_length - start)
 		len = s_length - start;
-	sub = malloc(len + 1);
+	sub = ft_malloc(len + 1, 1);
 	if (!sub)
 		return NULL;
 	while (i < len && s[start + i])
