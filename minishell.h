@@ -241,14 +241,14 @@ int				ft_strcmp(char *s1, char *s2);
 
 
 //exec
-int				exec_builtins(t_env **lst_env, char **cmd, char *filename, int redirect);
-int				exec_cmd(char **cmd, char *path, char *filename, int redirect);
+int				exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc);
+int				exec_cmd(char **env, char **cmd, char *path, t_final_struct *tmp);
 void				exec_env(t_env **lst);
 void				exec_echo(char **args);
 void				exec_export(t_env **env, char **str);
 void				exec_pwd();
 int				type_of_redirect(char *redirect);
-int				apply_redirect(char *file, int redirect);
+int				apply_redirect(t_final_struct *struc);
 
 /*garbage collector*/
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
