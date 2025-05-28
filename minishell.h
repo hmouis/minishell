@@ -102,6 +102,19 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }					t_cmd;
 
+/*libft*/
+int	is_alnum(char c);
+int	is_alpha(char c);
+int	ft_is_digits(char c);
+void	ft_putstr_fd(char *s, int fd);
+char	*ft_strcat(char *s1,  char *s2);
+char	*ft_strchr(char *s, char c);
+char	*ft_strdup(char *s);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strtok(char *str, char *delim);
+char	*ft_substr(char *s, int start, int len);
+
+
 /*her_doc*/
 t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc);
 t_gnl *her_doc(char *del, t_env *env, t_gnl *lst);
@@ -123,10 +136,10 @@ char				*replace_empty_var(char *str);
 int					var_char(char c);
 
 /*syntax errors*/
-void				error_msg(char *str);
+void				error_msg(char *str, int status);
 char				*check_quote(char *str);
 int					is_quote(char c);
-char				*pipe_line(t_lst *lst);
+char				*pipe_line(t_lst *lst, int *status);
 char				*simple_command(t_lst **lst);
 void				add_to_lst_c(t_lst **lst, t_lst *node);
 t_lst				*new_node_c(t_lst *node);
