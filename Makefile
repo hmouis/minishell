@@ -25,7 +25,7 @@ libft/ft_strtok.c \
 libft/ft_substr.c \
 
 CC= cc
-CFLAGS= -g3 
+CFLAGS= -g3 -Wall -Wextra -Werror 
 #-fsanitize=address
 RFLAG= -lreadline
 
