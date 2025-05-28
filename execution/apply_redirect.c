@@ -25,53 +25,63 @@ int	type_of_redirect(char *redirect)
 	return -1;
 }
 
-void	append_(char* filename)
+int	append_(char* filename)
 {
 	int fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		perror("open for append");
-		return;
-	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-}
-
-int	apply_redirect(char *file, int redirect)
-{
-	int	fd;
-
-	if (!file)
 		return -1;
-	if (redirect == op_redirect_input)
-	{
-		fd = open(file, O_RDONLY);
-		if (fd < 0)
-		{
-			perror("open:");
-			return -1;
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-		return 1;
 	}
-	else if (redirect == op_redirect_output)
-	{
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			perror("open:");
-			return -1;
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-		return 1;
-	}
-	else if (redirect == op_append)
-	{
-		append_(file);
-		return 1;
-	}
-	return -1;
+	return fd;
 }
 
+int	apply_redirect(t_final_struct *struc)
+{
+	int	fd = -1;
+	int	redirect;
+	t_final_struct	*tmp = struc;
+
+	while (tmp->redirect)
+	{
+		if (!tmp->redirect->next)
+		{
+			ft_putstr_fd("syntax error: missing file for redirection\n", 2);
+			return -1;
+		}
+
+		redirect = type_of_redirect(tmp->redirect->str);
+		if (redirect == op_redirect_input && tmp->redirect->type != -1)
+		{
+			fd = open(tmp->redirect->next->str, O_RDONLY);
+			if (fd < 0)
+			{
+				perror("open failed ");
+				return -1;
+			}
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if (redirect == op_redirect_output && tmp->redirect->type != -1)
+		{
+			fd = open(tmp->redirect->next->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
+			{
+				perror("open:");
+				return -1;
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (redirect == op_append && tmp->redirect->type != -1)
+		{
+			fd = append_(tmp->redirect->next->str);
+			if (fd < 0)
+				return -1;
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		tmp->redirect = tmp->redirect->next->next;
+	}
+	return 0;
+}
