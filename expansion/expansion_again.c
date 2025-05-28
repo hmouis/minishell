@@ -12,14 +12,15 @@
 
 #include "../minishell.h"
 
-t_new_exp *new_lst_node()
+t_new_exp *new_lst_node(int type)
 {
 	t_new_exp *new_node;
 
-	new_node = malloc(sizeof(t_new_exp));
+	new_node = ft_malloc(sizeof(t_new_exp), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->string = NULL;
+	new_node->type = type;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -28,7 +29,7 @@ static void	*new_node_(char *content, int flag)
 {
 	t_lst	*node;
 
-	node = malloc(sizeof(t_lst));
+	node = ft_malloc(sizeof(t_lst), 1);
 	if (!node)
 		return (NULL);
 	node->content = content;
@@ -150,54 +151,74 @@ t_final_struct *fnl_node()
 {
 	t_final_struct *new_node;
 
-	new_node = malloc(sizeof(t_final_struct));
+	new_node = ft_malloc(sizeof(t_final_struct), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->args = NULL;
 	new_node->redirect = NULL;
+	new_node->herdoc= NULL;
 	new_node->next = NULL;
 	return (new_node);
+}
+
+int redirect_type(char *str)
+{
+	if (str && !ft_strcmp(str, "<<"))
+		return (2);
+	if (str && !ft_strcmp(str, "<"))
+		return (0);
+	if (str && !ft_strcmp(str, ">>"))
+		return (3);
+	if (str && !ft_strcmp(str, ">"))
+		return (1);
+	return (-1);
 }
 
 t_final_struct *creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl)
 {
 	t_final_struct *head;
 	t_new_exp *tmp = NULL;
+	t_lst *argm = NULL;
+	t_lst *red = NULL;
 
 	*fnl = fnl_node();
 	head = *fnl;
 	while (cmd)
 	{
-		if (cmd->arg)
+		argm = cmd->arg;
+		red = cmd->redirect;
+		if (argm)
 		{
-			*exp = new_lst_node();
+			*exp = new_lst_node(-1);
 			tmp = *exp;
 		}
-		while (cmd->arg)
+		while (argm)
 		{
-			/*printf("here in args\n");*/
-			split_string(cmd->arg->content, exp);
-			cmd->arg = cmd->arg->next;
-			(*exp)->next = new_lst_node();
-			*exp = (*exp)->next;
-			if (!cmd->arg)
+			split_string(argm->content, exp);
+			argm = argm->next;
+			if (!argm)
 				expand(tmp, list, &(*fnl)->args);
+			(*exp)->next = new_lst_node(-1);
+			*exp = (*exp)->next;
 		}
 		*exp = NULL;
 		tmp = NULL;
-		if (cmd->redirect)
+		if (red)
 		{
-			*exp = new_lst_node();
+			*exp = new_lst_node(redirect_type(red->content));
 			tmp = *exp;
 		}
-		while (cmd->redirect)
+		while (red)
 		{
-			split_string(cmd->redirect->content, exp);
-			cmd->redirect = cmd->redirect->next;
-			(*exp)->next = new_lst_node();
-			*exp = (*exp)->next;
-			if (!cmd->redirect)
+			split_string(red->content, exp);
+			red = red->next;
+			if (!red)
+			{
 				expand(tmp, list, &(*fnl)->redirect);
+				continue;
+			}
+			(*exp)->next = new_lst_node(redirect_type(red->content));
+			*exp = (*exp)->next;
 		}
 		cmd = cmd->next;
 		if (cmd)
@@ -249,7 +270,7 @@ char *expand_double_quote(char *str, t_env *env)
 	int len = 0;
 	int flag = 0;
 
-	exp = new_lst_node();
+	exp = new_lst_node(-1);
 	while (str[i])
 	{
 		if (str[i] == '$')
@@ -314,14 +335,15 @@ char *expand_double_quote(char *str, t_env *env)
 	}
 	return (new_str);
 }
-t_gnl *final_node(char *content)
+t_gnl *final_node(char *content, int type)
 {
 	t_gnl *new_node;
 
-	new_node = malloc(sizeof(t_gnl));
+	new_node = ft_malloc(sizeof(t_gnl), 1);
 	if (!new_node)
 		return (NULL);
 	new_node->str = content;
+	new_node->type = type;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -350,11 +372,11 @@ void	add_gnl_back(t_gnl **lst, t_gnl *node)
 	*lst = node;
 }
 
-void add_to_gnl_lst(t_gnl **lst, char *content)
+void add_to_gnl_lst(t_gnl **lst, char *content, int type)
 {
 	t_gnl *node;
 
-	node = final_node(content);
+	node = final_node(content, type);
 	add_gnl_back(lst, node);
 }
 
@@ -413,7 +435,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 					i = 0;
 					if (str && field_str[i] == ' ')
 					{
-						add_to_gnl_lst(gnl, str);
+						add_to_gnl_lst(gnl, str, exp->type);
 						str = NULL;
 					}
 					while (field_str[i])
@@ -427,7 +449,7 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 						}
 						if (field_str[i] == ' ')
 						{
-							add_to_gnl_lst(gnl, str);
+							add_to_gnl_lst(gnl, str, exp->type);
 							str = NULL;
 						}
 					}
@@ -443,8 +465,9 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 				str = ft_strjoin(str, exp->string->content);
 			exp->string = exp->string->next;
 		}
-		if (str)
-			add_to_gnl_lst(gnl, str);
+		if (!str)
+			str = ft_strdup("");
+		add_to_gnl_lst(gnl, str, exp->type);
 		exp = exp->next;
 		str = NULL;
 	}
@@ -458,7 +481,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s2)
 		return (s1);
-	new = malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1));
+	new = ft_malloc(sizeof(char) * (str_len(s1) + str_len(s2) + 1), 1);
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -480,7 +503,7 @@ char *char_join(char *str, int count, char c)
 {
 	int j = 0;
 	char *new_str;
-	new_str = malloc(sizeof(char) * count + 1);
+	new_str = ft_malloc(sizeof(char) * count + 1, 1);
 	if (!new_str)
 		return (NULL);
 	while (str && str[j])

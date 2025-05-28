@@ -16,7 +16,7 @@ void	*new_node(char *content)
 {
 	t_lst	*node;
 
-	node = malloc(sizeof(t_lst));
+	node = ft_malloc(sizeof(t_lst), 1);
 	if (!node)
 		return (NULL);
 	node->content = content;

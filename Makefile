@@ -40,6 +40,9 @@ libft/ft_strdup.c \
 libft/ft_strncpy.c \
 libft/ft_strtok.c \
 libft/ft_substr.c \
+expansion/expansion_again.c \
+gc/garbage_collector.c \
+parsing/herdoc.c
 
 
 CC= cc

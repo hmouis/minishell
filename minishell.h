@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/21 18:44:09 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/05/24 12:33:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ typedef enum	e_builtins_type
 	e_exit,
 }		t_builtins_type;
 
+typedef struct s_list
+{
+	void			*content;
+	struct s_list	*next;
+}					t_list;
+
 typedef struct s_lst
 {
 	char			*content;
@@ -82,27 +88,37 @@ typedef struct s_exp
 	struct s_exp		*next;
 }				t_exp;
 
-typedef struct s_gnl
-{
-	char			*str;
-	struct s_gnl		*next;
-}				t_gnl;
-
 typedef struct	s_exec
 {
 	char			**args;
 }				t_exec;
 
+
+typedef struct s_gnl
+{
+	char *str;
+	t_types type;
+	struct s_gnl *next;
+}				t_gnl;
+
+typedef struct s_herdoc
+{
+	t_gnl *list;
+	struct s_herdoc *next;
+}				t_herdoc;
+
 typedef struct s_final_struct
 {
-	t_gnl			*args;
-	t_gnl			*redirect;
-	struct s_final_struct	*next;
+	t_gnl *args;
+	t_gnl *redirect;
+	t_herdoc *herdoc;
+	struct s_final_struct *next;
 }				t_final_struct;
 
 typedef struct s_new_exp
 {
 	t_lst 			*string;
+	t_types type;
 	struct s_new_exp	*next;
 }				t_new_exp;
 
@@ -113,6 +129,10 @@ typedef struct s_cmd
 	t_lst			*redirect;
 	struct s_cmd		*next;
 }				t_cmd;
+
+/*her_doc*/
+t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc);
+t_gnl *her_doc(char *del, t_env *env, t_gnl *lst);
 
 /*new expansion*/
 t_final_struct			*creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
@@ -135,6 +155,20 @@ t_exp				*last_node_var(t_exp *lst);
 void				add_var_back(t_exp **lst, t_exp *node);
 void				add_to_var_lst(t_exp **lst, char *content);
 int				tokenize_dollar_sign(t_exp **exp, char *str);
+int				check_char(char c);
+void 				add_to_gnl_lst(t_gnl **lst, char *content, int type);
+void				add_gnl_back(t_gnl **lst, t_gnl *node);
+t_gnl 				*final_node(char *content, int type);
+t_gnl				*last_node_gnl(t_gnl *lst);
+t_final_struct			*creat_new_exp(t_env *list, t_new_exp **exp, t_cmd *cmd, t_final_struct **fnl);
+char				*ft_strjoin(char *s1, char *s2);
+void				expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
+int				is_digit(char c);
+char				**ft_split(char *s, char c);
+int				str_len(char *str);
+char				*char_join(char *str, int count, char c);
+char				*replace_empty_var(char *str);
+int				var_char(char c);
 
 /*syntax errors*/
 void				error_msg(char *str);
@@ -215,5 +249,17 @@ void				exec_export(t_env **env, char **str);
 void				exec_pwd();
 int				type_of_redirect(char *redirect);
 int				apply_redirect(char *file, int redirect);
+
+/*garbage collector*/
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void *ft_malloc(size_t size, int flag);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstadd_front(t_list **lst, t_list *new_);
+
+
+
+
+
+
 
 #endif

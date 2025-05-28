@@ -74,3 +74,4 @@ int	apply_redirect(char *file, int redirect)
 	}
 	return -1;
 }
+
