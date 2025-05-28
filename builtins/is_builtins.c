@@ -31,14 +31,14 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(t_env **lst_env, char **cmd, char *filename, int redirect)
+int	exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc)
 {
 	int saved_stdout;
 	int saved_stdin;
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	apply_redirect(filename, redirect);
+	apply_redirect(struc);
 	if (is_builtins(cmd[0]) == e_echo)
 		exec_echo(cmd);
 	else if (is_builtins(cmd[0]) == e_pwd)
