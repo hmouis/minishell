@@ -54,18 +54,13 @@ int	main(int ac, char **av, char **env)
 		if (fnl && fnl->args)
 		{
 			t_exec *exec = gnl_to_array(fnl->args);
-			int redirect = -1;
 			char *file = NULL;
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
-			if (fnl->redirect)
-			{
-				redirect = type_of_redirect(fnl->redirect->str);
-			}
 			if (is_builtins(fnl->args->str) != -1)
-				exec_builtins(&list, exec->args, file, redirect);
+				exec_builtins(&list, exec->args, fnl);
 			else
-				exec_cmd(exec->args, fnl->args->str, file, redirect);
+				exec_cmd(env, exec->args, fnl->args->str, fnl);
 			fnl->args = fnl->args->next;
 		}
 		free(test_line);
