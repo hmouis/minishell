@@ -62,6 +62,7 @@ int split_char(char c)
 }
 
 
+
 void split_string(char *str, t_new_exp **exp)
 {
 	int i = 0;
@@ -416,7 +417,6 @@ void expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 	char *tmp = NULL;
 	char *field_str = NULL;
 	int i = 0;
-	int j = 0;
 
 	while (exp)
 	{
