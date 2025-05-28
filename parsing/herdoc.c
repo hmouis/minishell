@@ -114,8 +114,11 @@ t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 		else if (!ft_strcmp(line, del))
 			return (lst);
 		else if (line[0] == '\0')
+		{
 			line = char_join(line, 2, '\n');
-		if (flag)
+			add_to_gnl_lst(&lst, line, -1);
+		}
+		else if (flag)
 		{
 			line = char_join(line, str_len(line) + 1, '\n');	
 			add_to_gnl_lst(&lst, line, -1);
