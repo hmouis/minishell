@@ -25,7 +25,7 @@ char	*pipe_line(t_lst *lst, int *status)
 	{
 		if (tmp->type == op_herdoc)
 			number_of_herdoc++;
-		if (number_of_herdoc == 16)
+		if (number_of_herdoc == 17)
 		{
 			*status = 1;
 			return ("bash: maximum here-document count exceeded");
