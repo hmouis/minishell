@@ -16,6 +16,7 @@ int	main(int ac, char **av, char **env)
 {
 	char	*test_line = NULL;
 	t_lst	*lst = NULL;
+	int status = 0;
 	t_final_struct	*fnl = NULL;
 	t_cmd	*cmd = NULL;
 	t_cmd	*head = NULL;
@@ -41,10 +42,11 @@ int	main(int ac, char **av, char **env)
 		if (lst)
 		{
 			tokens_type(lst);
-			err_msg = pipe_line(lst);
+			err_msg = pipe_line(lst, &status);
 			if (err_msg)
 			{
-				error_msg(err_msg);
+				error_msg(err_msg, status);
+				status = 0;
 				printf("\n");
 				lst = NULL;
 				continue;
@@ -53,7 +55,6 @@ int	main(int ac, char **av, char **env)
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
 		add_env_to_list(&list, env);
-		builtin_export(&list, "x=>> <");
 		int a = 0;
 		t_final_struct *tmp = NULL;
 		t_cmd *c_tmp = NULL;
@@ -76,19 +77,19 @@ int	main(int ac, char **av, char **env)
 		}
 		while (tmp)
 		{
-			while (tmp->args)
-			{
-				printf("arg = %s <--> type %d \n",tmp->args->str, tmp->args->type);
-				tmp->args = tmp->args->next;
-			}
-			while (tmp->redirect)
-			{
-				printf("red = %s <--> type %d \n",tmp->redirect->str, tmp->redirect->type);
-				tmp->redirect = tmp->redirect->next;
-			}
+			/*while (tmp->args)*/
+			/*{*/
+			/*	printf("arg = %s <--> type %d \n",tmp->args->str, tmp->args->type);*/
+			/*	tmp->args = tmp->args->next;*/
+			/*}*/
+			/*while (tmp->redirect)*/
+			/*{*/
+			/*	printf("red = %s <--> type %d \n",tmp->redirect->str, tmp->redirect->type);*/
+			/*	tmp->redirect = tmp->redirect->next;*/
+			/*}*/
 			while (tmp->herdoc && tmp->herdoc->list)
 			{
-				printf("%s <--> type %d",tmp->herdoc->list->str, tmp->herdoc->list->type);
+				printf("%s",tmp->herdoc->list->str);
 				tmp->herdoc->list	= tmp->herdoc->list->next;
 			}
 			tmp = tmp->next;
