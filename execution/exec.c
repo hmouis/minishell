@@ -75,7 +75,7 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_cmd(char **cmd, char *path ,char *filename, int redirect)
+int	exec_cmd(char **env, char **cmd, char *path, t_final_struct *struc)
 {
 	if (!cmd || !*cmd || !path)
 		return 0;
@@ -91,8 +91,8 @@ int	exec_cmd(char **cmd, char *path ,char *filename, int redirect)
 	}
 	if (child_pid == 0)
 	{
-		apply_redirect(filename, redirect);
-		execve(file, cmd, NULL);
+		apply_redirect(struc);
+		execve(file, cmd, env);
 		return 0;
 	}
 	else 
