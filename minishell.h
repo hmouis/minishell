@@ -153,9 +153,9 @@ int					charchr(char *str, int c);
 char				*ft_strlcpy(char *token, char *input, int len, int j);
 
 /*tokenizing*/
-int					token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var);
+int					token_dollar_sign(int *i, char *input, t_var *var);
 int					split_input(char *input, t_lst **lst);
-int					token_quote(int *i, char *input, t_lst **lst, t_var *var);
+int					token_quote(int *i, char *input, t_var *var);
 int					token_operator(t_var *var, char *input, t_lst **lst);
 int					end_of_input(t_var *var, char *input, t_lst **lst);
 int					creat_token(t_var *var, char *input, t_lst **lst);
@@ -168,7 +168,7 @@ int					is_pipe(t_lst *lst);
 
 /*linked list*/
 t_cmd				*creat_cmd_struct(t_cmd **cmd, t_lst *lst);
-t_cmd				*node(t_lst *lst);
+t_cmd				*node();
 t_lst				*last_node(t_lst *lst);
 void				add_back(t_lst **lst, t_lst *node);
 void				*new_node(char *content);
