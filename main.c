@@ -51,7 +51,6 @@ int	main(int ac, char **av, char **env)
 				cmd = creat_cmd_struct(&cmd, lst);
 		}
 		add_env_to_list(&list, env);
-		builtin_export(&list, "x=");
 		int a = 0;
 		t_final_struct *tmp = NULL;
 		t_cmd *c_tmp = NULL;
@@ -74,16 +73,16 @@ int	main(int ac, char **av, char **env)
 		}
 		while (tmp)
 		{
-			/*while (tmp->args)*/
-			/*{*/
-			/*	printf("arg = %s <--> type %d \n",tmp->args->str, tmp->args->type);*/
-			/*	tmp->args = tmp->args->next;*/
-			/*}*/
-			/*while (tmp->redirect)*/
-			/*{*/
-			/*	printf("red = %s <--> type %d \n",tmp->redirect->str, tmp->redirect->type);*/
-			/*	tmp->redirect = tmp->redirect->next;*/
-			/*}*/
+			while (tmp->args)
+			{
+				printf("arg = %s <--> type %d \n",tmp->args->str, tmp->args->type);
+				tmp->args = tmp->args->next;
+			}
+			while (tmp->redirect)
+			{
+				printf("red = %s <--> type %d \n",tmp->redirect->str, tmp->redirect->type);
+				tmp->redirect = tmp->redirect->next;
+			}
 			while (tmp->herdoc && tmp->herdoc->list)
 			{
 				printf("%s",tmp->herdoc->list->str);
