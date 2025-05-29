@@ -91,6 +91,7 @@ int	main(int ac, char **av, char **env)
 		add_env_to_list(&list, env);
 		fnl	= fill_fnl(cmd, fnl, list);
 		cmd = NULL;
+		fnl = NULL;
 	}
 }
 
