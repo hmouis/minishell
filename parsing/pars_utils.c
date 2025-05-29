@@ -15,9 +15,9 @@
 void	error_msg(char *str, int status)
 {
 	if (status == 0)
-		printf("bash: syntax error near unexpected token `%s'", str);
+		printf("bash: syntax error near unexpected token `%s'\n", str);
 	else
-		printf("%s",str);
+		printf("%s\n",str);
 }
 
 t_cmd	*node()

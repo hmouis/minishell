@@ -65,26 +65,34 @@ t_herdoc *new_herdoc()
 	return (node);
 }
 
+int add_inside_quote(char *str, char **new_str, int *i)
+{
+	char quote;
+
+	if (!is_quote(str[*i]))
+		return (0);
+	quote = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != quote)
+	{
+		*new_str = char_join(*new_str, str_len(*new_str) + 1, str[*i]);
+		(*i)++;
+	}
+	(*i)++;
+	return (1);
+}
+
 char *remove_quotes(char *str)
 {
-	int i = 0;
-	char quote;
-	char *new_str = NULL;
+	int i;
+	char *new_str;
 
+	new_str = NULL;
+	i = 0;
 	while (str[i])
 	{
-		if (is_quote(str[i]))
-		{
-			quote = str[i];
-			i++;
-			while (str[i] && str[i] != quote)
-			{
-				new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
-				i++;
-			}
-			i++;
+		if (add_inside_quote(str, &new_str, &i))
 			continue;
-		}
 		new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
 		i++;
 	}
@@ -116,7 +124,6 @@ void fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
 		var	= char_join(var, str_len(var) + 1, '\n');	
 		add_to_gnl_lst(lst, var, -1);
 	}
-
 }
 
 t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)

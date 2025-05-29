@@ -173,7 +173,7 @@ t_final_struct *fnl_node()
 		return (NULL);
 	new_node->args = NULL;
 	new_node->redirect = NULL;
-	new_node->herdoc= NULL;
+	new_node->herdoc = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
