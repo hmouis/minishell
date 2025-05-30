@@ -37,7 +37,7 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
-			free(current->data);
+			current->data = NULL;
 			current->data = ft_strdup(value);
 			return;
 		}
@@ -58,20 +58,6 @@ void	exec_export(t_env **env, char **str)
 	char	*key, *value;
 
 	i = 0;
-	 if (!*str)
-	{
-		t_env	*test = *env;
-		while (test)
-		{
-			printf("declare -x %s", (test)->key);
-			if ((test)->data && ft_strcmp(test->data, ""))
-				printf("=%s\n", (test)->data);
-			else
-				printf("\n");
-			test = test->next;
-		}
-		return ;
-	}
 	while (str[i])
 	{
 		char *s = str[i];
@@ -93,17 +79,13 @@ void	exec_export(t_env **env, char **str)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(str[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			free(key);
 			return ;
 		}
 		if (value)
 			add_or_update_env(env, key, value);
 		else
 			add_or_update_env(env, key, "");
-		free(key);
 		i++;
 	}
-	if (value) 
-		free(value);
 }
 
