@@ -64,9 +64,11 @@ t_list **get_list()
 
 void *ft_malloc(size_t size, int flag)
 {
-	t_list *node = NULL;
-	void *ptr = NULL;
+	t_list *node;
+	void *ptr;
 
+	node = NULL;
+	ptr = NULL;
 	if (flag == 0)
 	{
 		ft_lstclear(get_list(), free);
