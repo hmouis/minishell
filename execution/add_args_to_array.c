@@ -35,7 +35,7 @@ t_gnl	*cr_node(char *s)
 		return NULL;
 	t_gnl	*node;
 
-	node = malloc(sizeof(t_gnl));
+	node = ft_malloc(sizeof(t_gnl), 1);
 	node->str = s;
 	node->next = NULL;
 	return node;
@@ -50,8 +50,8 @@ t_exec	*gnl_to_array(t_gnl *head)
 
 	tmp = head;
 	counter = len_nodes(head);
-	arg = malloc(sizeof(t_exec));
-	arg->args = malloc(sizeof(char *) * (counter + 1));
+	arg = ft_malloc(sizeof(t_exec), 1);
+	arg->args = ft_malloc(sizeof(char *) * (counter + 1), 1);
 	i = 0;
 	while (tmp)
 	{
