@@ -12,12 +12,15 @@
 
 #include "../minishell.h"
 
-void	error_msg(char *str)
+void	error_msg(char *str, int status)
 {
-	printf("bash: syntax error near unexpected token `%s'", str);
+	if (status == 0)
+		printf("bash: syntax error near unexpected token `%s'\n", str);
+	else
+		printf("%s\n",str);
 }
 
-t_cmd	*node(t_lst *lst)
+t_cmd	*node()
 {
 	t_cmd	*cmd;
 
