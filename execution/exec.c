@@ -34,11 +34,10 @@ char	*file_location(char *file, char *full_path)
 	while (token)
 	{
 		int len = str_len(token) + 1 + str_len(file) + 1;
-		char *path = malloc(len);
+		char *path = ft_malloc(len, 1);
 		if (!path)
 		{
 			ft_putstr_fd("error: malloc failed\n", 2);
-			free(tmp_path);
 			return NULL;
 		}
 		ft_strncpy(path, token, str_len(token));
@@ -46,14 +45,9 @@ char	*file_location(char *file, char *full_path)
 		ft_strcat(path, "/");
 		ft_strcat(path, file);
 		if (access(path, X_OK) == 0)
-		{
-			free(tmp_path);
 			return path;
-		}
-		free(path);
 		token = ft_strtok(NULL, ":");
 	}
-	free(tmp_path);
 	return NULL;
 }
 
@@ -86,12 +80,12 @@ int	exec_cmd(char **env, char **cmd, char *path, t_final_struct *struc)
 	if (child_pid == -1)
 	{
 		perror("fork");
-		free(file);
 		return 0;
 	}
 	if (child_pid == 0)
 	{
-		apply_redirect(struc);
+		if (apply_redirect(struc) == -1)
+			exit(1);
 		execve(file, cmd, env);
 		return 0;
 	}
@@ -99,7 +93,6 @@ int	exec_cmd(char **env, char **cmd, char *path, t_final_struct *struc)
 	{
 		int status;
 		waitpid(child_pid, &status, 0);
-		free(file);
 		return -1;
 	}
 }
