@@ -1,0 +1,16 @@
+a.out
+cursus
+Desktop
+Documents
+Downloads
+goinfre
+main.c
+minishell
+Music
+osama
+out.txt
+Pictures
+Public
+simple_shell
+Templates
+Videos
