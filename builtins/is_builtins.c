@@ -38,7 +38,8 @@ int	exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc)
 
 	saved_stdout = dup(STDOUT_FILENO);
 	saved_stdin = dup(STDIN_FILENO);
-	apply_redirect(struc);
+	if (apply_redirect(struc) == -1)
+		return -1;
 	if (is_builtins(cmd[0]) == e_echo)
 		exec_echo(cmd);
 	else if (is_builtins(cmd[0]) == e_pwd)
