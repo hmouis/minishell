@@ -12,13 +12,26 @@
 
 #include "../minishell.h"
 
-char	*pipe_line(t_lst *lst)
+char	*pipe_line(t_lst *lst, int *status)
 {
 	char	*err_msg;
+	t_lst *tmp = lst;
+	int number_of_herdoc = 0;
 
 	err_msg = NULL;
 	if (lst->type == op_pipe)
 		return (lst->content);
+	while (tmp)
+	{
+		if (tmp->type == op_herdoc)
+			number_of_herdoc++;
+		if (number_of_herdoc == 17)
+		{
+			*status = 1;
+			return ("bash: maximum here-document count exceeded");
+		}
+		tmp = tmp->next;
+	}
 	while (lst)
 	{
 		while (lst && lst->type == word)
@@ -103,7 +116,7 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 {
 	t_cmd	*head;
 
-	*cmd = node(lst);
+	*cmd = node();
 	head = *cmd;
 	while (lst)
 	{
@@ -121,11 +134,10 @@ t_cmd	*creat_cmd_struct(t_cmd **cmd, t_lst *lst)
 		}
 		if (lst && lst->type == op_pipe)
 		{
-			(*cmd)->next = node(lst);
+			(*cmd)->next = node();
 			*cmd = (*cmd)->next;
 			lst = lst->next;
 		}
 	}
 	return (head);
 }
-
