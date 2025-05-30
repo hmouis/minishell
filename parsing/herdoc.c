@@ -65,27 +65,34 @@ t_herdoc *new_herdoc()
 	return (node);
 }
 
+int add_inside_quote(char *str, char **new_str, int *i)
+{
+	char quote;
+
+	if (!is_quote(str[*i]))
+		return (0);
+	quote = str[*i];
+	(*i)++;
+	while (str[*i] && str[*i] != quote)
+	{
+		*new_str = char_join(*new_str, str_len(*new_str) + 1, str[*i]);
+		(*i)++;
+	}
+	(*i)++;
+	return (1);
+}
+
 char *remove_quotes(char *str)
 {
-	int i = 0;
-	int count = 0;
-	char quote;
-	char *new_str = NULL;
+	int i;
+	char *new_str;
 
+	new_str = NULL;
+	i = 0;
 	while (str[i])
 	{
-		if (is_quote(str[i]))
-		{
-			quote = str[i];
-			i++;
-			while (str[i] && str[i] != quote)
-			{
-				new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
-				i++;
-			}
-			i++;
+		if (add_inside_quote(str, &new_str, &i))
 			continue;
-		}
 		new_str = char_join(new_str, str_len(new_str) + 1, str[i]);
 		i++;
 	}
@@ -94,38 +101,53 @@ char *remove_quotes(char *str)
 	return (new_str);
 }
 
+t_gnl *empty_line(char *line, t_gnl *lst, char *del)
+{
+	if (!line)
+		put_error_msg(del);
+	return (lst);
+}
+
+void fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
+{
+	char *var;
+
+	var = NULL;
+	if (flag)
+	{
+		line = char_join(line, str_len(line) + 1, '\n');	
+		add_to_gnl_lst(lst, line, -1);
+	}
+	else
+	{
+		var = expand_herdoc(line, env);
+		var	= char_join(var, str_len(var) + 1, '\n');	
+		add_to_gnl_lst(lst, var, -1);
+	}
+}
+
 t_gnl *her_doc(char *del, t_env * env, t_gnl *lst)
 {
-	char *line = NULL;
-	int flag = 0;
-	char *var = NULL;
+	char *line;
+	int flag;
 
+	line = NULL;
+	flag = 0;
 	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
 		flag = 1;
 	del = remove_quotes(del);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-		{
-			put_error_msg(del);
-			return (lst);
-		}
-		else if (!ft_strcmp(line, del))
-			return (lst);
+		if (!line || !ft_strcmp(line, del))
+			return (empty_line(line, lst, del));
 		else if (line[0] == '\0')
-			line = char_join(line, 2, '\n');
-		if (flag)
 		{
-			line = char_join(line, str_len(line) + 1, '\n');	
+			line = char_join(line, 2, '\n');
 			add_to_gnl_lst(&lst, line, -1);
 		}
-		else
-		{
-			var = expand_herdoc(line, env);
-			var	= char_join(var, str_len(var) + 1, '\n');	
-			add_to_gnl_lst(&lst, var, -1);
-		}
+		else	
+			fill_lst(line, flag, env, &lst);
 	}
 }
 
@@ -156,16 +178,6 @@ t_herdoc *fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 	}
 	return (head);
 }
-
-
-
-
-
-
-
-
-
-
 
 
 
