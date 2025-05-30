@@ -18,7 +18,7 @@ t_env	*env_new_node(char *key, char *data)
 
 	if (!key || !data)
 		return NULL;
-	node = malloc(sizeof(t_env));
+	node = ft_malloc(sizeof(t_env), 1);
 	if (!node)
 		return NULL;
 	node->key = key;
@@ -30,16 +30,6 @@ t_env	*env_new_node(char *key, char *data)
 
 int	invalid_key_or_data(char *key, char *data, t_env *first)
 {
-	if (!key || !data)
-	{
-		while (first)
-		{
-			free(first->key);
-			free(first->data);
-			free(first);
-		}
-	    return 0;
-	}
 	return 1;
 }
 
@@ -106,17 +96,7 @@ void	add_env_to_list(t_env **lst, char **env)
 			return ;
 		temp->next = env_new_node(key, data);
 		if (!temp->next)
-		{
-			while (first)
-			{
-				temp = first->next;
-				free(first->key);
-				free(first->data);
-				free(first);
-				first = temp;
-			}
 			return;
-		}
 		temp = temp->next;
 		i++;
 	}
