@@ -3,54 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 18:06:13 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/24 12:58:47 by hmouis           ###   ########.fr       */
+/*   Created: 2025/05/29 15:13:40 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/05/29 15:14:14 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int tokenize_input(char *line, t_cmd **cmd)
+{
+	int status;
+	t_lst *lst;
+	char *err_msg;
+
+	if (!line)
+	{
+		ft_malloc(0, 0);
+		exit(1);
+	}
+	lst = NULL;
+	err_msg = NULL;
+	status = 0;
+	split_input(line, &lst);
+	if (lst)
+	{
+		tokens_type(lst);
+		err_msg = pipe_line(lst, &status);
+		if (err_msg)
+		{
+			error_msg(err_msg, status);
+			status = 0;
+			lst = NULL;
+			return (0);
+		}
+		else
+			*cmd = creat_cmd_struct(cmd, lst);
+	}	
+	return (1);
+}	
+
+t_final_struct *fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
+{
+	t_new_exp *exp;
+	t_herdoc *herdoc;
+	int flag;
+	t_final_struct *tmp;
+
+	exp = NULL;
+	tmp = NULL;
+	flag = 0;
+	herdoc = NULL;
+	while (cmd)
+	{
+		if (flag == 1)
+			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
+		if (flag == 0)
+		{
+			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
+			fnl = creat_new_exp(list, &exp, cmd, &fnl);
+			tmp = fnl;
+			flag = 1;
+		}
+		fnl->herdoc = herdoc;
+		cmd = cmd->next;
+		fnl = fnl->next;
+	}
+	return (tmp);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*test_line = NULL;
-	t_lst	*lst = NULL;
 	t_final_struct	*fnl = NULL;
 	t_cmd	*cmd = NULL;
-	t_cmd	*head = NULL;
-	char	*err_msg = NULL;
-	int		i = 1;
-	t_exp *exp = NULL;
 	t_env	*list = NULL;
-	t_gnl *gnl = NULL;
-	t_new_exp *new_exp = NULL;
-	t_final_struct *final_struct = NULL;
 
 	add_env_to_list(&list, env);
+	(void)ac;
+	(void)av;
 	while (1)
 	{
 		test_line = readline("minishell: ");
 		add_history(test_line);
-		if (!test_line)
-			break ;
-		split_input(test_line, &lst);
-		if (lst)
-		{
-			tokens_type(lst);
-			err_msg = pipe_line(lst);
-			if (err_msg)
-			{
-				error_msg(err_msg);
-				printf("\n");
-				lst = NULL;
-				continue;
-			}
-			else
-				cmd = creat_cmd_struct(&cmd, lst);
-		}
-		if (cmd)
-			fnl = creat_new_exp(list, &new_exp, cmd, &fnl);
+		if (!tokenize_input(test_line, &cmd))
+			continue;
+		fnl = fill_fnl(cmd, fnl, list);
 		if (fnl && fnl->args)
 		{
 			t_exec *exec = gnl_to_array(fnl->args);
@@ -63,8 +102,7 @@ int	main(int ac, char **av, char **env)
 				exec_cmd(env, exec->args, fnl->args->str, fnl);
 			fnl->args = fnl->args->next;
 		}
-		free(test_line);
 		cmd = NULL;
-		lst = NULL;
+		fnl = NULL;
 	}
 }
