@@ -51,6 +51,29 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 		*env = new_node;
 }
 
+int	pars_export(char *s)	
+{
+	int	i;
+
+	i = 0;
+	if (s[i] && s[i] == '=')
+	{
+		if (s[i + 1] && s[i + 1] == ' ')
+		{
+			ft_putstr_fd("minishell: export: `=': not a valid identifier\n", 2);
+			return -1;
+		}
+		else
+		{
+			ft_putstr_fd("minishell: export: `", 2);
+			ft_putstr_fd(s, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return -1;
+		}
+	}
+	return 1;
+}
+
 void	exec_export(t_env **env, char **str)
 {
 	int	i;
@@ -58,6 +81,8 @@ void	exec_export(t_env **env, char **str)
 	char	*key, *value;
 
 	i = 0;
+	if (!str || !*str)
+		return;
 	while (str[i])
 	{
 		char *s = str[i];
@@ -71,8 +96,12 @@ void	exec_export(t_env **env, char **str)
 		}
 		else
 		{
-			key = ft_strdup(s);
+			key = s;
 			value = NULL;
+			if (str[i + 1] == NULL)
+				return;
+			if (pars_export(str[i + 1]) == -1)
+				return;
 		}
 		if (!is_valid_env_key(key))
 		{
@@ -83,8 +112,6 @@ void	exec_export(t_env **env, char **str)
 		}
 		if (value)
 			add_or_update_env(env, key, value);
-		else
-			add_or_update_env(env, key, "");
 		i++;
 	}
 }
