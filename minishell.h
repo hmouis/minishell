@@ -171,10 +171,10 @@ char				*replace_empty_var(char *str);
 int				var_char(char c);
 
 /*syntax errors*/
-void				error_msg(char *str);
+void				error_msg(char *str, int status);
 char				*check_quote(char *str);
 int				is_quote(char c);
-char				*pipe_line(t_lst *lst);
+char				*pipe_line(t_lst *lst, int *status);
 char				*simple_command(t_lst **lst);
 void				add_to_lst_c(t_lst **lst, t_lst *node);
 t_lst				*new_node_c(t_lst *node);
@@ -203,7 +203,7 @@ int				is_pipe(t_lst *lst);
 
 /*linked list*/
 t_cmd				*creat_cmd_struct(t_cmd **cmd, t_lst *lst);
-t_cmd				*node(t_lst *lst);
+t_cmd				*node();
 t_lst				*last_node(t_lst *lst);
 void				add_back(t_lst **lst, t_lst *node);
 void				*new_node(char *content);
