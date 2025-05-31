@@ -30,6 +30,8 @@ typedef struct	s_env
 {
 	char		*key;
 	char		*data;
+	char		*oldpwd;
+	char		*pwd;
 	struct s_env	*next;
 }			t_env;
 
@@ -91,6 +93,7 @@ typedef struct s_exp
 typedef struct	s_exec
 {
 	char			**args;
+	int			exit_status;
 }				t_exec;
 
 
@@ -241,14 +244,17 @@ int				ft_strcmp(char *s1, char *s2);
 
 
 //exec
-int				exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc);
-int				exec_cmd(char **env, char **cmd, char *path, t_final_struct *tmp);
+int				exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc);
+int				exec_cmd(char **env, t_exec **cmd, char *path, t_final_struct *tmp);
 void				exec_env(t_env **lst);
-void				exec_echo(char **args);
-void				exec_export(t_env **env, char **str);
-void				exec_pwd();
+void				exec_echo(t_exec **cmd);
+void				exec_export(t_env **env, t_exec **cmd);
+void				exec_pwd(t_env **env);
+void				exec_cd(t_env **env, t_exec **cmd);
 int				type_of_redirect(char *redirect);
 int				apply_redirect(t_final_struct *struc);
+void				update_env(t_env **env, char *oldpwd, char *pwd);
+
 
 /*garbage collector*/
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
