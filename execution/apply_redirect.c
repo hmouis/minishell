@@ -56,7 +56,7 @@ int	apply_redirect(t_final_struct *struc)
 			fd = open(tmp->redirect->next->str, O_RDONLY);
 			if (fd < 0)
 			{
-				perror("open failed ");
+				perror("minishell");
 				return -1;
 			}
 			dup2(fd, STDIN_FILENO);
@@ -67,7 +67,7 @@ int	apply_redirect(t_final_struct *struc)
 			fd = open(tmp->redirect->next->str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 			if (fd < 0)
 			{
-				perror("open:");
+				perror("");
 				return -1;
 			}
 			dup2(fd, STDOUT_FILENO);
@@ -81,6 +81,8 @@ int	apply_redirect(t_final_struct *struc)
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
+		else
+			return -1;
 		tmp->redirect = tmp->redirect->next->next;
 	}
 	return 0;

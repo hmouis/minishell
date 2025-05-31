@@ -24,10 +24,12 @@ expansion/expansion_again.c \
 execution/add_args_to_array.c \
 execution/exec.c \
 execution/apply_redirect.c \
+execution/update_env.c \
 builtins/env.c \
 builtins/echo.c \
 builtins/pwd.c \
 builtins/export.c \
+builtins/cd.c \
 builtins/is_builtins.c \
 libft/ft_is_alnum.c \
 libft/ft_is_alpha.c \

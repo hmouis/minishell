@@ -69,7 +69,7 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_cmd(char **env, char **cmd, char *path, t_final_struct *struc)
+int	exec_cmd(char **env, t_exec **cmd, char *path, t_final_struct *struc)
 {
 	if (!cmd || !*cmd || !path)
 		return 0;
@@ -86,7 +86,7 @@ int	exec_cmd(char **env, char **cmd, char *path, t_final_struct *struc)
 	{
 		if (apply_redirect(struc) == -1)
 			exit(1);
-		execve(file, cmd, env);
+		execve(file, (*cmd)->args, env);
 		return 0;
 	}
 	else 

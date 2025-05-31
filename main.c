@@ -85,7 +85,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	while (1)
 	{
-		test_line = readline("minishell: ");
+		test_line = readline("minishell~ ");
 		add_history(test_line);
 		if (!tokenize_input(test_line, &cmd))
 			continue;
@@ -97,9 +97,9 @@ int	main(int ac, char **av, char **env)
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
 			if (is_builtins(fnl->args->str) != -1)
-				exec_builtins(&list, exec->args, fnl);
+				exec_builtins(&list, &exec, fnl);
 			else
-				exec_cmd(env, exec->args, fnl->args->str, fnl);
+				exec_cmd(env, &exec, fnl->args->str, fnl);
 			fnl->args = fnl->args->next;
 		}
 		cmd = NULL;
