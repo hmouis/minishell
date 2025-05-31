@@ -12,22 +12,22 @@
 
 #include "../minishell.h"
 
-void	exec_echo(char **args)
+void	exec_echo(t_exec **cmd)
 {
 	int	newline;
 	int	i;
 
 	i = 1;
 	newline = 1;
-	if (args[i] && ft_strcmp(args[i], "-n") == 0)
+	if ((*cmd)->args[i] && ft_strcmp((*cmd)->args[i], "-n") == 0)
 	{
 		newline = 0;
 		i++;
 	}
-	while (args[i])
+	while ((*cmd)->args[i])
 	{
-		printf("%s", args[i]);
-		if (args[i + 1])
+		printf("%s", (*cmd)->args[i]);
+		if ((*cmd)->args[i + 1])
 			printf(" ");
 		i++;
 	}
