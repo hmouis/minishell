@@ -6,7 +6,7 @@
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:50:57 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/24 14:53:30 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/05/31 18:08:55 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 		exec_env(lst_env);
 	else if (is_builtins((*cmd)->args[0]) == e_cd)
 		exec_cd(lst_env, cmd);
+	else if (is_builtins((*cmd)->args[0]) == e_unset)
+		exec_unset(lst_env, cmd);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
