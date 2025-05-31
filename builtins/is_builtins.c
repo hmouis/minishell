@@ -31,7 +31,7 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc)
+int	exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 {
 	int saved_stdout;
 	int saved_stdin;
@@ -40,14 +40,16 @@ int	exec_builtins(t_env **lst_env, char **cmd, t_final_struct *struc)
 	saved_stdin = dup(STDIN_FILENO);
 	if (apply_redirect(struc) == -1)
 		return -1;
-	if (is_builtins(cmd[0]) == e_echo)
+	if (is_builtins((*cmd)->args[0]) == e_echo)
 		exec_echo(cmd);
-	else if (is_builtins(cmd[0]) == e_pwd)
-		exec_pwd();
-	else if (is_builtins(cmd[0]) == e_export)
-		exec_export(lst_env, ++cmd);
-	else if (is_builtins(cmd[0]) == e_env)
+	else if (is_builtins((*cmd)->args[0]) == e_pwd)
+		exec_pwd(lst_env);
+	else if (is_builtins((*cmd)->args[0]) == e_export)
+		exec_export(lst_env, cmd);
+	else if (is_builtins((*cmd)->args[0]) == e_env)
 		exec_env(lst_env);
+	else if (is_builtins((*cmd)->args[0]) == e_cd)
+		exec_cd(lst_env, cmd);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
