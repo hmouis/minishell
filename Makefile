@@ -29,6 +29,7 @@ builtins/env.c \
 builtins/echo.c \
 builtins/pwd.c \
 builtins/export.c \
+builtins/unset.c \
 builtins/cd.c \
 builtins/is_builtins.c \
 libft/ft_is_alnum.c \
