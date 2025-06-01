@@ -73,6 +73,15 @@ t_final_struct *fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 	return (tmp);
 }
 
+void handle_sig(int sig)
+{
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*test_line = NULL;
@@ -83,6 +92,8 @@ int	main(int ac, char **av, char **env)
 	add_env_to_list(&list, env);
 	(void)ac;
 	(void)av;
+	signal (SIGINT, handle_sig);
+	signal (SIGQUIT, SIG_IGN);
 	while (1)
 	{
 		test_line = readline("minishell~ ");
