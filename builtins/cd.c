@@ -16,7 +16,6 @@ void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;
 	int	status;
-
 	if (!cmd || !(*cmd) || !env || !(*env))
 		return ;
 	(*env)->oldpwd = getcwd(NULL, 0);
