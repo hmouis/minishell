@@ -52,6 +52,8 @@ int	exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 		exec_cd(lst_env, cmd);
 	else if (is_builtins((*cmd)->args[0]) == e_unset)
 		exec_unset(lst_env, cmd);
+	else if (is_builtins((*cmd)->args[0]) == e_exit)
+	  	exec_exit(cmd);
 	dup2(saved_stdout, STDOUT_FILENO);
 	dup2(saved_stdin, STDIN_FILENO);
 	close(saved_stdout);
