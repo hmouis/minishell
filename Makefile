@@ -6,7 +6,7 @@
 #    By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/05/19 18:39:42 by oait-h-m         ###   ########.fr        #
+#    Updated: 2025/06/01 15:22:24 by oait-h-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,10 @@ builtins/pwd.c \
 builtins/export.c \
 builtins/unset.c \
 builtins/cd.c \
+builtins/exit.c \
 builtins/is_builtins.c \
 libft/ft_is_alnum.c \
+libft/ft_atoi.c \
 libft/ft_is_alpha.c \
 libft/ft_is_digits.c \
 libft/ft_putstr_fd.c \
