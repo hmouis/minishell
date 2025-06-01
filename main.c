@@ -76,6 +76,7 @@ t_final_struct *fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 void handle_sig(int sig)
 {
 	(void)sig;
+
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
