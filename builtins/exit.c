@@ -1,45 +1,59 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/26 09:44:50 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/31 14:44:24 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/01 15:00:25 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/01 15:26:42 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exec_cd(t_env **env, t_exec **cmd)
+int	is_numbers(char *arg)
 {
-	char	*new_dir;
-	int	status;
-	if (!cmd || !(*cmd) || !env || !(*env))
-		return ;
-	(*env)->oldpwd = getcwd(NULL, 0);
+	int	i;
+
+	i = 0;
+	if (!arg)
+		return 0;
+	while (arg[i])
+	{
+		if (ft_is_digits(arg[i]) == 0)
+			return 0;
+		i++;
+	}
+	return 1;
+}
+
+void	exec_exit(t_exec **cmd)
+{
+	int i, (status);
+
+	i = 0;
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
-		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		status = 1;
+		printf("exit\nminishell: exit: too many arguments\n");
+		status = 2;
+		exit (2);
+	}
+	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
+	{
+		ft_putstr_fd("exit\nminishell: exit : numeric argument required\n", 2);
+		status = 2;
 		(*cmd)->exit_status = &status;
-		return ;
+		exit (2);
 	}
 	if (!(*cmd)->args[1])
-		new_dir = getenv("HOME");
-	else
-		new_dir = (*cmd)->args[1];
-	if (chdir(new_dir) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(new_dir , 2);
-		perror(":");
+		status = 0;
 		(*cmd)->exit_status = &status;
-		return ;
+		printf("exit\n");
+		exit (0);
 	}
-	(*env)->pwd = getcwd(NULL, 0);
-	update_env(env, (*env)->oldpwd, (*env)->pwd);
-	status = 1;
+	status = ft_atoi((*cmd)->args[1]);
 	(*cmd)->exit_status = &status;
+	exit(status);
 }

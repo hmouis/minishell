@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/24 12:33:42 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/01 15:27:25 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+# include <limits.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -93,7 +94,7 @@ typedef struct s_exp
 typedef struct	s_exec
 {
 	char			**args;
-	int			exit_status;
+	int			*exit_status;
 }				t_exec;
 
 
@@ -235,6 +236,7 @@ char				*ft_strncpy(char *dest, const char *src, size_t n);
 int				is_alpha(char c);
 int				is_alnum(char c);
 int				ft_is_digits(char c);
+int				ft_atoi(char *str);
 char				*ft_strchr(char *s, char c);
 char				*ft_substr(char *s, int start, int len);
 void				ft_putstr_fd(char *s, int fd);
@@ -250,6 +252,7 @@ void				exec_env(t_env **lst);
 void				exec_echo(t_exec **cmd);
 void				exec_export(t_env **env, t_exec **cmd);
 void				exec_unset(t_env **env, t_exec **key);
+void				exec_exit(t_exec **cmd);
 void				exec_pwd(t_env **env);
 void				exec_cd(t_env **env, t_exec **cmd);
 int				type_of_redirect(char *redirect);

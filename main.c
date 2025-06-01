@@ -111,6 +111,7 @@ int	main(int ac, char **av, char **env)
 				exec_builtins(&list, &exec, fnl);
 			else
 				exec_cmd(env, &exec, fnl->args->str, fnl);
+
 			fnl->args = fnl->args->next;
 		}
 		cmd = NULL;
