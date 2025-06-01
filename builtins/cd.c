@@ -36,7 +36,7 @@ void	exec_cd(t_env **env, t_exec **cmd)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(new_dir , 2);
 		perror(":");
-		*(*cmd)->exit_status = 1;
+		(*cmd)->exit_status = &status;
 		return ;
 	}
 	(*env)->pwd = getcwd(NULL, 0);
