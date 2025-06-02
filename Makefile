@@ -3,24 +3,33 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+         #
+#    By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/06/01 15:22:24 by oait-h-m         ###   ########.fr        #
+#    Updated: 2025/06/02 11:32:48 by hmouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=minishell
+
 SRC= main.c\
-parsing/pars_utils.c \
+parsing/pars_utils1.c \
+parsing/pars_utils2.c \
 parsing/syntax_error.c \
-parsing/get_env.c \
+getenv/get_env.c \
 tokenization/type_of_tokens.c \
 tokenization/user_input1.c \
 tokenization/user_input.c \
 tokenization/utils.c \
 tokenization/utils1.c \
 expansion/expansion_again.c \
+expansion/utils1.c \
+expansion/utils2.c \
+expansion/utils3.c \
+expansion/utils4.c \
+expansion/utils5.c \
+expansion/utils6.c \
+expansion/utils7.c \
 execution/add_args_to_array.c \
 execution/exec.c \
 execution/apply_redirect.c \
@@ -47,12 +56,15 @@ libft/ft_strtok.c \
 libft/ft_substr.c \
 expansion/expansion_again.c \
 gc/garbage_collector.c \
-parsing/herdoc.c
+gc/gc_utils.c \
+parsing/herdoc.c \
+parsing/herdoc_utils1.c
 
 
 CC= cc
-CFLAGS= -g3 
-#-fsanitize=address
+CFLAGS= -g3
+ #-Wall -Wextra -Werror
+ #-fsanitize=address
 RFLAG= -lreadline
 
 OBJS= $(SRC:.c=.o)

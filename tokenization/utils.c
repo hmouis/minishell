@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:16 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:21:20 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/02 11:48:31 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ void	add_to_lst(t_lst **lst, char *content)
 	node = new_node(content);
 	add_back(lst, node);
 }
-

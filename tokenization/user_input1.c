@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_input1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:09:07 by hmouis            #+#    #+#             */
-/*   Updated: 2025/04/21 16:16:34 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/02 11:48:19 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	token_dollar_sign(int *i, char *input, t_lst **lst, t_var *var)
 	while (input[*i])
 	{
 		if (token_quote(i, input, lst, var))
-			continue;
+			continue ;
 		if (white_space(input[*i]) || charchr("<>|", input[*i]))
 			break ;
 		var->length++;

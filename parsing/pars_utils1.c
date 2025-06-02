@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pars_utils.c                                       :+:      :+:    :+:   */
+/*   pars_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/06 09:38:59 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/02 11:47:24 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	error_msg(char *str, int status)
 	if (status == 0)
 		printf("bash: syntax error near unexpected token `%s'\n", str);
 	else
-		printf("%s\n",str);
+		printf("%s\n", str);
 }
 
-t_cmd	*node()
+t_cmd	*node(void)
 {
 	t_cmd	*cmd;
 
@@ -34,7 +34,7 @@ t_cmd	*node()
 	return (cmd);
 }
 
-int is_quote(char c)
+int	is_quote(char c)
 {
 	if (c == '\'' || c == '"')
 		return (1);
