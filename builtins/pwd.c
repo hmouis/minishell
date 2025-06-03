@@ -26,4 +26,5 @@ void	exec_pwd(t_env **env)
 	}
 	else
 		printf("%s\n", buffer);
+	free(buffer);
 }
