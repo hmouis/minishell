@@ -116,10 +116,7 @@ int	main(int ac, char **av, char **env)
 			file = NULL;
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
-			if (is_builtins(fnl->args->str) != -1)
-				exec_builtins(&list, &exec, fnl);
-			else
-				exec_cmd(env, &exec, fnl->args->str, fnl);
+			exec_pipe(fnl, &exec, list, env);
 			fnl->args = fnl->args->next;
 		}
 		cmd = NULL;
