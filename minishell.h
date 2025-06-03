@@ -298,6 +298,7 @@ void						exec_unset(t_env **env, t_exec **key);
 void						exec_exit(t_exec **cmd);
 void						exec_pwd(t_env **env);
 void						exec_cd(t_env **env, t_exec **cmd);
+char						*get_variable(t_env **env, char *key);
 int							type_of_redirect(char *redirect);
 int							apply_redirect(t_final_struct *struc);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
