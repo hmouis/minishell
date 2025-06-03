@@ -69,10 +69,11 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_cmd(char **env, t_exec **cmd, char *path, t_final_struct *struc)
+int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-	if (!cmd || !*cmd || !path)
+	if (!cmd || !*cmd)
 		return 0;
+	char	*path = struc->args->str;
 	char *file = file_path(path);
 	if (!file)
 		return 0;
