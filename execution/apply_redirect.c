@@ -71,6 +71,7 @@ void	handle_append(int *fd, char *file)
 	dup2(*fd, STDOUT_FILENO);
 	close(*fd);
 }
+
 int	apply_redirect(t_final_struct *struc)
 {
 	int	fd;
