@@ -32,6 +32,7 @@ expansion/utils6.c \
 expansion/utils7.c \
 execution/add_args_to_array.c \
 execution/exec.c \
+execution/exec_pipe.c \
 execution/apply_redirect.c \
 execution/update_env.c \
 builtins/env.c \

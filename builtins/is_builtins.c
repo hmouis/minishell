@@ -31,34 +31,28 @@ int	is_builtins(char *cmd)
 	return -1;
 }
 
-int	exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
+
+int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 {
-	int saved_stdout;
-	int saved_stdin;
-
-	saved_stdout = dup(STDOUT_FILENO);
-	saved_stdin = dup(STDIN_FILENO);
-	if (apply_redirect(struc) == -1)
+	int builtin_type;
+	
+	builtin_type = is_builtins((*cmd)->args[0]);
+	if (builtin_type == -1)
 		return -1;
-	if (is_builtins((*cmd)->args[0]) == e_echo)
+	if (builtin_type == e_echo)
 		exec_echo(cmd);
-	else if (is_builtins((*cmd)->args[0]) == e_pwd)
+	else if (builtin_type == e_pwd)
 		exec_pwd(lst_env);
-	else if (is_builtins((*cmd)->args[0]) == e_export)
+	else if (builtin_type == e_export)
 		exec_export(lst_env, cmd);
-	else if (is_builtins((*cmd)->args[0]) == e_env)
+	else if (builtin_type == e_env)
 		exec_env(lst_env);
-	else if (is_builtins((*cmd)->args[0]) == e_cd)
+	else if (builtin_type == e_cd)
 		exec_cd(lst_env, cmd);
-	else if (is_builtins((*cmd)->args[0]) == e_unset)
+	else if (builtin_type == e_unset)
 		exec_unset(lst_env, cmd);
-	else if (is_builtins((*cmd)->args[0]) == e_exit)
+	else if (builtin_type == e_exit)
 	  	exec_exit(cmd);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
-
 	return 0;
 }
 

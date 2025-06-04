@@ -12,6 +12,7 @@
 
 #include "../minishell.h"
 
+
 void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;

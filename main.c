@@ -110,17 +110,16 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
+		/*debug_final(fnl);*/
 		if (fnl && fnl->args)
 		{
 			exec = gnl_to_array(fnl->args);
 			file = NULL;
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
-			if (is_builtins(fnl->args->str) != -1)
-				exec_builtins(&list, &exec, fnl);
-			else
-				exec_cmd(env, &exec, fnl->args->str, fnl);
-			fnl->args = fnl->args->next;
+			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
+			    exec_exit(&exec);
+			execute(fnl, list, env);
 		}
 		cmd = NULL;
 		fnl = NULL;

@@ -37,6 +37,7 @@ void	exec_exit(t_exec **cmd)
 	{
 		printf("exit\nminishell: exit: too many arguments\n");
 		status = 2;
+		ft_malloc(0, 0);
 		exit (2);
 	}
 	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
@@ -51,9 +52,11 @@ void	exec_exit(t_exec **cmd)
 		status = 0;
 		(*cmd)->exit_status = &status;
 		printf("exit\n");
+		ft_malloc(0, 0);
 		exit (0);
 	}
 	status = ft_atoi((*cmd)->args[1]);
 	(*cmd)->exit_status = &status;
+	ft_malloc(0, 0);
 	exit(status);
 }
