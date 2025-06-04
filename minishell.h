@@ -271,7 +271,7 @@ int			ft_strcmp(char *s1, char *s2);
 // exec
 int			exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc);
 int			exec_cmd(char **env, t_exec **cmd, t_final_struct *tmp);
-int			execute(t_final_struct *list, t_exec **exec_cmd, t_env *env_list, char **env);
+int			execute(t_final_struct *list, t_env *env_list, char **env);
 
 void			exec_env(t_env **lst);
 void			exec_echo(t_exec **cmd);
