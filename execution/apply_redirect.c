@@ -42,7 +42,7 @@ void	handle_input(int *fd, char *file)
 	if (*fd < 0)
 	{
 		perror("minishell");
-		return ;
+		exit(1) ;
 	}
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
