@@ -71,29 +71,23 @@ char	*file_path(char *file)
 
 int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-	if (!cmd || !*cmd)
-		return 0;
+	int	status;
+	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
+		exit(127);
 	char	*path = struc->args->str;
 	char *file = file_path(path);
 	if (!file)
-		return 0;
-	int child_pid = fork();
-	if (child_pid == -1)
 	{
-		perror("fork");
-		return 0;
+		ft_putstr_fd("command not found: ", 2);
+		ft_putstr_fd((*cmd)->args[0], 2);
+		ft_putstr_fd("\n", 2);
+		status = 127;
+		(*cmd)->exit_status = &status;
+		exit(127);
 	}
-	if (child_pid == 0)
-	{
-		if (apply_redirect(struc) == -1)
-			exit(1);
-		execve(file, (*cmd)->args, env);
-		return 0;
-	}
-	else 
-	{
-		int status;
-		waitpid(child_pid, &status, 0);
-		return -1;
-	}
+    	execve(file, (*cmd)->args, env);
+    	perror("execve");
+	status = 126;
+	(*cmd)->exit_status = &status;
+	exit(126);
 }
