@@ -85,22 +85,6 @@ void	handle_sig(int sig)
 	rl_redisplay();
 }
 
-void debug_final(t_final_struct *cmd)
-{
-	while (cmd)
-	{
-		printf("Command:\n");
-		t_gnl *tmp = cmd->args;
-		while (tmp)
-		{
-			printf("  arg: %s\n", tmp->str);
-			tmp = tmp->next;
-		}
-		cmd = cmd->next;
-	}
-}
-
-
 int	main(int ac, char **av, char **env)
 {
 	char			*test_line;
@@ -126,7 +110,7 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		debug_final(fnl);
+		/*debug_final(fnl);*/
 		if (fnl && fnl->args)
 		{
 			exec = gnl_to_array(fnl->args);
@@ -135,7 +119,7 @@ int	main(int ac, char **av, char **env)
 				file = fnl->redirect->next->str;
 			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
 			    exec_exit(&exec);
-			execute(fnl, &exec, list, env);
+			execute(fnl, list, env);
 		}
 		cmd = NULL;
 		fnl = NULL;
