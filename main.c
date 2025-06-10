@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:13:40 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/02 11:50:25 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/10 13:07:48 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	main(int ac, char **av, char **env)
 	cmd = NULL;
 	list = NULL;
 	add_env_to_list(&list, env);
+	*exec->exit_status = 0;
 	(void)ac;
 	(void)av;
 	signal(SIGINT, handle_sig);
@@ -110,7 +111,6 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		/*debug_final(fnl);*/
 		if (fnl && fnl->args)
 		{
 			exec = gnl_to_array(fnl->args);
@@ -120,8 +120,10 @@ int	main(int ac, char **av, char **env)
 			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
 			    exec_exit(&exec);
 			execute(fnl, list, env);
+			expand_variable(env, exec, &list);
 		}
 		cmd = NULL;
 		fnl = NULL;
+		ft_malloc(0, 0);
 	}
 }
