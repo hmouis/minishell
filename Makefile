@@ -35,6 +35,7 @@ execution/exec.c \
 execution/exec_pipe.c \
 execution/apply_redirect.c \
 execution/update_env.c \
+execution/expand_variables.c \
 builtins/env.c \
 builtins/echo.c \
 builtins/pwd.c \
@@ -45,6 +46,7 @@ builtins/exit.c \
 builtins/is_builtins.c \
 libft/ft_is_alnum.c \
 libft/ft_atoi.c \
+libft/ft_itoa.c \
 libft/ft_is_alpha.c \
 libft/ft_is_digits.c \
 libft/ft_putstr_fd.c \
