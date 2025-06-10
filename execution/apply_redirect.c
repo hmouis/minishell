@@ -74,9 +74,9 @@ void	handle_append(int *fd, char *file)
 
 int	apply_redirect(t_final_struct *struc)
 {
-	int	fd;
-	int	status;
-	int	redirect;
+	int		fd;
+	int		status;
+	int		redirect;
 	char	*file;
 	t_final_struct	*tmp = struc;
 
