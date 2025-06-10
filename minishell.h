@@ -266,9 +266,10 @@ char			*ft_substr(char *s, int start, int len);
 void			ft_putstr_fd(char *s, int fd);
 char			*ft_strcat(char *s1, char *s2);
 char			*ft_strtok(char *str, char *delim);
+char			*ft_itoa(int n);
 int			ft_strcmp(char *s1, char *s2);
 
-// exec
+// execution
 int			exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc);
 int			exec_cmd(char **env, t_exec **cmd, t_final_struct *tmp);
 int			execute(t_final_struct *list, t_env *env_list, char **env);
@@ -281,6 +282,7 @@ void			exec_exit(t_exec **cmd);
 void			exec_pwd(t_env **env);
 void			exec_cd(t_env **env, t_exec **cmd);
 char			*get_variable(t_env **env, char *key);
+void			expand_variable(char **env, t_exec *exec, t_env **lst);
 int			type_of_redirect(char *redirect);
 int			apply_redirect(t_final_struct *struc);
 void			update_env(t_env **env, char *oldpwd, char *pwd);
