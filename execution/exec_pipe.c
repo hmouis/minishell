@@ -6,7 +6,7 @@
 /*   By: oait-h-m <oait-h-m@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 04:43:48 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/23 04:44:05 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:59:44 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		list = list->next;
 		cmd = cmd->next;
 	}
-
 	while (wait(&status) > 0)
 		; 
 	return 1;
