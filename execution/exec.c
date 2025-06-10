@@ -83,6 +83,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		ft_putstr_fd("\n", 2);
 		status = 127;
 		(*cmd)->exit_status = &status;
+		ft_malloc(0, 0);
 		exit(127);
 	}
     	execve(file, (*cmd)->args, env);
