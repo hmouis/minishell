@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	exec_echo(t_exec **cmd)
+int		exec_echo(t_exec **cmd)
 {
 	int	newline;
 	int	i;
@@ -33,4 +33,5 @@ void	exec_echo(t_exec **cmd)
 	}
 	if (newline)
 		printf("\n");
+	return 1;
 }
