@@ -69,11 +69,13 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
+int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc, int *status)
 {
-	int	status;
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-		exit(127);
+	{
+		*status = 127;
+		return (127);
+	}
 	char	*path = struc->args->str;
 	char *file = file_path(path);
 	if (!file)
@@ -81,14 +83,12 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		ft_putstr_fd("command not found: ", 2);
 		ft_putstr_fd((*cmd)->args[0], 2);
 		ft_putstr_fd("\n", 2);
-		status = 127;
-		(*cmd)->exit_status = &status;
+		*status = 127;
 		ft_malloc(0, 0);
-		exit(127);
+		return (127);
 	}
     	execve(file, (*cmd)->args, env);
     	perror("execve");
-	status = 126;
-	(*cmd)->exit_status = &status;
-	exit(126);
+	*status = 126;
+	return (126);
 }
