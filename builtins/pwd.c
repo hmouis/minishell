@@ -12,19 +12,23 @@
 
 #include "../minishell.h"
 
-void	exec_pwd(t_env **env)
+int	exec_pwd(t_env **env)
 {
 	char	*buffer;
-
+	
 	buffer = getcwd(NULL, 0);
 	if (!buffer)
 	{
 		if ((*env)->pwd)
 			printf("%s\n", (*env)->pwd);
 		else
+		{
 			perror("pwd");
+			return 1;
+		}
 	}
 	else
 		printf("%s\n", buffer);
 	free(buffer);
+	return 0;
 }
