@@ -6,30 +6,24 @@
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 17:01:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/31 22:35:59 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:16:32 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exec_unset(t_env **env, t_exec **key)
+int	exec_unset(t_env **env, t_exec **key)
 {
 	t_env	*tmp;
 	t_env	*after_node;
 
 	tmp = *env;
 	if (!key || !(*key)->args[0] || !(*key)->args[1])
-	{
-		(*key)->exit_status = 0;
-		return;
-	}
+		return 1;
 	while (tmp)
 	{
 		if (!tmp)
-		{
-			(*key)->exit_status = 0;
-			return;
-		}
+			return 1;
 		after_node = tmp->next;
 		if (ft_strcmp(after_node->key, (*key)->args[1]) == 0)
 		{
@@ -39,4 +33,5 @@ void	exec_unset(t_env **env, t_exec **key)
 		}
 		tmp = tmp->next;
 	}
+	return 0;
 }
