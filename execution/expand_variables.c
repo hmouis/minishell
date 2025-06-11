@@ -6,13 +6,13 @@
 /*   By: oait-h-m <oait-h-m@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 20:12:35 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/10 12:57:50 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:01:38 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	expand_variable(char **env, t_exec *exec, t_env **lst)
+void	expand_variable(char **env, t_exec *exec, t_env **lst, int *status)
 {
 	if (!env || !*env || !exec || !lst || !*lst)
 		return ;
@@ -24,7 +24,7 @@ void	expand_variable(char **env, t_exec *exec, t_env **lst)
 		if (ft_strcmp(exec->args[i], "$?") == 0)
 		{
 			(*lst)->key = "?";
-			(*lst)->data = ft_itoa(*exec->exit_status);
+			(*lst)->data = ft_itoa(*status);
 			add_env_to_list(lst, env);
 		}
 		i++;
