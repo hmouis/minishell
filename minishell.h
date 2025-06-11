@@ -26,6 +26,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+extern int	g_exit_status;
+
 /*env*/
 typedef struct s_env
 {
