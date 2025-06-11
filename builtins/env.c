@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	exec_env(t_env **lst)
+int		exec_env(t_env **lst)
 {
 	t_env *first;
 
@@ -22,4 +22,5 @@ void	exec_env(t_env **lst)
 		printf("%s=%s\n", first->key, first->data);
 		first = first->next;
 	}
+	return 1;
 }
