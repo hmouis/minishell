@@ -32,6 +32,7 @@ static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst
 	else
 		exec_cmd(env, cmd, fnl, status);
 	*status = 1;
+	g_exit_status = 1;
 	exit(1); 
 }
 
@@ -67,5 +68,6 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env, int *status)
 	}
 	while (wait(status) > 0)
 		; 
+	g_exit_status = *status;
 	return *status;
 }
