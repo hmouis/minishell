@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:13:40 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/10 13:07:48 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:02:28 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ int	main(int ac, char **av, char **env)
 	t_env			*list;
 	t_exec			*exec;
 	char			*file;
+	int				status = 0;
 
 	test_line = NULL;
 	fnl = NULL;
 	cmd = NULL;
 	list = NULL;
 	add_env_to_list(&list, env);
-	*exec->exit_status = 0;
 	(void)ac;
 	(void)av;
 	signal(SIGINT, handle_sig);
@@ -118,9 +118,9 @@ int	main(int ac, char **av, char **env)
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
 			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
-			    exec_exit(&exec);
-			execute(fnl, list, env);
-			expand_variable(env, exec, &list);
+			    exec_exit(&exec, &status);
+			execute(fnl, list, env, &status);
+			expand_variable(env, exec, &list, &status);
 		}
 		cmd = NULL;
 		fnl = NULL;
