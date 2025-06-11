@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+	int	g_exit_status = 0;
 void	empty__line(void)
 {
 	ft_malloc(0, 0);
@@ -119,11 +120,10 @@ int	main(int ac, char **av, char **env)
 				file = fnl->redirect->next->str;
 			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
 			    exec_exit(&exec, &status);
-			execute(fnl, list, env, &status);
 			expand_variable(env, exec, &list, &status);
+			execute(fnl, list, env, &status);
 		}
 		cmd = NULL;
 		fnl = NULL;
-		ft_malloc(0, 0);
 	}
 }
