@@ -28,35 +28,33 @@ int	is_numbers(char *arg)
 	return 1;
 }
 
-void	exec_exit(t_exec **cmd)
+int		exec_exit(t_exec **cmd, int *status)
 {
-	int i, (status);
+	int i;
 
 	i = 0;
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
 		printf("exit\nminishell: exit: too many arguments\n");
-		status = 2;
+		*status = 1;
 		ft_malloc(0, 0);
-		exit (2);
+		exit (1);
 	}
 	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
 	{
 		ft_putstr_fd("exit\nminishell: exit : numeric argument required\n", 2);
-		status = 2;
-		(*cmd)->exit_status = &status;
+		*status = 2;
+		ft_malloc(0, 0);
 		exit (2);
 	}
 	if (!(*cmd)->args[1])
 	{
-		status = 0;
-		(*cmd)->exit_status = &status;
+		*status = 0;
 		printf("exit\n");
 		ft_malloc(0, 0);
 		exit (0);
 	}
-	status = ft_atoi((*cmd)->args[1]);
-	(*cmd)->exit_status = &status;
+	*status = ft_atoi((*cmd)->args[1]);
 	ft_malloc(0, 0);
-	exit(status);
+	exit(*status);
 }
