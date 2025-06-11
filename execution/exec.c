@@ -74,6 +74,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc, int *status)
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 	{
 		*status = 127;
+		g_exit_status = 127;
 		return (127);
 	}
 	char	*path = struc->args->str;
@@ -90,5 +91,6 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc, int *status)
     	execve(file, (*cmd)->args, env);
     	perror("execve");
 	*status = 126;
+	g_exit_status = 126;
 	return (126);
 }
