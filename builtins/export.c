@@ -74,7 +74,7 @@ int	pars_export(char *s)
 	return 1;
 }
 
-void	exec_export(t_env **env, t_exec **cmd)
+int	exec_export(t_env **env, t_exec **cmd)
 {
 	int	i;
 	char	*equal;
@@ -82,12 +82,12 @@ void	exec_export(t_env **env, t_exec **cmd)
 
 	i = 1;
 	if (!cmd || !cmd[0])
-		return;
+		return 1;
 	while ((*cmd)->args[i])
 	{
 		char *s = (*cmd)->args[i];
 		if (!s)
-			return;
+			return 1;
 		equal = ft_strchr(s, '=');
 		if (equal)
 		{
@@ -99,20 +99,21 @@ void	exec_export(t_env **env, t_exec **cmd)
 			key = s;
 			value = NULL;
 			if ((*cmd)->args[i + 1] == NULL)
-				return;
+				return 1;
 			if (pars_export((*cmd)->args[i + 1]) == -1)
-				return;
+				return 1;
 		}
 		if (!is_valid_env_key(key))
 		{
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd((*cmd)->args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			return ;
+			return 1;
 		}
 		if (value)
 			add_or_update_env(env, key, value);
 		i++;
 	}
+	return 0;
 }
 
