@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst_env, char **env, t_exec **cmd)
+static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst_env, char **env, t_exec **cmd, int *status)
 {
 	apply_redirect(fnl);
 
@@ -28,20 +28,19 @@ static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst
 	}
 
 	if (is_builtins(fnl->args->str) != -1)
-		exec_builtins(&lst_env, cmd, fnl);
+		exec_builtins(&lst_env, cmd, fnl, status);
 	else
-		exec_cmd(env, cmd, fnl);
-
+		exec_cmd(env, cmd, fnl, status);
+	*status = 1;
 	exit(1); 
 }
 
 
-int	execute(t_final_struct *list, t_env *lst_env, char **env)
+int	execute(t_final_struct *list, t_env *lst_env, char **env, int *status)
 {
 	int		fd[2];
 	int		in_fd = STDIN_FILENO;
 	pid_t		pid;
-	int		status;
 	t_exec *exec; 
 	t_final_struct *cmd = list;
 
@@ -57,7 +56,7 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		}
 		pid = fork();
 		if (pid == 0)
-			child_process(cmd, in_fd, fd[1], lst_env, env, &exec);
+			child_process(cmd, in_fd, fd[1], lst_env, env, &exec, status);
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
 		if (cmd->next)
@@ -66,7 +65,7 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		list = list->next;
 		cmd = cmd->next;
 	}
-	while (wait(&status) > 0)
+	while (wait(status) > 0)
 		; 
-	return 1;
+	return *status;
 }
