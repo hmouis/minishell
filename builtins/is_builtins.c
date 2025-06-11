@@ -32,7 +32,7 @@ int	is_builtins(char *cmd)
 }
 
 
-int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
+int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc, int *status)
 {
 	int builtin_type;
 	
@@ -40,19 +40,19 @@ int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 	if (builtin_type == -1)
 		return -1;
 	if (builtin_type == e_echo)
-		exec_echo(cmd);
+		*status = exec_echo(cmd);
 	else if (builtin_type == e_pwd)
-		exec_pwd(lst_env);
+		*status = exec_pwd(lst_env);
 	else if (builtin_type == e_export)
-		exec_export(lst_env, cmd);
+		*status = exec_export(lst_env, cmd);
 	else if (builtin_type == e_env)
-		exec_env(lst_env);
+		*status = exec_env(lst_env);
 	else if (builtin_type == e_cd)
-		exec_cd(lst_env, cmd);
+		*status = exec_cd(lst_env, cmd);
 	else if (builtin_type == e_unset)
-		exec_unset(lst_env, cmd);
+		*status = exec_unset(lst_env, cmd);
 	else if (builtin_type == e_exit)
-	  	exec_exit(cmd);
-	return 0;
+	  	*status = exec_exit(cmd, status);
+	return *status;
 }
 
