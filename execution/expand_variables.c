@@ -23,9 +23,7 @@ void	expand_variable(char **env, t_exec *exec, t_env **lst, int *status)
 	{
 		if (ft_strcmp(exec->args[i], "$?") == 0)
 		{
-			(*lst)->key = "?";
-			(*lst)->data = ft_itoa(*status);
-			add_env_to_list(lst, env);
+			printf("%d\n", g_exit_status);
 		}
 		i++;
 	}
