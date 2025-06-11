@@ -93,7 +93,6 @@ typedef struct s_exp
 typedef struct s_exec
 {
 	char					**args;
-	int					*exit_status;
 }						t_exec;
 
 typedef struct s_gnl
@@ -270,19 +269,19 @@ char			*ft_itoa(int n);
 int			ft_strcmp(char *s1, char *s2);
 
 // execution
-int			exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc);
-int			exec_cmd(char **env, t_exec **cmd, t_final_struct *tmp);
-int			execute(t_final_struct *list, t_env *env_list, char **env);
+int			exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc, int *status);
+int			exec_cmd(char **env, t_exec **cmd, t_final_struct *tmp, int *status);
+int			execute(t_final_struct *list, t_env *env_list, char **env, int *status);
 
-void			exec_env(t_env **lst);
-void			exec_echo(t_exec **cmd);
-void			exec_export(t_env **env, t_exec **cmd);
-void			exec_unset(t_env **env, t_exec **key);
-void			exec_exit(t_exec **cmd);
-void			exec_pwd(t_env **env);
-void			exec_cd(t_env **env, t_exec **cmd);
+int				exec_env(t_env **lst);
+int				exec_echo(t_exec **cmd);
+int				exec_export(t_env **env, t_exec **cmd);
+int				exec_unset(t_env **env, t_exec **key);
+int				exec_exit(t_exec **cmd, int *status);
+int				exec_pwd(t_env **env);
+int				exec_cd(t_env **env, t_exec **cmd);
 char			*get_variable(t_env **env, char *key);
-void			expand_variable(char **env, t_exec *exec, t_env **lst);
+void			expand_variable(char **env, t_exec *exec, t_env **lst, int *status);
 int			type_of_redirect(char *redirect);
 int			apply_redirect(t_final_struct *struc);
 void			update_env(t_env **env, char *oldpwd, char *pwd);
