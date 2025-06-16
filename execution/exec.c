@@ -77,7 +77,6 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 	if (!file)
 	{
 		ft_putstr_fd("command not found: ", 2);
-		g_exit_status = 127;
 		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
 		{
 			ft_putstr_fd((*cmd)->args[0], 2);
