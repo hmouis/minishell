@@ -75,5 +75,9 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 	}
 	while (wait(&status) > 0)
 		;
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else
+		g_exit_status = 1;
 	return status;
 }
