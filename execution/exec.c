@@ -1,5 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -79,13 +77,18 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 	if (!file)
 	{
 		ft_putstr_fd("command not found: ", 2);
-		ft_putstr_fd((*cmd)->args[0], 2);
-		ft_putstr_fd("\n", 2);
-		status = 127;
+		g_exit_status = 127;
+		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
+		{
+			ft_putstr_fd((*cmd)->args[0], 2);
+			printf("\n");
+		}
+		else
+			printf("%d\n", g_exit_status);
 		exit(127);
 	}
     	execve(file, (*cmd)->args, env);
     	perror("execve");
-	status = 126;
+	g_exit_status = 126;
 	exit(126);
 }
