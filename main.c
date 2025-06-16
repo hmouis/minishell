@@ -110,7 +110,6 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		/*debug_final(fnl);*/
 		if (fnl && fnl->args)
 		{
 			exec = gnl_to_array(fnl->args);
