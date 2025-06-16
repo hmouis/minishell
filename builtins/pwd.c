@@ -1,5 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -22,9 +20,13 @@ void	exec_pwd(t_env **env)
 		if ((*env)->pwd)
 			printf("%s\n", (*env)->pwd);
 		else
+		{
 			perror("pwd");
+			g_exit_status = 1;
+		}
 	}
 	else
 		printf("%s\n", buffer);
 	free(buffer);
+	g_exit_status = 0;
 }
