@@ -26,7 +26,10 @@ void	exec_echo(t_exec **cmd)
 	}
 	while ((*cmd)->args[i])
 	{
-		printf("%s", (*cmd)->args[i]);
+		if (ft_strcmp((*cmd)->args[i], "$?") != 0)
+			printf("%s", (*cmd)->args[i]);
+		else
+			printf("%d", g_exit_status);
 		if ((*cmd)->args[i + 1])
 			printf(" ");
 		i++;
