@@ -27,24 +27,19 @@ static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst
 		close(out_fd);
 	}
 
-	if (is_builtins(fnl->args->str) != -1)
-		exec_builtins(&lst_env, cmd, fnl);
-	else
-		exec_cmd(env, cmd, fnl);
-
-	exit(1); 
+	int status = exec_cmd(env, cmd, fnl);
+	exit(status); 
 }
-
 
 int	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
 	int		fd[2];
 	int		in_fd = STDIN_FILENO;
+	int		status = 0;
 	pid_t		pid;
-	int		status;
 	t_exec *exec; 
 	t_final_struct *cmd = list;
-
+	int i = 0;
 	while (cmd)
 	{
 		exec = gnl_to_array(cmd->args);
@@ -54,6 +49,18 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		{
 			fd[0] = STDIN_FILENO;
 			fd[1] = STDOUT_FILENO;
+		}
+		if (is_builtins(cmd->args->str) != -1)
+		{
+			exec_builtins(&lst_env, &exec, list);
+			if (in_fd != STDIN_FILENO)
+				close(in_fd);
+			if (cmd->next)
+				close(fd[1]);
+			in_fd = fd[0];
+			list = list->next;
+			cmd = cmd->next;
+			continue;
 		}
 		pid = fork();
 		if (pid == 0)
@@ -66,8 +73,7 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		list = list->next;
 		cmd = cmd->next;
 	}
-
 	while (wait(&status) > 0)
-		; 
-	return 1;
+		;
+	return status;
 }
