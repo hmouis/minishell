@@ -22,8 +22,7 @@ void	exec_cd(t_env **env, t_exec **cmd)
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
-		status = 1;
-		(*cmd)->exit_status = &status;
+		g_exit_status = 1;
 		return ;
 	}
 	if (!(*cmd)->args[1])
@@ -35,11 +34,10 @@ void	exec_cd(t_env **env, t_exec **cmd)
 		ft_putstr_fd("minishell: cd: ", 2);
 		ft_putstr_fd(new_dir , 2);
 		perror(":");
-		(*cmd)->exit_status = &status;
+		g_exit_status = 1;
 		return ;
 	}
 	(*env)->pwd = getcwd(NULL, 0);
 	update_env(env, (*env)->oldpwd, (*env)->pwd);
-	status = 1;
-	(*cmd)->exit_status = &status;
+	g_exit_status = 0;
 }
