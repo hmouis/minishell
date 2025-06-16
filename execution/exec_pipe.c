@@ -31,7 +31,7 @@ static void	child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst
 	exit(status); 
 }
 
-int	execute(t_final_struct *list, t_env *lst_env, char **env)
+void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
 	int		fd[2];
 	int		in_fd = STDIN_FILENO;
@@ -79,5 +79,4 @@ int	execute(t_final_struct *list, t_env *lst_env, char **env)
 		g_exit_status = WEXITSTATUS(status);
 	else
 		g_exit_status = 1;
-	return status;
 }
