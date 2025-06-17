@@ -1,5 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -84,6 +82,8 @@ void	handle_sig(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+int	g_exit_status;
 
 int	main(int ac, char **av, char **env)
 {

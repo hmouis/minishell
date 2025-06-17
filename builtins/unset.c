@@ -19,17 +19,11 @@ void	exec_unset(t_env **env, t_exec **key)
 
 	tmp = *env;
 	if (!key || !(*key)->args[0] || !(*key)->args[1])
-	{
-		(*key)->exit_status = 0;
 		return;
-	}
 	while (tmp)
 	{
 		if (!tmp)
-		{
-			(*key)->exit_status = 0;
 			return;
-		}
 		after_node = tmp->next;
 		if (ft_strcmp(after_node->key, (*key)->args[1]) == 0)
 		{
@@ -39,4 +33,5 @@ void	exec_unset(t_env **env, t_exec **key)
 		}
 		tmp = tmp->next;
 	}
+	g_exit_status = 0;
 }

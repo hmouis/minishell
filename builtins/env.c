@@ -22,4 +22,5 @@ void	exec_env(t_env **lst)
 		printf("%s=%s\n", first->key, first->data);
 		first = first->next;
 	}
+	g_exit_status = 0;
 }

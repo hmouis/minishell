@@ -1,5 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
@@ -61,6 +59,7 @@ int	pars_export(char *s)
 		if (s[i + 1] && s[i + 1] == ' ')
 		{
 			ft_putstr_fd("minishell: export: `=': not a valid identifier\n", 2);
+			g_exit_status = 1;
 			return -1;
 		}
 		else
@@ -68,6 +67,7 @@ int	pars_export(char *s)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(s, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
+			g_exit_status = 1;
 			return -1;
 		}
 	}
@@ -108,11 +108,13 @@ void	exec_export(t_env **env, t_exec **cmd)
 			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd((*cmd)->args[i], 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
+			g_exit_status = 1;
 			return ;
 		}
 		if (value)
 			add_or_update_env(env, key, value);
 		i++;
 	}
+	g_exit_status = 0;
 }
 
