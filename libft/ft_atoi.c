@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
 	int		i;
 	long	result;
@@ -25,8 +25,6 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	if (str[i] != '\0')
-		return (-1);
-	if (result > INT_MAX || result < INT_MIN)
 		return (-1);
 	return (result);
 }

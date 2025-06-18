@@ -40,20 +40,12 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	t_exec *exec;
 	t_final_struct *cmd = list;
 
-	if (cmd && !cmd->next && cmd->args && is_builtins(cmd->args->str) != -1)
+	if (cmd && !cmd->next && cmd->args && is_builtins(cmd->args->str) != -1 && !cmd->redirect)
 	{
-		int saved_in = dup(STDIN_FILENO);
-		int saved_out = dup(STDOUT_FILENO);
-		apply_redirect(cmd);
 		exec = gnl_to_array(cmd->args);
 		exec_builtins(&lst_env, &exec, cmd);
-		dup2(saved_in, STDIN_FILENO);
-		dup2(saved_out, STDOUT_FILENO);
-		close(saved_in);
-		close(saved_out);
 		return;
 	}
-
 	while (cmd)
 	{
 		exec = gnl_to_array(cmd->args);

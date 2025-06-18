@@ -116,6 +116,7 @@ typedef struct s_final_struct
 	t_gnl					*args;
 	t_gnl					*redirect;
 	t_herdoc				*herdoc;
+	t_env					*lst_env;
 	struct s_final_struct	*next;
 }							t_final_struct;
 
@@ -145,7 +146,7 @@ typedef struct s_helper_var
 {
 	char					*str;
 	char					*field_str;
-	int						flag;
+	int					flag;
 }							t_helper_va;
 
 /*her_doc*/
@@ -262,7 +263,7 @@ char			*ft_strncpy(char *dest, const char *src, size_t n);
 int			is_alpha(char c);
 int			is_alnum(char c);
 int			ft_is_digits(char c);
-int			ft_atoi(char *str);
+long			ft_atoi(char *str);
 char			*ft_strchr(char *s, char c);
 char			*ft_substr(char *s, int start, int len);
 void			ft_putstr_fd(char *s, int fd);
@@ -279,7 +280,7 @@ void			exec_env(t_env **lst);
 void			exec_echo(t_exec **cmd);
 void			exec_export(t_env **env, t_exec **cmd);
 void			exec_unset(t_env **env, t_exec **key);
-void			exec_exit(t_exec **cmd);
+void			exec_exit(t_final_struct *fnl, t_exec **cmd);
 void			exec_pwd(t_env **env);
 void			exec_cd(t_env **env, t_exec **cmd);
 char			*get_variable(t_env **env, char *key);

@@ -121,8 +121,9 @@ int	main(int ac, char **av, char **env)
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
 			if (fnl->args && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
-				exec_exit(&exec);
-			execute(fnl, list, env);
+				exec_exit(fnl, &exec);
+			else
+				execute(fnl, list, env);
 		}
 		cmd = NULL;
 		fnl = NULL;

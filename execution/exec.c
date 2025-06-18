@@ -67,28 +67,33 @@ char	*file_path(char *file)
 	return found;
 }
 
-int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
+int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-	int	status;
-	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-		exit(127);
-	char	*path = struc->args->str;
-	char *file = file_path(path);
-	if (!file)
-	{
-		ft_putstr_fd("command not found: ", 2);
-		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
-		{
-			ft_putstr_fd((*cmd)->args[0], 2);
-			printf("\n");
-		}
-		else
-			printf("%d\n", g_exit_status);
-		ft_malloc(0, 0);
-		exit(127);
-	}
-    	execve(file, (*cmd)->args, env);
-    	perror("execve");
-	g_exit_status = 126;
-	exit(126);
+    if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
+        exit(127);
+
+    if (is_builtins((*cmd)->args[0]) != -1)
+    {
+        exec_builtins(&(struc->lst_env), cmd, struc);
+        exit(g_exit_status);
+    }
+    char *path = struc->args->str;
+    char *file = file_path(path);
+    if (!file)
+    {
+        ft_putstr_fd("command not found: ", 2);
+        if (ft_strcmp((*cmd)->args[0], "$?") != 0)
+        {
+            ft_putstr_fd((*cmd)->args[0], 2);
+            printf("\n");
+        }
+        else
+            printf("%d\n", g_exit_status);
+        ft_malloc(0, 0);
+        exit(127);
+    }
+    execve(file, (*cmd)->args, env);
+    perror("execve");
+    exit(126);
 }
+
