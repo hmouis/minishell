@@ -43,6 +43,8 @@ t_gnl	*cr_node(char *s)
 
 t_exec	*gnl_to_array(t_gnl *head)
 {
+	if (!head)
+		return NULL;
 	int	counter;
 	int	i;
 	t_exec	*arg;
