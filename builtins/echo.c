@@ -36,4 +36,5 @@ void	exec_echo(t_exec **cmd)
 	}
 	if (newline)
 		printf("\n");
+	g_exit_status = 0;
 }
