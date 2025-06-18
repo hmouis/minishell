@@ -52,7 +52,7 @@ int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 	else if (builtin_type == e_unset)
 		exec_unset(lst_env, cmd);
 	else if (builtin_type == e_exit)
-	  	exec_exit(cmd);
+	  	exec_exit(struc, cmd);
 	return 0;
 }
 
