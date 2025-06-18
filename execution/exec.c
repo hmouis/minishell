@@ -84,6 +84,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		}
 		else
 			printf("%d\n", g_exit_status);
+		ft_malloc(0, 0);
 		exit(127);
 	}
     	execve(file, (*cmd)->args, env);
