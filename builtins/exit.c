@@ -47,12 +47,13 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 	if (!(*cmd)->args[1])
 	{
 		g_exit_status = 0;
-		if (fnl && fnl->next == NULL)
+		if (fnl && !fnl->next)
 			printf("exit\n");
 		ft_malloc(0, 0);
 		exit (0);
 	}
-	g_exit_status = ft_atoi((*cmd)->args[1]);
+	g_exit_status = ft_atoi((*cmd)->args[1]) % 256;
 	ft_malloc(0, 0);
+	printf("exit\n");
 	exit(g_exit_status);
 }
