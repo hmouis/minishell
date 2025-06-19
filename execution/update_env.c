@@ -26,4 +26,3 @@ void	update_env(t_env **env, char *oldpwd, char *pwd)
 		tmp = tmp->next;
 	}
 }
-
