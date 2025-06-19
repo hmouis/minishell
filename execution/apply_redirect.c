@@ -15,25 +15,27 @@
 int	type_of_redirect(char *redirect)
 {
 	if (!redirect)
-		return -1;
+		return (-1);
 	if (ft_strcmp(redirect, "<") == 0)
-		return op_redirect_input;
+		return (op_redirect_input);
 	else if (ft_strcmp(redirect, ">") == 0)
-		return op_redirect_output;
+		return (op_redirect_output);
 	else if (ft_strcmp(redirect, ">>") == 0)
-		return op_append;
-	return -1;
+		return (op_append);
+	return (-1);
 }
 
-int	append_(char* filename)
+int	append_(char *filename)
 {
-	int fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	int	fd;
+
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		perror("open for append");
-		return -1;
+		return (-1);
 	}
-	return fd;
+	return (fd);
 }
 
 void	handle_input(int *fd, char *file)
@@ -42,7 +44,7 @@ void	handle_input(int *fd, char *file)
 	if (*fd < 0)
 	{
 		perror("minishell");
-		exit(1) ;
+		exit(1);
 	}
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
@@ -63,7 +65,7 @@ void	handle_output(int *fd, char *file)
 void	handle_append(int *fd, char *file)
 {
 	*fd = append_(file);
-	 if (*fd < 0)
+	if (*fd < 0)
 	{
 		perror("");
 		return ;
@@ -74,18 +76,19 @@ void	handle_append(int *fd, char *file)
 
 int	apply_redirect(t_final_struct *struc)
 {
-	int	fd;
-	int	status;
-	int	redirect;
-	char	*file;
-	t_final_struct	*tmp = struc;
+	int				fd;
+	int				status;
+	int				redirect;
+	char			*file;
+	t_final_struct	*tmp;
 
+	tmp = struc;
 	while (tmp->redirect)
 	{
 		if (!tmp->redirect->next)
 		{
 			ft_putstr_fd("syntax error: missing file for redirection\n", 2);
-			return -1;
+			return (-1);
 		}
 		redirect = type_of_redirect(tmp->redirect->str);
 		file = tmp->redirect->next->str;
@@ -96,8 +99,8 @@ int	apply_redirect(t_final_struct *struc)
 		else if (redirect == op_append && tmp->redirect->type != -1)
 			handle_append(&fd, file);
 		else
-			return -1;
+			return (-1);
 		tmp->redirect = tmp->redirect->next->next;
 	}
-	return 0;
+	return (0);
 }
