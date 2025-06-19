@@ -12,17 +12,18 @@
 
 #include "../minishell.h"
 
-void child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst_env, char **env, t_exec **exec)
+void	child_process(t_final_struct *fnl, int in_fd, int out_fd,
+		t_env *lst_env, char **env, t_exec **exec)
 {
 	if (!fnl || !lst_env || !exec)
 		exit(EXIT_FAILURE);
 	apply_redirect(fnl);
-	if (in_fd != STDIN_FILENO) 
+	if (in_fd != STDIN_FILENO)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
-	if (out_fd != STDOUT_FILENO) 
+	if (out_fd != STDOUT_FILENO)
 	{
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
@@ -33,60 +34,59 @@ void child_process(t_final_struct *fnl, int in_fd, int out_fd, t_env *lst_env, c
 
 void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
-	int fd[2];
-	int in_fd = STDIN_FILENO;
-	int status;
-	pid_t pid;
-	t_exec *exec;
-	t_final_struct *cmd = list;
+	int		fd[2];
+	int		in_fd;
+	int		status;
+	int		pid;
+	t_exec	*exec;
 
-    	if (cmd && !cmd->next && cmd->args && is_builtins(cmd->args->str) != -1 && !cmd->redirect)
+	in_fd = STDIN_FILENO;
+	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
+		&& !list->redirect)
 	{
-		exec = gnl_to_array(cmd->args);
-		exec_builtins(&lst_env, &exec, cmd);
-        	return;
+		exec = gnl_to_array(list->args);
+		exec_builtins(&lst_env, &exec, list);
+		return ;
 	}
-
-	while (cmd) 
+	while (list)
 	{
-		exec = gnl_to_array(cmd->args);
-
-		if (cmd->next) 
+		exec = gnl_to_array(list->args);
+		if (list->next)
 		{
-        		if (pipe(fd) == -1) 
-	    		{
+			if (pipe(fd) == -1)
+			{
 				perror("pipe");
 				exit(EXIT_FAILURE);
-            		}
-        	} 
-		else 
+			}
+		}
+		else
 		{
-            		fd[0] = STDIN_FILENO;
-           		fd[1] = STDOUT_FILENO;
-        	}
-        	pid = fork();
-        	if (pid < 0) 
+			fd[0] = STDIN_FILENO;
+			fd[1] = STDOUT_FILENO;
+		}
+		pid = fork();
+		if (pid < 0)
 		{
-            		perror("fork");
-            		exit(EXIT_FAILURE);
-        	}
-        	if (pid == 0) 
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
 		{
-            		if (cmd->next)
-		    		close(fd[0]);
-            		child_process(cmd, in_fd, fd[1], lst_env, env, &exec);
-        	}
-        	if (in_fd != STDIN_FILENO)
-            		close(in_fd);
-        	if (cmd->next)
-            		close(fd[1]);
-        	in_fd = fd[0];
-        	cmd = cmd->next;
-    	}
-    	while (wait(&status) > 0)
-        	;
-    	if (WIFEXITED(status))
-        	g_exit_status = WEXITSTATUS(status);
-    	else
-        	g_exit_status = 1;
+			if (list->next)
+				close(fd[0]);
+			child_process(list, in_fd, fd[1], lst_env, env, &exec);
+		}
+		if (in_fd != STDIN_FILENO)
+			close(in_fd);
+		if (list->next)
+			close(fd[1]);
+		in_fd = fd[0];
+		list = list->next;
+	}
+	while (wait(&status) > 0)
+		;
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else
+		g_exit_status = 1;
 }
