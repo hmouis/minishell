@@ -29,9 +29,9 @@ void exec_unset(t_env **env, t_exec **key)
 				prev->next = curr->next;
 			else
 				*env = curr->next;
-
-			free(curr->key);
-			free(curr->data);
+			curr->key = NULL;
+			curr->data = NULL;
+			curr = NULL;
 			break;
 		}
 		prev = curr;
