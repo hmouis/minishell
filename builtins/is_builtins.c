@@ -15,30 +15,29 @@
 int	is_builtins(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
-		return e_echo;
+		return (e_echo);
 	else if (ft_strcmp(cmd, "cd") == 0)
-			return e_cd;
+		return (e_cd);
 	else if (ft_strcmp(cmd, "pwd") == 0)
-			return e_pwd;
+		return (e_pwd);
 	else if (ft_strcmp(cmd, "export") == 0)
-			return e_export;
+		return (e_export);
 	else if (ft_strcmp(cmd, "unset") == 0)
-			return e_unset;
+		return (e_unset);
 	else if (ft_strcmp(cmd, "env") == 0)
-			return e_env;
+		return (e_env);
 	else if (ft_strcmp(cmd, "exit") == 0)
-			return e_exit;
-	return -1;
+		return (e_exit);
+	return (-1);
 }
 
-
-int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
+int	exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 {
-	int builtin_type;
-	
+	int	builtin_type;
+
 	builtin_type = is_builtins((*cmd)->args[0]);
 	if (builtin_type == -1)
-		return -1;
+		return (-1);
 	if (builtin_type == e_echo)
 		exec_echo(cmd);
 	else if (builtin_type == e_pwd)
@@ -52,7 +51,6 @@ int exec_builtins(t_env **lst_env, t_exec **cmd, t_final_struct *struc)
 	else if (builtin_type == e_unset)
 		exec_unset(lst_env, cmd);
 	else if (builtin_type == e_exit)
-	  	exec_exit(struc, cmd);
-	return 0;
+		exec_exit(struc, cmd);
+	return (0);
 }
-
