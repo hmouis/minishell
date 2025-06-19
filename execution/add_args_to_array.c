@@ -14,11 +14,11 @@
 
 int	len_nodes(t_gnl *list)
 {
-	if (!list)
-		return 0;
 	t_gnl	*tmp;
 	int		counter;
 
+	if (!list)
+		return (0);
 	tmp = list;
 	counter = 0;
 	while (tmp)
@@ -26,30 +26,30 @@ int	len_nodes(t_gnl *list)
 		tmp = tmp->next;
 		counter++;
 	}
-	return counter;
+	return (counter);
 }
 
 t_gnl	*cr_node(char *s)
 {
-	if (!s)
-		return NULL;
 	t_gnl	*node;
 
+	if (!s)
+		return (NULL);
 	node = ft_malloc(sizeof(t_gnl), 1);
 	node->str = s;
 	node->next = NULL;
-	return node;
+	return (node);
 }
 
 t_exec	*gnl_to_array(t_gnl *head)
 {
-	if (!head)
-		return NULL;
-	int	counter;
-	int	i;
+	int		counter;
+	int		i;
 	t_exec	*arg;
 	t_gnl	*tmp;
 
+	if (!head)
+		return (NULL);
 	tmp = head;
 	counter = len_nodes(head);
 	arg = ft_malloc(sizeof(t_exec), 1);
@@ -62,6 +62,5 @@ t_exec	*gnl_to_array(t_gnl *head)
 		i++;
 	}
 	arg->args[i] = NULL;
-	return arg;
+	return (arg);
 }
-
