@@ -1,12 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/17 12:07:50 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/17 12:12:38 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/05/29 15:13:40 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/02 11:50:25 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +81,7 @@ void	handle_sig(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	g_exit_status = 128 + sig;
+	g_exit_status = 130;
 }
 
 int	g_exit_status;
@@ -113,17 +111,15 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		if (fnl)
+		if (fnl && fnl->args)
 		{
-			if (fnl->args)
-				exec = gnl_to_array(fnl->args);
+			exec = gnl_to_array(fnl->args);
 			file = NULL;
 			if (fnl->redirect && fnl->redirect->next)
 				file = fnl->redirect->next->str;
-			if (fnl->args && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
-				exec_exit(fnl, &exec);
-			else
-				execute(fnl, list, env);
+			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
+			    exec_exit(fnl, &exec);
+			execute(fnl, list, env);
 		}
 		cmd = NULL;
 		fnl = NULL;
