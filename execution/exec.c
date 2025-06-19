@@ -10,90 +10,96 @@
 
 #include "../minishell.h"
 
-char	*get_path()
+char	*get_path(void)
 {
-	char *path;
+	char	*path;
 
 	path = getenv("PATH");
-	if (!path) 
+	if (!path)
 	{
 		perror("getenv");
-		return NULL;
+		return (NULL);
 	}
-	return path;
+	return (path);
 }
 
 char	*file_location(char *file, char *full_path)
 {
-	char	*tmp_path = ft_strdup(full_path);
+	char	*tmp_path;
+	char	*token;
+	int		len;
+	char	*path;
+
+	tmp_path = ft_strdup(full_path);
 	if (!tmp_path)
-		return NULL;
-	char *token = ft_strtok(tmp_path, ":");
+		return (NULL);
+	token = ft_strtok(tmp_path, ":");
 	while (token)
 	{
-		int len = str_len(token) + 1 + str_len(file) + 1;
-		char *path = ft_malloc(len, 1);
+		len = str_len(token) + 1 + str_len(file) + 1;
+		path = ft_malloc(len, 1);
 		if (!path)
 		{
 			ft_putstr_fd("error: malloc failed\n", 2);
-			return NULL;
+			return (NULL);
 		}
 		ft_strncpy(path, token, str_len(token));
 		path[str_len(token)] = '\0';
 		ft_strcat(path, "/");
 		ft_strcat(path, file);
 		if (access(path, X_OK) == 0)
-			return path;
+			return (path);
 		token = ft_strtok(NULL, ":");
 	}
-	return NULL;
+	return (NULL);
 }
 
 char	*file_path(char *file)
 {
 	char	*found;
 	char	*path;
+
 	if (file && (file[0] == '/' || ft_strchr(file, '/')))
 	{
 		if (access(file, X_OK) == 0)
-			return ft_strdup(file);
+			return (ft_strdup(file));
 		else
-		    return NULL;
+			return (NULL);
 	}
 	path = get_path();
 	if (!path)
-		return NULL;
+		return (NULL);
 	found = file_location(file, path);
-	return found;
+	return (found);
 }
 
-int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
+int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-    if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-        exit(127);
+	char	*path;
+	char	*file;
 
-    if (is_builtins((*cmd)->args[0]) != -1)
-    {
-        exec_builtins(&(struc->lst_env), cmd, struc);
-        exit(g_exit_status);
-    }
-    char *path = struc->args->str;
-    char *file = file_path(path);
-    if (!file)
-    {
-        ft_putstr_fd("command not found: ", 2);
-        if (ft_strcmp((*cmd)->args[0], "$?") != 0)
-        {
-            ft_putstr_fd((*cmd)->args[0], 2);
-            printf("\n");
-        }
-        else
-            printf("%d\n", g_exit_status);
-        ft_malloc(0, 0);
-        exit(127);
-    }
-    execve(file, (*cmd)->args, env);
-    perror("execve");
-    exit(126);
+	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
+		exit(127);
+	if (is_builtins((*cmd)->args[0]) != -1)
+	{
+		exec_builtins(&(struc->lst_env), cmd, struc);
+		exit(g_exit_status);
+	}
+	path = struc->args->str;
+	file = file_path(path);
+	if (!file)
+	{
+		ft_putstr_fd("command not found: ", 2);
+		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
+		{
+			ft_putstr_fd((*cmd)->args[0], 2);
+			printf("\n");
+		}
+		else
+			printf("%d\n", g_exit_status);
+		ft_malloc(0, 0);
+		exit(127);
+	}
+	execve(file, (*cmd)->args, env);
+	exit(126);
 }
-
