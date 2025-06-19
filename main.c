@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 15:13:40 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/02 11:50:25 by hmouis           ###   ########.fr       */
+/*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/19 15:08:37 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +86,15 @@ void	handle_sig(int sig)
 	g_exit_status = 130;
 }
 
-int	g_exit_status;
+int				g_exit_status;
 
 int	main(int ac, char **av, char **env)
 {
 	char			*test_line;
-	t_final_struct	*fnl;
+	t_final_struct		*fnl;
 	t_cmd			*cmd;
 	t_env			*list;
 	t_exec			*exec;
-	char			*file;
 
 	test_line = NULL;
 	fnl = NULL;
@@ -114,11 +115,9 @@ int	main(int ac, char **av, char **env)
 		if (fnl && fnl->args)
 		{
 			exec = gnl_to_array(fnl->args);
-			file = NULL;
-			if (fnl->redirect && fnl->redirect->next)
-				file = fnl->redirect->next->str;
-			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0 && fnl->next == NULL)
-			    exec_exit(fnl, &exec);
+			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0
+				&& fnl->next == NULL)
+				exec_exit(fnl, &exec);
 			execute(fnl, list, env);
 		}
 		cmd = NULL;
