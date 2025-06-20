@@ -17,7 +17,8 @@ void	child_process(t_final_struct *fnl, int in_fd, int out_fd,
 {
 	if (!fnl || !lst_env || !exec)
 		exit(EXIT_FAILURE);
-	apply_redirect(fnl);
+	if (apply_redirect(fnl) == -1)
+		return ;
 	if (in_fd != STDIN_FILENO)
 	{
 		dup2(in_fd, STDIN_FILENO);
