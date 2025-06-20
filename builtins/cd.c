@@ -15,8 +15,8 @@
 void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;
-	int	status;
-	
+	int		status;
+
 	if (!cmd || !(*cmd) || !env || !(*env))
 		return ;
 	(*env)->oldpwd = getcwd(NULL, 0);
@@ -33,7 +33,7 @@ void	exec_cd(t_env **env, t_exec **cmd)
 	if (chdir(new_dir) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(new_dir , 2);
+		ft_putstr_fd(new_dir, 2);
 		perror(":");
 		g_exit_status = 1;
 		return ;

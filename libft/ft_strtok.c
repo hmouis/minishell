@@ -20,13 +20,13 @@ char	*ft_strtok(char *str, char *delim)
 	if (str == NULL)
 		str = last_word;
 	if (str == NULL)
-		return NULL;
-	while (*str && ft_strchr(delim, *str))	
+		return (NULL);
+	while (*str && ft_strchr(delim, *str))
 		++str;
 	if (*str == '\0')
 	{
 		last_word = NULL;
-		return NULL;
+		return (NULL);
 	}
 	token_start = str;
 	while (*str && !ft_strchr(delim, *str))
@@ -38,5 +38,5 @@ char	*ft_strtok(char *str, char *delim)
 	}
 	else
 		last_word = NULL;
-    return token_start;
+	return (token_start);
 }

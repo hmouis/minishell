@@ -14,10 +14,11 @@
 
 char	*ft_strdup(char *s)
 {
-	int	i;
+	int		i;
 	char	*ptr;
+
 	if (!s)
-		return NULL;
+		return (NULL);
 	i = 0;
 	while (s[i])
 		i++;
@@ -29,6 +30,5 @@ char	*ft_strdup(char *s)
 		i++;
 	}
 	ptr[i] = '\0';
-	return ptr;
+	return (ptr);
 }
-

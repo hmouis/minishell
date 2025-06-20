@@ -16,20 +16,19 @@ int	is_numbers(char *arg)
 
 	i = 0;
 	if (!arg)
-		return 0;
+		return (0);
 	while (arg[i])
 	{
 		if (ft_is_digits(arg[i]) == 0)
-			return 0;
+			return (0);
 		i++;
 	}
-	return 1;
+	return (1);
 }
 
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
 	int i, (status);
-
 	i = 0;
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
@@ -42,7 +41,7 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 	{
 		ft_putstr_fd("exit\nminishell: exit : numeric argument required\n", 2);
 		g_exit_status = 2;
-		exit (2);
+		exit(2);
 	}
 	if (!(*cmd)->args[1])
 	{
@@ -50,7 +49,7 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 		if (fnl && !fnl->next)
 			printf("exit\n");
 		ft_malloc(0, 0);
-		exit (0);
+		exit(0);
 	}
 	g_exit_status = ft_atoi((*cmd)->args[1]) % 256;
 	ft_malloc(0, 0);

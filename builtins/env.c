@@ -14,7 +14,7 @@
 
 void	exec_env(t_env **lst)
 {
-	t_env *first;
+	t_env	*first;
 
 	first = *lst;
 	while (first)

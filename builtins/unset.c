@@ -6,32 +6,37 @@
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 17:01:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/31 22:35:59 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/19 15:38:36 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exec_unset(t_env **env, t_exec **key)
+void exec_unset(t_env **env, t_exec **key)
 {
-	t_env	*tmp;
-	t_env	*after_node;
+	t_env *curr;
+	t_env *prev;
 
-	tmp = *env;
+	curr = *env;
+	prev = NULL;
 	if (!key || !(*key)->args[0] || !(*key)->args[1])
 		return;
-	while (tmp)
+	while (curr)
 	{
-		if (!tmp)
-			return;
-		after_node = tmp->next;
-		if (ft_strcmp(after_node->key, (*key)->args[1]) == 0)
+		if (ft_strcmp(curr->key, (*key)->args[1]) == 0)
 		{
-			tmp->next = after_node->next;
-			free(after_node->key);
-			free(after_node->data);
+			if (prev)
+				prev->next = curr->next;
+			else
+				*env = curr->next;
+			curr->key = NULL;
+			curr->data = NULL;
+			curr = NULL;
+			break;
 		}
-		tmp = tmp->next;
+		prev = curr;
+		curr = curr->next;
 	}
 	g_exit_status = 0;
 }
+

@@ -20,20 +20,20 @@ char	*ft_substr(char *s, int start, int len)
 
 	i = 0;
 	if (!s)
-		return NULL;
+		return (NULL);
 	s_length = strlen(s);
 	if (start >= s_length)
-		return ft_strdup("");
+		return (ft_strdup(""));
 	if (len > s_length - start)
 		len = s_length - start;
 	sub = ft_malloc(len + 1, 1);
 	if (!sub)
-		return NULL;
+		return (NULL);
 	while (i < len && s[start + i])
 	{
 		sub[i] = s[start + i];
 		i++;
 	}
 	sub[i] = '\0';
-	return sub;
+	return (sub);
 }
