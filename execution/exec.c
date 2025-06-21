@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 16:49:04 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/19 16:49:28 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/21 14:20:19 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/21 14:26:54 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +29,8 @@ char	*file_location(char *file, char *full_path)
 {
 	char	*tmp_path;
 	char	*token;
-	int		len;
 	char	*path;
+	int		len;
 
 	tmp_path = ft_strdup(full_path);
 	if (!tmp_path)
@@ -39,10 +41,7 @@ char	*file_location(char *file, char *full_path)
 		len = str_len(token) + 1 + str_len(file) + 1;
 		path = ft_malloc(len, 1);
 		if (!path)
-		{
-			ft_putstr_fd("error: malloc failed\n", 2);
 			return (NULL);
-		}
 		ft_strncpy(path, token, str_len(token));
 		path[str_len(token)] = '\0';
 		ft_strcat(path, "/");
@@ -73,6 +72,12 @@ char	*file_path(char *file)
 	return (found);
 }
 
+static void	exec_msg_error(char *arg)
+{
+	ft_putstr_fd(arg, 2);
+	printf("\n");
+}
+
 int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
 	char	*path;
@@ -91,10 +96,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 	{
 		ft_putstr_fd("command not found: ", 2);
 		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
-		{
-			ft_putstr_fd((*cmd)->args[0], 2);
-			printf("\n");
-		}
+			exec_msg_error((*cmd)->args[0]);
 		else
 			printf("%d\n", g_exit_status);
 		ft_malloc(0, 0);
