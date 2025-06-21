@@ -6,11 +6,19 @@
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:44:50 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/31 14:44:24 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 14:12:58 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	cd_error_msg(char *new_dir)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(new_dir, 2);
+	perror(":");
+	g_exit_status = 1;
+}
 
 void	exec_cd(t_env **env, t_exec **cmd)
 {
@@ -32,10 +40,7 @@ void	exec_cd(t_env **env, t_exec **cmd)
 		new_dir = (*cmd)->args[1];
 	if (chdir(new_dir) == -1)
 	{
-		ft_putstr_fd("minishell: cd: ", 2);
-		ft_putstr_fd(new_dir, 2);
-		perror(":");
-		g_exit_status = 1;
+		cd_error_msg(new_dir);
 		return ;
 	}
 	(*env)->pwd = getcwd(NULL, 0);
