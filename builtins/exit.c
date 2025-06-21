@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 15:00:25 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/01 15:26:42 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/21 14:11:34 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/21 14:14:29 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +28,20 @@ int	is_numbers(char *arg)
 	return (1);
 }
 
+static void	exit_msg_error(void)
+{
+	printf("exit\nminishell: exit: too many arguments\n");
+	g_exit_status = 1;
+	ft_malloc(0, 0);
+}
+
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
 	int i, (status);
 	i = 0;
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
-		printf("exit\nminishell: exit: too many arguments\n");
-		g_exit_status = 1;
-		ft_malloc(0, 0);
+		exit_msg_error();
 		return ;
 	}
 	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
