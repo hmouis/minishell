@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:43:21 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:48:17 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef struct s_var_env
 /*type of tokens*/
 typedef enum e_types
 {
-	op_redirect_input,  // <
-	op_redirect_output, // >
-	op_herdoc,          // <<
-	op_append,          // >>
-	op_pipe,            // |
+	op_redirect_input,// <
+	op_redirect_output,// >
+	op_herdoc,// <<
+	op_append,// >>
+	op_pipe,// |
 	word,
 	var,
 	string,
@@ -323,8 +323,11 @@ void						exec_pwd(t_env **env);
 void						exec_cd(t_env **env, t_exec **cmd);
 char						*get_variable(t_env **env, char *key);
 int							type_of_redirect(char *redirect);
-int							apply_redirect(t_final_struct *struc);
+int							apply_redirect(t_final_struct *tmp);
+int							pars_red(t_gnl *red);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
+void						add_or_update_env(t_env **env, char *key,
+								char *value);
 
 /*garbage collector*/
 void						ft_lstdelone(t_list *lst, void (*del)(void *));
