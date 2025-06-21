@@ -6,24 +6,11 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:23:12 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 10:30:59 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 14:45:14 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	type_of_redirect(char *redirect)
-{
-	if (!redirect)
-		return (-1);
-	if (ft_strcmp(redirect, "<") == 0)
-		return (op_redirect_input);
-	else if (ft_strcmp(redirect, ">") == 0)
-		return (op_redirect_output);
-	else if (ft_strcmp(redirect, ">>") == 0)
-		return (op_append);
-	return (-1);
-}
 
 int	append_(char *filename)
 {
@@ -74,38 +61,12 @@ void	handle_append(int *fd, char *file)
 	close(*fd);
 }
 
-int pars_red(t_gnl *red)
+int	apply_redirect(t_final_struct *tmp)
 {
-	int count;
+	int		fd;
+	int		redirect;
+	char	*file;
 
-	count  = 0;
-	while (red)
-	{
-		red = red->next;
-		while (red && (red->type == -1 || red->type == var))
-		{
-			count++;
-			if (count > 1)
-			{
-				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-				return (0);
-			}
-			red = red->next;
-		}
-		count = 0;
-	}
-	return (1);
-}
-
-int	apply_redirect(t_final_struct *struc)
-{
-	int				fd;
-	int				status;
-	int				redirect;
-	char			*file;
-	t_final_struct	*tmp;
-
-	tmp = struc;
 	if (!pars_red(tmp->redirect))
 		return (-1);
 	while (tmp->redirect)
@@ -113,10 +74,7 @@ int	apply_redirect(t_final_struct *struc)
 		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
 		if (tmp->redirect->next->type == var && file[0] == '\0')
-		{
-			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
-			return (-1);
-		}
+			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), -1);
 		if (redirect == op_redirect_input && tmp->redirect->type != -1)
 			handle_input(&fd, file);
 		else if (redirect == op_redirect_output && tmp->redirect->type != -1)
