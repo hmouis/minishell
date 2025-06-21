@@ -74,6 +74,29 @@ void	handle_append(int *fd, char *file)
 	close(*fd);
 }
 
+int pars_red(t_gnl *red)
+{
+	int count;
+
+	count  = 0;
+	while (red)
+	{
+		red = red->next;
+		while (red && red->type == -1)
+		{
+			count++;
+			if (count > 1)
+			{
+				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+				return (0);
+			}
+			red = red->next;
+		}
+		count = 0;
+	}
+	return (1);
+}
+
 int	apply_redirect(t_final_struct *struc)
 {
 	int				fd;
@@ -83,14 +106,11 @@ int	apply_redirect(t_final_struct *struc)
 	t_final_struct	*tmp;
 
 	tmp = struc;
+	if (!pars_red(tmp->redirect))
+		return (-1);
 	while (tmp->redirect)
 	{
-		if (!tmp->redirect->next)
-		{
-			ft_putstr_fd("syntax error: missing file for redirection\n", 2);
-			return (-1);
-		}
-		redirect = type_of_redirect(tmp->redirect->str);
+		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
 		if (redirect == op_redirect_input && tmp->redirect->type != -1)
 			handle_input(&fd, file);

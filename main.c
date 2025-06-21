@@ -108,6 +108,12 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		test_line = readline("minishell~ ");
+		if(!test_line)
+		{
+			ft_malloc(0 , 0);
+			printf("exit\n");
+			exit(0);
+		}
 		add_history(test_line);
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
