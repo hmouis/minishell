@@ -91,7 +91,7 @@ int				g_exit_status;
 int	main(int ac, char **av, char **env)
 {
 	char			*test_line;
-	t_final_struct		*fnl;
+	t_final_struct	*fnl;
 	t_cmd			*cmd;
 	t_env			*list;
 	t_exec			*exec;
@@ -108,9 +108,9 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		test_line = readline("minishell~ ");
-		if(!test_line)
+		if (!test_line)
 		{
-			ft_malloc(0 , 0);
+			ft_malloc(0, 0);
 			printf("exit\n");
 			exit(0);
 		}
@@ -119,18 +119,8 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
 		if (fnl)
-		{
-			if (fnl && fnl->args)
-			{
-				exec = gnl_to_array(fnl->args);
-				if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0
-					&& fnl->next == NULL)
-					exec_exit(fnl, &exec);
-			}
 			execute(fnl, list, env);
-		}
 		cmd = NULL;
 		fnl = NULL;
 	}
 }
-
