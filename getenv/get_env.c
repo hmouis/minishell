@@ -27,11 +27,6 @@ t_env	*env_new_node(char *key, char *data)
 	return (node);
 }
 
-int	invalid_key_or_data(char *key, char *data, t_env *first)
-{
-	return (1);
-}
-
 char	*get_env_key(char *s)
 {
 	int	i;
@@ -93,8 +88,6 @@ void	add_env_to_list(t_env **lst, char **env)
 	{
 		var.key = get_env_key(env[var.i]);
 		var.data = get_env_data(env[var.i]);
-		if (invalid_key_or_data(var.key, var.data, first) == 0)
-			return ;
 		temp->next = env_new_node(var.key, var.data);
 		if (!temp->next)
 			return ;
