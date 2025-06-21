@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:46:23 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 09:45:09 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*n_of_herdoc(t_lst *lst, int *status)
 		if (number_of_herdoc == 17)
 		{
 			*status = 1;
-			return ("bash: maximum here-document count exceeded");
+			return ("minishell: maximum here-document count exceeded");
 		}
 		lst = lst->next;
 	}

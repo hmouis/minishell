@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:36:51 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 10:42:06 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 10:21:28 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ void	expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 		while (exp->string)
 		{
 			if (exp->string->type == var)
+			{
+				exp->type = var;
 				is_var(exp, &va, env, gnl);
+			}
 			else if (exp->string->type == double_quote)
 				check_double_quote(&va.str, env, exp);
 			else

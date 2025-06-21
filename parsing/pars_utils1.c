@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:47:24 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 09:45:03 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	error_msg(char *str, int status)
 {
 	if (status == 0)
-		printf("bash: syntax error near unexpected token `%s'\n", str);
+		printf("minishell: syntax error near unexpected token `%s'\n", str);
 	else
 		printf("%s\n", str);
 }

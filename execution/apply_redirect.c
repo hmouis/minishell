@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:23:12 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/17 12:11:51 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 10:30:59 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int pars_red(t_gnl *red)
 	while (red)
 	{
 		red = red->next;
-		while (red && red->type == -1)
+		while (red && (red->type == -1 || red->type == var))
 		{
 			count++;
 			if (count > 1)
@@ -112,6 +112,11 @@ int	apply_redirect(t_final_struct *struc)
 	{
 		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
+		if (tmp->redirect->next->type == var && file[0] == '\0')
+		{
+			ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+			return (-1);
+		}
 		if (redirect == op_redirect_input && tmp->redirect->type != -1)
 			handle_input(&fd, file);
 		else if (redirect == op_redirect_output && tmp->redirect->type != -1)

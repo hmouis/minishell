@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:59:11 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:25:02 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 09:44:54 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*expand_herdoc(char *str, t_env *env)
 
 void	put_error_msg(char *str)
 {
-	printf("bash: warning: ");
+	printf("minishell: warning: ");
 	printf("here-document delimited by end-of-file (wanted `%s')\n", str);
 }
 

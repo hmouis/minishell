@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/19 15:08:37 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 10:15:22 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,15 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		if (fnl && fnl->args)
+		if (fnl)
 		{
-			exec = gnl_to_array(fnl->args);
-			if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0
-				&& fnl->next == NULL)
-				exec_exit(fnl, &exec);
+			if (fnl && fnl->args)
+			{
+				exec = gnl_to_array(fnl->args);
+				if (fnl->args->str && ft_strcmp(fnl->args->str, "exit") == 0
+					&& fnl->next == NULL)
+					exec_exit(fnl, &exec);
+			}
 			execute(fnl, list, env);
 		}
 		cmd = NULL;
