@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 10:15:22 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/22 12:44:23 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	signal(SIGINT, handle_sig);
 	signal(SIGQUIT, SIG_IGN);
-	while (1)
+	while (1) 
 	{
 		test_line = readline("minishell~ ");
 		if (!test_line)
