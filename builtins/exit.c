@@ -32,7 +32,7 @@ int	is_numbers(char *arg)
 	return (1);
 }
 
-static void	exit_error_msg()
+static void	exit_error_msg(void)
 {
 	ft_putstr_fd("exit\nminishell: exit: numeric argument required\n", 2);
 	ft_malloc(0, 0);
