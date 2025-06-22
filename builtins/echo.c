@@ -3,22 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 06:40:56 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/26 09:40:19 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:58:20 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	print_with_exit_status(const char *arg)
+{
+	int	i;
+	int	in_single_quote;
+
+	i = 0;
+	in_single_quote = 0;
+	while (arg[i])
+	{
+		if (arg[i] == '\'')
+		{
+			in_single_quote = !in_single_quote;
+			putchar(arg[i]);
+			i++;
+		}
+		else if (!in_single_quote && arg[i] == '$' && arg[i + 1] == '?')
+		{
+			printf("%d", g_exit_status);
+			i += 2;
+		}
+		else
+		{
+			putchar(arg[i]);
+			i++;
+		}
+	}
+}
 
 void	exec_echo(t_exec **cmd)
 {
 	int	newline;
 	int	i;
 
-	i = 1;
 	newline = 1;
+	i = 1;
 	if ((*cmd)->args[i] && ft_strcmp((*cmd)->args[i], "-n") == 0)
 	{
 		newline = 0;
@@ -26,10 +54,7 @@ void	exec_echo(t_exec **cmd)
 	}
 	while ((*cmd)->args[i])
 	{
-		if (ft_strcmp((*cmd)->args[i], "$?") != 0)
-			printf("%s", (*cmd)->args[i]);
-		else
-			printf("%d", g_exit_status);
+		print_with_exit_status((*cmd)->args[i]);
 		if ((*cmd)->args[i + 1])
 			printf(" ");
 		i++;

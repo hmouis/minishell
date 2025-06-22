@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:50:10 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:17:23 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:20:56 by maelmahf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,33 @@ int	is_valid_env_key(const char *s)
 	return (i != 0);
 }
 
-static void	export_msg_error(char *s)
+void	add_or_update_env(t_env **env, char *key, char *value)
+{
+	t_env	*cur;
+	t_env	*new_node;
+	t_env	*last;
+
+	last = NULL;
+	cur = *env;
+	while (cur)
+	{
+		if (ft_strcmp(cur->key, key) == 0)
+		{
+			cur->data = NULL;
+			cur->data = ft_strdup(value);
+			return ;
+		}
+		last = cur;
+		cur = cur->next;
+	}
+	new_node = env_new_node(ft_strdup(key), ft_strdup(value));
+	if (last)
+		last->next = new_node;
+	else
+		*env = new_node;
+}
+
+static void	print_msg_error(char *s)
 {
 	ft_putstr_fd("minishell: export: `", 2);
 	ft_putstr_fd(s, 2);
@@ -42,14 +68,14 @@ static int	pars_export(char *s)
 		if (s[1] == ' ')
 			ft_putstr_fd("minishell: export: `=': not a valid identifier\n", 2);
 		else
-			export_msg_error(s);
+			print_msg_error(s);
 		g_exit_status = 1;
 		return (-1);
 	}
 	return (1);
 }
 
-static int	export_helper(t_env **env, t_exec **cmd, char *s)
+static int	export_helper(t_env **env, char *s)
 {
 	char	*equal;
 	char	*key;
@@ -68,7 +94,7 @@ static int	export_helper(t_env **env, t_exec **cmd, char *s)
 	}
 	if (!is_valid_env_key(key))
 	{
-		export_msg_error(s);
+		print_msg_error(s);
 		g_exit_status = 1;
 		return (0);
 	}
@@ -88,7 +114,7 @@ void	exec_export(t_env **env, t_exec **cmd)
 	{
 		if (pars_export((*cmd)->args[i]) == -1)
 			return ;
-		if (!export_helper(env, cmd, (*cmd)->args[i]))
+		if (!export_helper(env, (*cmd)->args[i]))
 			return ;
 		i++;
 	}

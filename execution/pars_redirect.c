@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_or_update_env.c                                :+:      :+:    :+:   */
+/*   pars_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 14:16:26 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:17:14 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/21 18:30:01 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/21 18:30:28 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_or_update_env(t_env **env, char *key, char *value)
+int	pars_red(t_gnl *red)
 {
-	t_env	*cur;
-	t_env	*new_node;
-	t_env	*last;
+	int	count;
 
-	last = NULL;
-	cur = *env;
-	while (cur)
+	count = 0;
+	while (red)
 	{
-		if (ft_strcmp(cur->key, key) == 0)
+		red = red->next;
+		while (red && (red->type == -1 || red->type == var))
 		{
-			cur->data = NULL;
-			cur->data = ft_strdup(value);
-			return ;
+			count++;
+			if (count > 1)
+			{
+				ft_putstr_fd("minishell: ambiguous redirect\n", 2);
+				return (0);
+			}
+			red = red->next;
 		}
-		last = cur;
-		cur = cur->next;
+		count = 0;
 	}
-	new_node = env_new_node(ft_strdup(key), ft_strdup(value));
-	if (last)
-		last->next = new_node;
-	else
-		*env = new_node;
+	return (1);
 }

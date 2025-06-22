@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+         #
+#    By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/06/21 14:19:43 by oait-h-m         ###   ########.fr        #
+#    Updated: 2025/06/21 18:31:22 by oait-h-m         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ execution/add_args_to_array.c \
 execution/exec.c \
 execution/exec_pipe.c \
 execution/apply_redirect.c \
-execution/pars_red.c \
+execution/pars_redirect.c \
 execution/update_env.c \
 builtins/env.c \
 builtins/echo.c \
@@ -44,7 +44,6 @@ builtins/unset.c \
 builtins/cd.c \
 builtins/exit.c \
 builtins/is_builtins.c \
-builtins/add_or_update_env.c \
 libft/ft_is_alnum.c \
 libft/ft_atoi.c \
 libft/ft_is_alpha.c \
@@ -64,8 +63,8 @@ parsing/herdoc.c \
 parsing/herdoc_utils1.c
 
 
-CC= cc
-CFLAGS= -g3
+CC= cc 
+CFLAGS= -Wall -Wextra -Werror -g3
  #-Wall -Wextra -Werror
  #-fsanitize=address
 RFLAG= -lreadline

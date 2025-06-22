@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:23:12 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:45:14 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:32:41 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ void	handle_append(int *fd, char *file)
 
 int	apply_redirect(t_final_struct *tmp)
 {
-	int		fd;
-	int		redirect;
-	char	*file;
+	int				fd;
+	int				redirect;
+	char			*file;
 
 	if (!pars_red(tmp->redirect))
 		return (-1);

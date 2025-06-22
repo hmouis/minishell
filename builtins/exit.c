@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 14:11:34 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:14:29 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/21 15:56:45 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/21 18:42:23 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,36 @@ int	is_numbers(char *arg)
 	i = 0;
 	if (!arg)
 		return (0);
+	if (arg[i] == '+' || arg[i] == '-')
+		i++;
+	if (arg[i] == '\0')
+		return (0);
 	while (arg[i])
 	{
-		if (ft_is_digits(arg[i]) == 0)
+		if (!isdigit(arg[i]))
 			return (0);
 		i++;
 	}
 	return (1);
 }
 
-static void	exit_msg_error(void)
+static void	exit_error_msg()
 {
-	printf("exit\nminishell: exit: too many arguments\n");
-	g_exit_status = 1;
+	ft_putstr_fd("exit\nminishell: exit: numeric argument required\n", 2);
 	ft_malloc(0, 0);
+	exit(2);
 }
 
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
-	int i, (status);
-	i = 0;
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
-		exit_msg_error();
+		printf("exit\nminishell: exit: too many arguments\n");
+		g_exit_status = 1;
 		return ;
 	}
 	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
-	{
-		ft_putstr_fd("exit\nminishell: exit : numeric argument required\n", 2);
-		g_exit_status = 2;
-		exit(2);
-	}
+		exit_error_msg();
 	if (!(*cmd)->args[1])
 	{
 		g_exit_status = 0;

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/21 14:20:19 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:26:54 by oait-h-m         ###   ########.fr       */
+/*   Created: 2025/06/21 18:29:06 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/21 18:35:14 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*file_location(char *file, char *full_path)
 {
 	char	*tmp_path;
 	char	*token;
-	char	*path;
 	int		len;
+	char	*path;
 
 	tmp_path = ft_strdup(full_path);
 	if (!tmp_path)
@@ -72,7 +72,7 @@ char	*file_path(char *file)
 	return (found);
 }
 
-static void	exec_msg_error(char *arg)
+static void	msg_error(char *arg)
 {
 	ft_putstr_fd(arg, 2);
 	printf("\n");
@@ -96,7 +96,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 	{
 		ft_putstr_fd("command not found: ", 2);
 		if (ft_strcmp((*cmd)->args[0], "$?") != 0)
-			exec_msg_error((*cmd)->args[0]);
+			msg_error((*cmd)->args[0]);
 		else
 			printf("%d\n", g_exit_status);
 		ft_malloc(0, 0);

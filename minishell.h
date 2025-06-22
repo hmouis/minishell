@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 12:03:24 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/21 14:48:17 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 18:37:19 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef enum e_types
 	string,
 	single_quote,
 	double_quote,
+	TYPE_INVALID = -1
 }							t_types;
 
 typedef enum e_builtins_type
@@ -255,11 +256,9 @@ char						*ft_strlcpy(char *token, char *input, int len,
 t_exec						*gnl_to_array(t_gnl *head);
 
 /*tokenizing*/
-int							token_dollar_sign(int *i, char *input, t_lst **lst,
-								t_var *var);
+int							token_dollar_sign(int *i, char *input, t_var *var);
 int							split_input(char *input, t_lst **lst);
-int							token_quote(int *i, char *input, t_lst **lst,
-								t_var *var);
+int							token_quote(int *i, char *input, t_var *var);
 int							token_operator(t_var *var, char *input,
 								t_lst **lst);
 int							end_of_input(t_var *var, char *input, t_lst **lst);
@@ -323,11 +322,9 @@ void						exec_pwd(t_env **env);
 void						exec_cd(t_env **env, t_exec **cmd);
 char						*get_variable(t_env **env, char *key);
 int							type_of_redirect(char *redirect);
-int							apply_redirect(t_final_struct *tmp);
 int							pars_red(t_gnl *red);
+int							apply_redirect(t_final_struct *tmp);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
-void						add_or_update_env(t_env **env, char *key,
-								char *value);
 
 /*garbage collector*/
 void						ft_lstdelone(t_list *lst, void (*del)(void *));

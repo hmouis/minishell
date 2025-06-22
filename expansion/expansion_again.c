@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_again.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:36:51 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/21 10:21:28 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 15:18:42 by maelmahf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	fnl_argm(t_env *list, t_lst *argm, t_new_exp **exp,
 		t_final_struct **fnl)
 {
 	t_new_exp	*tmp;
-	t_va		va;
 
 	*exp = new_lst_node(-1);
 	tmp = *exp;

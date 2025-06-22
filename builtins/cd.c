@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 09:44:50 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:12:58 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:21:02 by maelmahf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	cd_error_msg(char *new_dir)
 void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;
-	int		status;
 
 	if (!cmd || !(*cmd) || !env || !(*env))
 		return ;

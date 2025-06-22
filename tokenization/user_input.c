@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:48:20 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/07 10:20:48 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/21 15:18:34 by maelmahf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	split_input(char *input, t_lst **lst)
 			break ;
 		if (token_operator(&var, input, lst))
 			continue ;
-		if (token_quote(&var.i, input, lst, &var))
+		if (token_quote(&var.i, input, &var))
 			continue ;
-		if (token_dollar_sign(&var.i, input, lst, &var))
+		if (token_dollar_sign(&var.i, input, &var))
 			continue ;
 		if (token_blank(&var, input, lst))
 			continue ;
