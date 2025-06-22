@@ -24,6 +24,8 @@ t_env	*env_new_node(char *key, char *data)
 	node->key = key;
 	node->data = data;
 	node->next = NULL;
+	node->oldpwd = NULL;
+	node->pwd = NULL;
 	return (node);
 }
 
