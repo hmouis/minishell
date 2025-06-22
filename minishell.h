@@ -68,7 +68,7 @@ typedef enum e_types
 	string,
 	single_quote,
 	double_quote,
-	TYPE_INVALID = -1
+	type_invalid = -1
 }							t_types;
 
 typedef enum e_builtins_type
@@ -137,6 +137,15 @@ typedef struct s_final_struct
 	t_env					*lst_env;
 	struct s_final_struct	*next;
 }							t_final_struct;
+
+typedef struct s_child_params
+{
+	t_final_struct	*fnl;
+	int				in_fd;
+	int				out_fd;
+	char			**env;
+	t_exec			**exec;
+}	t_child_params;
 
 typedef struct s_new_exp
 {
@@ -325,6 +334,8 @@ int							type_of_redirect(char *redirect);
 int							pars_red(t_gnl *red);
 int							apply_redirect(t_final_struct *tmp);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
+void						add_or_update_env(t_env **env, char *key,
+								char *value);
 
 /*garbage collector*/
 void						ft_lstdelone(t_list *lst, void (*del)(void *));
