@@ -44,6 +44,7 @@ builtins/unset.c \
 builtins/cd.c \
 builtins/exit.c \
 builtins/is_builtins.c \
+builtins/add_or_update_env.c \
 libft/ft_is_alnum.c \
 libft/ft_atoi.c \
 libft/ft_is_alpha.c \
