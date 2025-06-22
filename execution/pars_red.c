@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_red.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 14:42:29 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:42:47 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/22 11:19:26 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ int	pars_red(t_gnl *red)
 	count = 0;
 	while (red)
 	{
+		if (red->type == op_herdoc)
+		{
+			red = red->next;
+			while (red && red->type == -1)
+				red = red->next;
+			continue;		
+		} 
 		red = red->next;
 		while (red && (red->type == -1 || red->type == var))
 		{

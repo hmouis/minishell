@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:23:12 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 14:45:14 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/22 11:19:33 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	apply_redirect(t_final_struct *tmp)
 	{
 		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
-		if (tmp->redirect->next->type == var && file[0] == '\0')
+		if (tmp->redirect->type != op_herdoc && tmp->redirect->next->type == var && file[0] == '\0')
 			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), -1);
 		if (redirect == op_redirect_input && tmp->redirect->type != -1)
 			handle_input(&fd, file);
