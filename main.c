@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 13:02:08 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/23 13:54:00 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 		if (flag == 0)
 		{
 			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
-			if (!herdoc)
+			if (!herdoc && g_exit_status == 130)
 				return (NULL);
 			fnl = creat_new_exp(list, &exp, cmd, &fnl);
 			tmp = fnl;
@@ -149,7 +149,6 @@ int	main(int ac, char **av, char **env)
 		test_line = readline("minishell~ ");
 		if (!test_line)
 		{
-			printf("here 1\n");
 			ft_malloc(0, 0);
 			printf("exit\n");
 			exit(0);
@@ -160,8 +159,8 @@ int	main(int ac, char **av, char **env)
 		fnl = fill_fnl(cmd, fnl, list);
 		if (cmd && fnl && fnl->herdoc)
 			pars_herdoc(fnl, cmd->redirect);
-		// if (fnl)
-		// 	execute(fnl, list, env);
+		if (fnl)
+			execute(fnl, list, env);
 		cmd = NULL;
 		fnl = NULL;
 	}
