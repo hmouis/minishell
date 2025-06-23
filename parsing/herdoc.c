@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 10:46:07 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:22:36 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/23 12:00:31 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,22 @@ void	fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
 		add_to_gnl_lst(lst, var, -1);
 	}
 }
+int ft_getc(FILE* stream)
+{
+	(void)stream;
+	char c;
+	if (g_exit_status == 130)
+		return (EOF);
+	if(read(0,&c,1) <= 0)
+		return EOF;
+	return c;
+}
+
+void	handle_sig_herdoc(int sig)
+{
+	(void)sig;
+	g_exit_status = 130;
+}
 
 t_gnl	*her_doc(char *del, t_env *env, t_gnl *lst)
 {
@@ -66,9 +82,12 @@ t_gnl	*her_doc(char *del, t_env *env, t_gnl *lst)
 	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
 		flag = 1;
 	del = remove_quotes(del);
+	signal(SIGINT, handle_sig_herdoc);
 	while (1)
 	{
 		line = readline("> ");
+		if (g_exit_status == 130)
+			return (NULL);
 		if (!line || !ft_strcmp(line, del))
 			return (empty_line(line, lst, del));
 		else if (line[0] == '\0')
@@ -89,6 +108,7 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 	remainder = 0;
 	*herdoc = new_herdoc();
 	head = *herdoc;
+	g_exit_status = 0;
 	while (redirect)
 	{
 		if (!ft_strcmp("<<", redirect->content))
@@ -101,9 +121,13 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 				*herdoc = (*herdoc)->next;
 			}
 			redirect = redirect->next;
+			rl_getc_function = ft_getc;
 			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
-			if (!(*herdoc)->list)
+			rl_getc_function = rl_getc;
+			if (!(*herdoc)->list && g_exit_status != 130)
 				add_to_gnl_lst(&(*herdoc)->list, "", -1);
+			else
+				return (NULL);
 		}
 		redirect = redirect->next;
 	}
