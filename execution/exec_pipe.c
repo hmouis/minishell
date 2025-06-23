@@ -6,7 +6,7 @@
 /*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 21:59:47 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 21:59:49 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/23 22:14:56 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 		}
 		if (pid == 0)
 		{
+			signal(SIGINT, SIG_IGN);
 			if (list->next)
 				close(fd[0]);
 			child_process(list, in_fd, fd[1], lst_env, env, &exec);
