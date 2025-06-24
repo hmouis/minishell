@@ -42,6 +42,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	t_exec	*exec;
 
 	in_fd = STDIN_FILENO;
+
 	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
 		&& !list->redirect)
 	{
@@ -53,29 +54,19 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	{
 		exec = gnl_to_array(list->args);
 		if (list->next)
-		{
-			if (pipe(fd) == -1)
-			{
-				perror("pipe");
-				exit(EXIT_FAILURE);
-			}
-		}
+			pipe(fd);
 		else
 		{
 			fd[0] = STDIN_FILENO;
 			fd[1] = STDOUT_FILENO;
 		}
 		pid = fork();
-		if (pid < 0)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_IGN);
 			if (list->next)
 				close(fd[0]);
+
 			child_process(list, in_fd, fd[1], lst_env, env, &exec);
 		}
 		if (in_fd != STDIN_FILENO)
@@ -92,3 +83,4 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	else
 		g_exit_status = 1;
 }
+
