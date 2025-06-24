@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/25 15:23:12 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 13:53:46 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/23 22:46:21 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,44 +61,11 @@ void	handle_append(int *fd, char *file)
 	dup2(*fd, STDOUT_FILENO);
 }
 
-void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
-{
-	int fd2;
-	ssize_t count;
-	
-	count = 0;
-	fd2 = open (file, O_WRONLY | O_CREAT | O_EXCL);
-	if (fd2 < 0)
-	{
-		perror("");
-		return ;
-	}
-	while (herdoc)
-	{
-		if (!herdoc->next)
-			break;
-		herdoc = herdoc->next;
-	}
-	while (herdoc->list)
-	{
-		count = write(fd2, herdoc->list->str, str_len(herdoc->list->str));
-		if (count < 0)
-			return ;
-		herdoc->list = herdoc->list->next;
-	}
-	*fd = open(file, O_RDONLY);
-	unlink(file);
-	dup2(*fd, STDOUT_FILENO);
-	close(*fd);
-	close(fd2);
-}
-
 int	apply_redirect(t_final_struct *tmp)
 {
 	int				fd;
 	int				redirect;
 	char			*file;
-	int flag = 0;
 
 	if (!pars_red(tmp->redirect))
 		return (-1);
@@ -114,11 +81,6 @@ int	apply_redirect(t_final_struct *tmp)
 			handle_output(&fd, file);
 		else if (redirect == op_append)
 			handle_append(&fd, file);
-		else if (flag == 0 && redirect == op_herdoc)
-		{
-			flag = 1;
-			handle_her_doc(&fd, file, tmp->herdoc);
-		}
 		else
 			return (-1);
 		tmp->redirect = tmp->redirect->next->next;
