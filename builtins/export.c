@@ -77,6 +77,18 @@ static int	export_helper(t_env **env, char *s)
 	return (1);
 }
 
+void	only_export(t_env *env)
+{
+	if (!env)
+		return ;
+	while (env)
+	{
+		printf("declare -x ");
+		printf("%s=%s\n", env->key, env->data);
+		env = env->next;
+	}
+}
+
 void	exec_export(t_env **env, t_exec **cmd)
 {
 	int	i;
@@ -84,6 +96,11 @@ void	exec_export(t_env **env, t_exec **cmd)
 	i = 1;
 	if (!cmd || !cmd[0])
 		return ;
+	if (!(*cmd)->args[1])
+	{
+		only_export(*env);
+	}
+	return ;
 	while ((*cmd)->args[i])
 	{
 		if (pars_export((*cmd)->args[i]) == -1)
