@@ -67,11 +67,11 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 	ssize_t count;
 	
 	count = 0;
-	fd2 = open (file, O_WRONLY | O_CREAT | O_EXCL);
+	fd2 = open(file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 	if (fd2 < 0)
 	{
-		perror("");
-		return ;
+		perror("open");
+		exit(1);
 	}
 	while (herdoc)
 	{
@@ -83,15 +83,27 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 	{
 		count = write(fd2, herdoc->list->str, str_len(herdoc->list->str));
 		if (count < 0)
-			return ;
+		{
+			perror("write");
+			close(fd2);
+			exit(1);
+		}
 		herdoc->list = herdoc->list->next;
 	}
+	close(fd2);  // Close writing fd before reading
+
 	*fd = open(file, O_RDONLY);
-	unlink(file);
+	if (*fd < 0)
+	{
+		perror("open read");
+		exit(1);
+	}
+	unlink(file); // Remove the file after opening for reading
+
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
-	close(fd2);
 }
+
 
 int	apply_redirect(t_final_struct *tmp)
 {
