@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/25 16:02:52 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/25 21:04:37 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,8 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 				return (NULL);
 			else
 				add_to_gnl_lst(&(*herdoc)->list, "", -1);
-			redirect = redirect->next;
-		}
+			}
+		redirect = redirect->next;
 	}
 	return (head);
 }
