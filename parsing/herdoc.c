@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maelmahf <maelmahf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/24 10:46:07 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/24 19:21:14 by maelmahf         ###   ########.fr       */
+/*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/24 22:29:02 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ void	fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
 		add_to_gnl_lst(lst, var, -1);
 	}
 }
-int ft_getc(FILE* stream)
+int	ft_getc(FILE *stream)
 {
+	char	c;
+
 	(void)stream;
-	char c;
 	if (g_exit_status == 130)
 		return (EOF);
-	if(read(0,&c,1) <= 0)
-		return EOF;
-	return c;
+	if (read(0, &c, 1) <= 0)
+		return (EOF);
+	return (c);
 }
 
 void	handle_sig_herdoc(int sig)
