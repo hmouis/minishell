@@ -76,7 +76,6 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 	remainder = 0;
 	*herdoc = new_herdoc();
 	head = *herdoc;
-	g_exit_status = 0;
 	while (redirect)
 	{
 		if (!ft_strcmp("<<", redirect->content))
