@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:05:56 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:03:57 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ typedef struct s_var_env
 /*type of tokens*/
 typedef enum e_types
 {
-	op_redirect_input,// <
-	op_redirect_output,// >
-	op_herdoc,// <<
-	op_append,// >>
-	op_pipe,// |
+	op_redirect_input,
+	op_redirect_output,
+	op_herdoc,
+	op_append,
+	op_pipe,
 	word,
 	var,
 	string,
@@ -140,12 +140,12 @@ typedef struct s_final_struct
 
 typedef struct s_child_params
 {
-	t_final_struct	*fnl;
-	int				in_fd;
-	int				out_fd;
-	char			**env;
-	t_exec			**exec;
-}	t_child_params;
+	t_final_struct			*fnl;
+	int						in_fd;
+	int						out_fd;
+	char					**env;
+	t_exec					**exec;
+}							t_child_params;
 
 typedef struct s_new_exp
 {
@@ -177,6 +177,11 @@ typedef struct s_helper_var
 }							t_helper_va;
 
 /*her_doc*/
+char						*remove_quotes(char *str);
+t_gnl						*empty_line(char *line, t_gnl *lst, char *del);
+void						fill_lst(char *line, int flag, t_env *env,
+								t_gnl **lst);
+void						allocate_herdoc(int *remainder, t_herdoc **herdoc);
 t_herdoc					*fill_herdoc(t_lst *redirect, t_env *env,
 								t_herdoc **herdoc);
 t_gnl						*her_doc(char *del, t_env *env, t_gnl *lst);

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:19:48 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 10:41:29 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/25 15:52:40 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	is_var(t_new_exp *exp, t_helper_va *va, t_env *env, t_gnl **gnl)
 	char	*tmp;
 
 	tmp = NULL;
+	exp->type = var;
 	tmp = get_env(exp->string->content + 1, env);
 	if (!tmp)
 		exp->string->content[0] = '\0';

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/21 09:45:09 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/25 15:59:49 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,15 @@ char	*simple_command(t_lst **lst)
 		*lst = (*lst)->next;
 	}
 	return (NULL);
+}
+
+void	allocate_herdoc(int *remainder, t_herdoc **herdoc)
+{
+	if (*remainder == 0)
+		*remainder = 1;
+	else
+	{
+		(*herdoc)->next = new_herdoc();
+		*herdoc = (*herdoc)->next;
+	}
 }

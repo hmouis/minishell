@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_again.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:07 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:00:09 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/25 15:52:36 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ void	expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 		while (exp->string)
 		{
 			if (exp->string->type == var)
-			{
-				exp->type = var;
 				is_var(exp, &va, env, gnl);
-			}
 			else if (exp->string->type == double_quote)
 				check_double_quote(&va.str, env, exp);
 			else

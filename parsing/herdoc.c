@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/24 22:29:02 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/25 16:02:52 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
 		add_to_gnl_lst(lst, var, -1);
 	}
 }
+
 int	ft_getc(FILE *stream)
 {
 	char	c;
@@ -65,40 +66,6 @@ int	ft_getc(FILE *stream)
 	if (read(0, &c, 1) <= 0)
 		return (EOF);
 	return (c);
-}
-
-void	handle_sig_herdoc(int sig)
-{
-	(void)sig;
-	g_exit_status = 130;
-}
-
-t_gnl	*her_doc(char *del, t_env *env, t_gnl *lst)
-{
-	char	*line;
-	int		flag;
-
-	line = NULL;
-	flag = 0;
-	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
-		flag = 1;
-	del = remove_quotes(del);
-	signal(SIGINT, handle_sig_herdoc);
-	while (1)
-	{
-		line = readline("> ");
-		if (g_exit_status == 130)
-			return (NULL);
-		if (!line || !ft_strcmp(line, del))
-			return (empty_line(line, lst, del));
-		else if (line[0] == '\0')
-		{
-			line = char_join(line, 2, '\n');
-			add_to_gnl_lst(&lst, line, -1);
-		}
-		else
-			fill_lst(line, flag, env, &lst);
-	}
 }
 
 t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
@@ -114,25 +81,17 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 	{
 		if (!ft_strcmp("<<", redirect->content))
 		{
-			if (remainder == 0)
-				remainder = 1;
-			else
-			{
-				(*herdoc)->next = new_herdoc();
-				*herdoc = (*herdoc)->next;
-			}
+			allocate_herdoc(&remainder, herdoc);
 			redirect = redirect->next;
 			rl_getc_function = ft_getc;
 			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
 			rl_getc_function = rl_getc;
-			if (!(*herdoc)->list)
-			{
-				if (g_exit_status == 130)
-					return (NULL);
+			if (!(*herdoc)->list && g_exit_status == 130)
+				return (NULL);
+			else
 				add_to_gnl_lst(&(*herdoc)->list, "", -1);
-			}
+			redirect = redirect->next;
 		}
-		redirect = redirect->next;
 	}
 	return (head);
 }
