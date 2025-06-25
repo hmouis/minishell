@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 13:54:00 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/25 18:40:08 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	tokenize_input(char *line, t_cmd **cmd)
 
 void	pars_herdoc(t_final_struct *fnl, t_lst *lst)
 {
-	t_gnl *s1;
-	t_gnl *s2;
-	t_gnl *save;
+	t_gnl	*s1;
+	t_gnl	*s2;
+	t_gnl	*save;
 
 	s1 = NULL;
 	save = NULL;
@@ -65,14 +65,16 @@ void	pars_herdoc(t_final_struct *fnl, t_lst *lst)
 			{
 				lst = lst->next->next;
 				fnl->redirect = fnl->redirect->next;
-				while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
+				while (fnl->redirect && (fnl->redirect->type == -1
+						|| fnl->redirect->type == var))
 					fnl->redirect = fnl->redirect->next;
-				continue;
+				continue ;
 			}
 			lst = lst->next;
 			s1 = fnl->redirect;
 			fnl->redirect = fnl->redirect->next;
-			while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
+			while (fnl->redirect && (fnl->redirect->type == -1
+					|| fnl->redirect->type == var))
 				fnl->redirect = fnl->redirect->next;
 			s2 = fnl->redirect;
 			s1->next = final_node(lst->content, -1);
@@ -82,6 +84,13 @@ void	pars_herdoc(t_final_struct *fnl, t_lst *lst)
 		fnl->redirect = save;
 		fnl = fnl->next;
 	}
+}
+
+void move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc)
+{
+	(*fnl)->herdoc = herdoc;
+	*fnl = (*fnl)->next;
+	*cmd = (*cmd)->next;
 }
 
 t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
@@ -98,8 +107,12 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 	while (cmd)
 	{
 		if (flag == 1)
+		{
 			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
-		if (flag == 0)
+			if (!herdoc && g_exit_status == 130)
+				return (NULL);
+		}
+			if (flag == 0)
 		{
 			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
 			if (!herdoc && g_exit_status == 130)
@@ -108,9 +121,7 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 			tmp = fnl;
 			flag = 1;
 		}
-		fnl->herdoc = herdoc;
-		cmd = cmd->next;
-		fnl = fnl->next;
+		move_struct(&fnl, &cmd, herdoc);
 	}
 	return (tmp);
 }
@@ -141,11 +152,10 @@ int	main(int ac, char **av, char **env)
 	add_env_to_list(&list, env);
 	(void)ac;
 	(void)av;
-
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
-	{	
-		signal(SIGINT, handle_sig);
-		signal(SIGQUIT, SIG_IGN);
+	{
 		test_line = readline("minishell~ ");
 		if (!test_line)
 		{
@@ -155,8 +165,10 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(test_line);
 		if (!tokenize_input(test_line, &cmd))
-			continue ;
+		continue ;
 		fnl = fill_fnl(cmd, fnl, list);
+		signal(SIGINT, handle_sig);
+		signal(SIGQUIT, SIG_IGN);
 		if (cmd && fnl && fnl->herdoc)
 			pars_herdoc(fnl, cmd->redirect);
 		if (fnl)
