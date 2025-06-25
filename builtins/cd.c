@@ -23,10 +23,16 @@ static void	cd_error_msg(char *new_dir)
 void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;
+	char *tmp;
 
 	if (!cmd || !(*cmd) || !env || !(*env))
 		return ;
 	(*env)->oldpwd = getcwd(NULL, 0);
+	tmp = NULL;
+	tmp = ft_strdup((*env)->oldpwd);
+	free((*env)->oldpwd);
+	(*env)->oldpwd = NULL;
+	(*env)->oldpwd = ft_strdup(tmp);
 	if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
 		ft_putstr_fd("minishell: cd: too many arguments\n", 2);
@@ -43,6 +49,11 @@ void	exec_cd(t_env **env, t_exec **cmd)
 		return ;
 	}
 	(*env)->pwd = getcwd(NULL, 0);
+	tmp = NULL;
+	tmp = ft_strdup((*env)->pwd);
+	free((*env)->pwd);
+	(*env)->pwd = NULL;
+	(*env)->pwd = ft_strdup(tmp);
 	update_env(env, (*env)->oldpwd, (*env)->pwd);
 	g_exit_status = 0;
 }

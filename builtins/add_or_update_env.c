@@ -37,4 +37,3 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 	else
 		*env = new_node;
 }
-
