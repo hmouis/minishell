@@ -16,7 +16,7 @@ long	ft_atoi(char *str)
 {
 	int		i;
 	int		sign;
-	long	result;
+	long long	result;
 
 	result = 0;
 	i = 0;
@@ -34,7 +34,5 @@ long	ft_atoi(char *str)
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}
-	if (str[i] != '\0')
-		return (-1);
 	return (result * sign);
 }
