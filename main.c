@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 15:04:20 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/25 18:40:08 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/26 15:07:26by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,43 +47,44 @@ int	tokenize_input(char *line, t_cmd **cmd)
 	return (1);
 }
 
-void	pars_herdoc(t_final_struct *fnl, t_lst *lst)
+void process_herdoc_list(t_final_struct *fnl, t_lst **lst)
 {
-	t_gnl	*s1;
-	t_gnl	*s2;
-	t_gnl	*save;
+    t_gnl *s1;
+    t_gnl *s2;
 
-	s1 = NULL;
-	save = NULL;
-	s2 = NULL;
-	while (fnl)
-	{
-		save = fnl->redirect;
-		while (lst)
-		{
-			if (lst->type != op_herdoc)
-			{
-				lst = lst->next->next;
-				fnl->redirect = fnl->redirect->next;
-				while (fnl->redirect && (fnl->redirect->type == -1
-						|| fnl->redirect->type == var))
-					fnl->redirect = fnl->redirect->next;
-				continue ;
-			}
-			lst = lst->next;
-			s1 = fnl->redirect;
-			fnl->redirect = fnl->redirect->next;
-			while (fnl->redirect && (fnl->redirect->type == -1
-					|| fnl->redirect->type == var))
-				fnl->redirect = fnl->redirect->next;
-			s2 = fnl->redirect;
-			s1->next = final_node(lst->content, -1);
-			s1->next->next = s2;
-			lst = lst->next;
-		}
-		fnl->redirect = save;
-		fnl = fnl->next;
-	}
+    while (*lst)
+    {
+        if ((*lst)->type != op_herdoc)
+        {
+            (*lst) = (*lst)->next->next;
+            fnl->redirect = fnl->redirect->next;
+            while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
+                fnl->redirect = fnl->redirect->next;
+            continue;
+        }
+        (*lst) = (*lst)->next;
+        s1 = fnl->redirect;
+        fnl->redirect = fnl->redirect->next;
+        while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
+            fnl->redirect = fnl->redirect->next;
+        s2 = fnl->redirect;
+        s1->next = final_node((*lst)->content, -1);
+        s1->next->next = s2;
+        (*lst) = (*lst)->next;
+    }
+}
+
+void pars_herdoc(t_final_struct *fnl, t_lst *lst)
+{
+    t_gnl *save;
+
+    while (fnl)
+    {
+        save = fnl->redirect;
+        process_herdoc_list(fnl, &lst);
+        fnl->redirect = save;
+        fnl = fnl->next;
+    }
 }
 
 void move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc)
@@ -112,7 +113,7 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 			if (!herdoc && g_exit_status == 130)
 				return (NULL);
 		}
-			if (flag == 0)
+		if (flag == 0)
 		{
 			herdoc = fill_herdoc(cmd->redirect, list, &herdoc);
 			if (!herdoc && g_exit_status == 130)
@@ -125,11 +126,12 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 	}
 	return (tmp);
 }
-
+int g_in_heredoc = 0;
 void	handle_sig(int sig)
 {
 	(void)sig;
-	write(1, "\n", 1);
+	if (!g_in_heredoc)
+        write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -152,11 +154,13 @@ int	main(int ac, char **av, char **env)
 	add_env_to_list(&list, env);
 	(void)ac;
 	(void)av;
-	signal(SIGINT, handle_sig);
-	signal(SIGQUIT, SIG_IGN);
+
 	while (1)
-	{
+	{	
+		signal(SIGINT, handle_sig);
+		signal(SIGQUIT, SIG_IGN);
 		test_line = readline("minishell~ ");
+		signal(SIGINT, SIG_IGN);
 		if (!test_line)
 		{
 			ft_malloc(0, 0);
@@ -167,12 +171,12 @@ int	main(int ac, char **av, char **env)
 		if (!tokenize_input(test_line, &cmd))
 		continue ;
 		fnl = fill_fnl(cmd, fnl, list);
-		signal(SIGINT, handle_sig);
-		signal(SIGQUIT, SIG_IGN);
 		if (cmd && fnl && fnl->herdoc)
 			pars_herdoc(fnl, cmd->redirect);
 		if (fnl)
 			execute(fnl, list, env);
+		if(g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
+			write(2,"\n",1);
 		cmd = NULL;
 		fnl = NULL;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:37 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/24 22:25:38 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/26 18:05:15 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,10 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
+	// else if (WIFSIGNALED(status))
+	// 		g_exit_status = 128 + WTERMSIG(status);
+	// else if (WIFSTOPPED(status))
+	// 		g_exit_status = 128 + WSTOPSIG(status);
 	else
 		g_exit_status = 1;
 }
