@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   apply_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/24 22:25:02 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/26 11:31:17 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,6 @@ int	apply_redirect(t_final_struct *tmp)
 			flag = 1;
 			handle_her_doc(&fd, file, tmp->herdoc);
 		}
-		else
-			return (-1);
 		tmp->redirect = tmp->redirect->next->next;
 	}
 	return (0);
