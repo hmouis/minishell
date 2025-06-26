@@ -47,7 +47,7 @@ void	exec_echo(t_exec **cmd)
 
 	newline = 1;
 	i = 1;
-	if ((*cmd)->args[i] && ft_strcmp((*cmd)->args[i], "-n") == 0)
+	while ((*cmd)->args[i] && ft_strcmp((*cmd)->args[i], "-n") == 0)
 	{
 		newline = 0;
 		i++;
