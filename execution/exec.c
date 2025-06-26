@@ -77,6 +77,14 @@ static void	msg_error(char *arg)
 	int	i;
 
 	i = 0;
+	if (arg[0] == '.' && arg[1] == '/')
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(arg, 2);
+		perror(" ");
+		g_exit_status = 126;
+		exit(126);
+	}
 	ft_putstr_fd("command not found: ", 2);
 	while (arg[i])
 	{
@@ -94,24 +102,23 @@ static void	msg_error(char *arg)
 
 int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-    char    *file;
+	char    *file;
 
-    if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
-        exit(127);
+	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
+		exit(127);
 
-    if (is_builtins((*cmd)->args[0]) != -1)
-    {
-        exec_builtins(&(struc->lst_env), cmd, struc);
-        exit(g_exit_status);
-    }
-
-    file = file_path((*cmd)->args[0]);
-    if (!file)
-    {
-        msg_error((*cmd)->args[0]);
-        ft_malloc(0, 0);
-        exit(127);
-    }
-    execve(file, (*cmd)->args, env);
-    exit(126);
+	if (is_builtins((*cmd)->args[0]) != -1)
+	{
+		exec_builtins(&(struc->lst_env), cmd, struc);
+		exit(g_exit_status);
+	}
+	file = file_path((*cmd)->args[0]);
+	if (!file)
+	{
+		msg_error((*cmd)->args[0]);
+		ft_malloc(0, 0);
+		exit(127);
+	}
+	execve(file, (*cmd)->args, env);
+	exit(126);
 }
