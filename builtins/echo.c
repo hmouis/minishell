@@ -27,11 +27,6 @@ void	print_with_exit_status(const char *arg)
 			putchar(arg[i]);
 			i++;
 		}
-		else if (!in_single_quote && arg[i] == '$' && arg[i + 1] == '?')
-		{
-			printf("%d", g_exit_status);
-			i += 2;
-		}
 		else
 		{
 			putchar(arg[i]);
