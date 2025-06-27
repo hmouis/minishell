@@ -23,7 +23,7 @@ static void	cd_error_msg(char *new_dir)
 void	exec_cd(t_env **env, t_exec **cmd)
 {
 	char	*new_dir;
-	char *tmp;
+	char	*tmp;
 
 	if (!cmd || !(*cmd) || !env || !(*env))
 		return ;

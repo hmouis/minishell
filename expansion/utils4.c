@@ -25,8 +25,9 @@ int	dollar_sign_in_quote(char *str, t_va *va, t_new_exp **exp)
 {
 	int		flag;
 	char	*new_str;
-	int reminder = 0;
+	int		reminder;
 
+	reminder = 0;
 	new_str = NULL;
 	flag = 0;
 	if (str[va->i] != '$')
@@ -71,7 +72,7 @@ char	*fnl_str(t_env *env, t_new_exp *exp)
 				tmp = get_env(exp->string->content + 1, env);
 				if (!tmp)
 					exp->string->content[0] = '\0';
-				}
+			}
 			new_str = ft_strjoin(new_str, tmp);
 		}
 		else

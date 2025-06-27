@@ -26,6 +26,26 @@ int	charchr(char *str, int c)
 	return (0);
 }
 
+int rev_charchr(char *str)
+{
+	int i;
+
+	i = 0;
+	if (str && str_len(str) < 2)
+		return (0);
+	if (str && str[i] == '-' && str[i + 1] == 'n' )
+		i += 2;
+	else
+		return (0);
+	while (str[i])
+	{
+		if (str[i] != 'n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 char	*ft_strlcpy(char *token, char *input, int len, int j)
 {
 	int	i;

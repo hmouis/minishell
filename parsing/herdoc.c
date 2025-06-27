@@ -72,7 +72,7 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 {
 	int			remainder;
 	t_herdoc	*head;
-	extern  int	g_in_heredoc;
+	extern int	g_in_heredoc;
 
 	remainder = 0;
 	*herdoc = new_herdoc();

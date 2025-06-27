@@ -32,23 +32,25 @@ int	is_numbers(char *arg)
 	return (1);
 }
 
-static void	exit_error_msg(void)
+static void	exit_error_msg(char *arg)
 {
-	ft_putstr_fd("exit\nminishell: exit: numeric argument required\n", 2);
+	ft_putstr_fd("exit\nminishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 	ft_malloc(0, 0);
 	exit(2);
 }
 
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
-	if ((*cmd)->args[1] && (*cmd)->args[2])
+	if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
+		exit_error_msg((*cmd)->args[1]);
+	else if ((*cmd)->args[1] && (*cmd)->args[2])
 	{
-		printf("exit\nminishell: exit: too many arguments\n");
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
 		g_exit_status = 1;
 		return ;
 	}
-	else if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
-		exit_error_msg();
 	if (!(*cmd)->args[1])
 	{
 		g_exit_status = 0;
@@ -57,8 +59,9 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 		ft_malloc(0, 0);
 		exit(0);
 	}
-	if (ft_atoi((*cmd)->args[1]) > LONG_MAX || ft_atoi((*cmd)->args[1]) < LONG_MIN)
-		exit_error_msg();
+	if (ft_atoi((*cmd)->args[1]) > LONG_MAX
+		|| ft_atoi((*cmd)->args[1]) < LONG_MIN)
+		exit_error_msg((*cmd)->args[1]);
 	g_exit_status = ft_atoi((*cmd)->args[1]) % 256;
 	ft_malloc(0, 0);
 	printf("exit\n");

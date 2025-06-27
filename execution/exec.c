@@ -85,17 +85,16 @@ static void	msg_error(char *arg)
 		g_exit_status = 126;
 		exit(126);
 	}
-	ft_putstr_fd("command not found: ", 2);
-	printf("%s\n", arg);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": command not found\n", 2);
 }
 
-int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
+int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
-	char    *file;
+	char	*file;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
-
 	if (is_builtins((*cmd)->args[0]) != -1)
 	{
 		exec_builtins(&(struc->lst_env), cmd, struc);

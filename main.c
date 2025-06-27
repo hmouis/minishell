@@ -47,59 +47,61 @@ int	tokenize_input(char *line, t_cmd **cmd)
 	return (1);
 }
 
-void process_herdoc_list(t_final_struct *fnl, t_lst **lst)
+void	process_herdoc_list(t_final_struct *fnl, t_lst **lst)
 {
-    t_gnl *s1;
-    t_gnl *s2;
+	t_gnl	*s1;
+	t_gnl	*s2;
 
-    while (*lst)
-    {
-        if ((*lst)->type != op_herdoc)
-        {
-            (*lst) = (*lst)->next->next;
-            fnl->redirect = fnl->redirect->next;
-            while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
-                fnl->redirect = fnl->redirect->next;
-            continue;
-        }
-        (*lst) = (*lst)->next;
-        s1 = fnl->redirect;
-        fnl->redirect = fnl->redirect->next;
-        while (fnl->redirect && (fnl->redirect->type == -1 || fnl->redirect->type == var))
-            fnl->redirect = fnl->redirect->next;
-        s2 = fnl->redirect;
-        s1->next = final_node((*lst)->content, -1);
-        s1->next->next = s2;
-        (*lst) = (*lst)->next;
-    }
+	while (*lst)
+	{
+		if ((*lst)->type != op_herdoc)
+		{
+			(*lst) = (*lst)->next->next;
+			fnl->redirect = fnl->redirect->next;
+			while (fnl->redirect && (fnl->redirect->type == -1
+					|| fnl->redirect->type == var))
+				fnl->redirect = fnl->redirect->next;
+			continue ;
+		}
+		(*lst) = (*lst)->next;
+		s1 = fnl->redirect;
+		fnl->redirect = fnl->redirect->next;
+		while (fnl->redirect && (fnl->redirect->type == -1
+				|| fnl->redirect->type == var))
+			fnl->redirect = fnl->redirect->next;
+		s2 = fnl->redirect;
+		s1->next = final_node((*lst)->content, -1);
+		s1->next->next = s2;
+		(*lst) = (*lst)->next;
+	}
 }
 
-void pars_herdoc(t_final_struct *fnl, t_lst *lst)
+void	pars_herdoc(t_final_struct *fnl, t_lst *lst)
 {
-    t_gnl *save;
+	t_gnl	*save;
 
-    while (fnl)
-    {
-        save = fnl->redirect;
-        process_herdoc_list(fnl, &lst);
-        fnl->redirect = save;
-        fnl = fnl->next;
-    }
+	while (fnl)
+	{
+		save = fnl->redirect;
+		process_herdoc_list(fnl, &lst);
+		fnl->redirect = save;
+		fnl = fnl->next;
+	}
 }
 
-void move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc)
+void	move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc)
 {
 	(*fnl)->herdoc = herdoc;
 	*fnl = (*fnl)->next;
 	*cmd = (*cmd)->next;
 }
 
-t_final_struct *pars_fnl(t_final_struct *fnl)
+t_final_struct	*pars_fnl(t_final_struct *fnl)
 {
-	t_final_struct *tmp;
-	t_gnl *arg;
-	t_gnl *head;
-	int flag;
+	t_final_struct	*tmp;
+	t_gnl			*arg;
+	t_gnl			*head;
+	int				flag;
 
 	flag = 0;
 	tmp = fnl;
@@ -112,12 +114,12 @@ t_final_struct *pars_fnl(t_final_struct *fnl)
 			if (tmp->args && tmp->args->str[0] == '\0' && tmp->args->type == 6)
 			{
 				tmp->args = tmp->args->next;
-				continue;
+				continue ;
 			}
 			if (!flag)
 			{
 				flag = 1;
-				arg = final_node(tmp->args->str, tmp->args->type); 
+				arg = final_node(tmp->args->str, tmp->args->type);
 				head = arg;
 			}
 			else
@@ -168,13 +170,13 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 	return (tmp);
 }
 
-int g_in_heredoc = 0;
+int				g_in_heredoc = 0;
 
 void	handle_sig(int sig)
 {
 	(void)sig;
 	if (!g_in_heredoc)
-        write(1, "\n", 1);
+		write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -198,7 +200,7 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	while (1)
-	{	
+	{
 		signal(SIGINT, handle_sig);
 		signal(SIGQUIT, SIG_IGN);
 		test_line = readline("minishell~ ");
@@ -211,14 +213,14 @@ int	main(int ac, char **av, char **env)
 		}
 		add_history(test_line);
 		if (!tokenize_input(test_line, &cmd))
-		continue ;
+			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
 		if (cmd && fnl && fnl->herdoc)
 			pars_herdoc(fnl, cmd->redirect);
 		if (fnl)
 			execute(fnl, list, env);
-		if(g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
-			write(2,"\n",1);
+		if (g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
+			write(2, "\n", 1);
 		cmd = NULL;
 		fnl = NULL;
 	}

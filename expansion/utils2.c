@@ -72,8 +72,9 @@ int	dollar_sign_string(char *str, t_va *va, t_new_exp **exp)
 {
 	int		flag;
 	char	*new_str;
-	int reminder = 0;
+	int		reminder;
 
+	reminder = 0;
 	new_str = NULL;
 	flag = 0;
 	if (str[va->i] != '$')

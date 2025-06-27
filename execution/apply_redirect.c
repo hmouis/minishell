@@ -30,7 +30,9 @@ void	handle_input(int *fd, char *file)
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)
 	{
-		perror("minishell");
+		char *msg = ft_strjoin("minishell: ", file);
+		char *full = ft_strjoin(msg, ": ");
+		perror(full);
 		exit(1);
 	}
 	dup2(*fd, STDIN_FILENO);
@@ -63,9 +65,9 @@ void	handle_append(int *fd, char *file)
 
 void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 {
-	int fd2;
-	ssize_t count;
-	
+	int		fd2;
+	ssize_t	count;
+
 	count = 0;
 	fd2 = open(file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 	if (fd2 < 0)
@@ -76,7 +78,7 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 	while (herdoc)
 	{
 		if (!herdoc->next)
-			break;
+			break ;
 		herdoc = herdoc->next;
 	}
 	while (herdoc->list)
@@ -90,8 +92,7 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 		}
 		herdoc->list = herdoc->list->next;
 	}
-	close(fd2);  // Close writing fd before reading
-
+	close(fd2); // Close writing fd before reading
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)
 	{
@@ -99,19 +100,18 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 		exit(1);
 	}
 	unlink(file); // Remove the file after opening for reading
-
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
 }
 
-
 int	apply_redirect(t_final_struct *tmp)
 {
-	int				fd;
-	int				redirect;
-	char			*file;
-	int flag = 0;
+	int		fd;
+	int		redirect;
+	char	*file;
+	int		flag;
 
+	flag = 0;
 	if (!pars_red(tmp->redirect))
 		return (-1);
 	while (tmp->redirect)

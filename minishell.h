@@ -145,6 +145,7 @@ typedef struct s_child_params
 	int						out_fd;
 	char					**env;
 	t_exec					**exec;
+	t_env					*lst_env;
 }							t_child_params;
 
 typedef struct s_new_exp
@@ -318,7 +319,8 @@ void						ft_putstr_fd(char *s, int fd);
 char						*ft_strcat(char *s1, char *s2);
 char						*ft_strtok(char *str, char *delim);
 int							ft_strcmp(char *s1, char *s2);
-char	*ft_itoa(int n);
+char						*ft_itoa(int n);
+int rev_charchr(char *str);
 
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
