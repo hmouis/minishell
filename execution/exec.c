@@ -92,6 +92,7 @@ static void	msg_error(char *arg)
 int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
 	char	*file;
+	struct stat sb;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
@@ -101,6 +102,13 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		exit(g_exit_status);
 	}
 	file = file_path((*cmd)->args[0]);
+	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd(": Is a directory\n", 2);
+		exit(126);
+	}
 	if (!file || file[str_len(file) - 1] == '/')
 	{
 		msg_error((*cmd)->args[0]);

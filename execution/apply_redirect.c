@@ -31,7 +31,7 @@ void	handle_input(int *fd, char *file)
 	if (*fd < 0)
 	{
 		char *msg = ft_strjoin("minishell: ", file);
-		char *full = ft_strjoin(msg, ": ");
+		char *full = ft_strjoin(msg, "");
 		perror(full);
 		exit(1);
 	}
@@ -44,7 +44,9 @@ void	handle_output(int *fd, char *file)
 	*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
 	{
-		perror("");
+		char *msg = ft_strjoin("minishell: ", file);
+		char *full = ft_strjoin(msg, "");
+		perror(full);
 		return ;
 	}
 	dup2(*fd, STDOUT_FILENO);
@@ -113,31 +115,23 @@ int apply_redirect(t_final_struct *tmp, int *input_redirected)
 
 	flag = 0;
 	*input_redirected = 0;
-
 	if (!pars_red(tmp->redirect))
 		return (-1);
-
 	while (tmp->redirect)
 	{
 		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
-
 		if (tmp->redirect->next->type == var && file[0] == '\0')
 			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), -1);
-
 		if (redirect == op_redirect_input)
 		{
 			handle_input(&fd, file);
 			*input_redirected = 1;
 		}
 		else if (redirect == op_redirect_output)
-		{
 			handle_output(&fd, file);
-		}
 		else if (redirect == op_append)
-		{
 			handle_append(&fd, file);
-		}
 		else if (flag == 0 && redirect == op_herdoc)
 		{
 			flag = 1;
