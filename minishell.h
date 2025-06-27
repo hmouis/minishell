@@ -340,7 +340,7 @@ void						exec_cd(t_env **env, t_exec **cmd);
 char						*get_variable(t_env **env, char *key);
 int							type_of_redirect(char *redirect);
 int							pars_red(t_gnl *red);
-int							apply_redirect(t_final_struct *tmp);
+int						apply_redirect(t_final_struct *tmp, int *input_redirected);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
 void						add_or_update_env(t_env **env, char *key,
 								char *value);
