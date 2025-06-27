@@ -15,20 +15,27 @@
 void	child_process(t_final_struct *fnl, int in_fd, int out_fd,
 		t_env *lst_env, char **env, t_exec **exec)
 {
-	if (!fnl || !lst_env || !exec)
+	int	input_redirected;
+
+	input_redirected = 0;
+
+	// Apply redirections first and detect if input was redirected
+	if (apply_redirect(fnl, &input_redirected) == -1)
 		exit(EXIT_FAILURE);
-	if (apply_redirect(fnl) == -1)
-		exit(EXIT_FAILURE);
-	if (in_fd != STDIN_FILENO)
+
+	// Pipe input only if no input redirection
+	if (!input_redirected && in_fd != STDIN_FILENO)
 	{
 		dup2(in_fd, STDIN_FILENO);
 		close(in_fd);
 	}
+
 	if (out_fd != STDOUT_FILENO)
 	{
 		dup2(out_fd, STDOUT_FILENO);
 		close(out_fd);
 	}
+
 	if (is_builtins((*exec)->args[0]) != -1)
 	{
 		exec_builtins(&lst_env, exec, fnl);
@@ -38,6 +45,7 @@ void	child_process(t_final_struct *fnl, int in_fd, int out_fd,
 	perror("exec");
 	exit(EXIT_FAILURE);
 }
+
 
 void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
@@ -74,14 +82,23 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 			fd[0] = STDIN_FILENO;
 			fd[1] = STDOUT_FILENO;
 		}
+
 		pid = fork();
+		if (pid < 0)
+		{
+			perror("fork");
+			exit(EXIT_FAILURE);
+		}
+
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
 			if (list->next)
 				close(fd[0]);
+
 			child_process(list, in_fd, fd[1], lst_env, env, &exec);
 		}
+
 		if (in_fd != STDIN_FILENO)
 			close(in_fd);
 		if (list->next)
@@ -93,6 +110,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 
 	while (wait(&status) > 0)
 		;
+
 	if (WIFEXITED(status))
 		g_exit_status = WEXITSTATUS(status);
 	// else if (WIFSIGNALED(status))
