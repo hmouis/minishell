@@ -94,6 +94,46 @@ void move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc)
 	*cmd = (*cmd)->next;
 }
 
+t_final_struct *pars_fnl(t_final_struct *fnl)
+{
+	t_final_struct *tmp;
+	t_gnl *arg;
+	t_gnl *head;
+	int flag;
+
+	flag = 0;
+	tmp = fnl;
+	head = NULL;
+	arg = NULL;
+	while (tmp)
+	{
+		while (tmp->args)
+		{
+			if (tmp->args && tmp->args->str[0] == '\0' && tmp->args->type == 6)
+			{
+				tmp->args = tmp->args->next;
+				continue;
+			}
+			if (!flag)
+			{
+				flag = 1;
+				arg = final_node(tmp->args->str, tmp->args->type); 
+				head = arg;
+			}
+			else
+			{
+				arg->next = final_node(tmp->args->str, tmp->args->type);
+				arg = arg->next;
+			}
+			tmp->args = tmp->args->next;
+		}
+		flag = 0;
+		tmp->args = head;
+		tmp = tmp->next;
+	}
+	return (fnl);
+}
+
 t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 {
 	t_new_exp		*exp;
@@ -124,9 +164,12 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 		}
 		move_struct(&fnl, &cmd, herdoc);
 	}
+	tmp = pars_fnl(tmp);
 	return (tmp);
 }
+
 int g_in_heredoc = 0;
+
 void	handle_sig(int sig)
 {
 	(void)sig;
@@ -154,7 +197,6 @@ int	main(int ac, char **av, char **env)
 	add_env_to_list(&list, env);
 	(void)ac;
 	(void)av;
-
 	while (1)
 	{	
 		signal(SIGINT, handle_sig);
