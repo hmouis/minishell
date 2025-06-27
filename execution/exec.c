@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:24 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/24 22:25:25 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:48:57 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,10 @@ static void	msg_error(char *arg)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(arg, 2);
 		perror(" ");
-		g_exit_status = 126;
-		exit(126);
+		g_exit_status = 127;
+		exit(127);
 	}
+	
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }

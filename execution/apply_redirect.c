@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/26 11:31:17 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/27 18:45:30 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	handle_output(int *fd, char *file)
 		char *msg = ft_strjoin("minishell: ", file);
 		char *full = ft_strjoin(msg, "");
 		perror(full);
-		return ;
+		exit(1) ;
 	}
 	dup2(*fd, STDOUT_FILENO);
 	close(*fd);
@@ -61,8 +61,8 @@ void	handle_append(int *fd, char *file)
 		perror("");
 		return ;
 	}
-	close(*fd);
 	dup2(*fd, STDOUT_FILENO);
+	close(*fd);
 }
 
 void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)

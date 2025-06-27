@@ -15,7 +15,7 @@
 void	empty__line(void)
 {
 	ft_malloc(0, 0);
-	exit(1);
+	exit(0);
 }
 
 int	tokenize_input(char *line, t_cmd **cmd)

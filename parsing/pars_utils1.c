@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/25 15:59:16 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/27 18:12:06 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	error_msg(char *str, int status)
 		printf("minishell: syntax error near unexpected token `%s'\n", str);
 	else
 		printf("%s\n", str);
+	g_exit_status = 2;
 }
 
 t_cmd	*node(void)

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/25 15:59:49 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/27 18:09:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*n_of_herdoc(t_lst *lst, int *status)
 		{
 			*status = 1;
 			return ("minishell: maximum here-document count exceeded");
+			g_exit_status = 2;
 		}
 		lst = lst->next;
 	}
