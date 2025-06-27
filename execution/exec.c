@@ -77,15 +77,30 @@ static void	msg_error(char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '.' && arg[1] == '/')
+	if (arg[0] == '/')
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(arg, 2);
-		perror(" ");
+		ft_putstr_fd(": No such file or directory\n", 2);
 		g_exit_status = 127;
 		exit(127);
 	}
-	
+	else if (arg[0] == '.' && arg[1] == '/')
+	{
+		if (access(arg, F_OK) == 0 && access(arg, X_OK) != 0)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(": Permission denied\n", 2);
+			g_exit_status = 126;
+			exit(126);
+		}
+		ft_putstr_fd("minishell : ", 2);
+		ft_putstr_fd(arg, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		g_exit_status = 127;
+		exit(127);
+	}	
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
