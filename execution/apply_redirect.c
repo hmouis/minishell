@@ -92,19 +92,19 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 		}
 		herdoc->list = herdoc->list->next;
 	}
-	close(fd2); // Close writing fd before reading
+	close(fd2);
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)
 	{
 		perror("open read");
 		exit(1);
 	}
-	unlink(file); // Remove the file after opening for reading
+	unlink(file);
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
 }
 
-int	apply_redirect(t_final_struct *tmp)
+int apply_redirect(t_final_struct *tmp, int *input_redirected)
 {
 	int		fd;
 	int		redirect;
@@ -112,26 +112,40 @@ int	apply_redirect(t_final_struct *tmp)
 	int		flag;
 
 	flag = 0;
+	*input_redirected = 0;
+
 	if (!pars_red(tmp->redirect))
 		return (-1);
+
 	while (tmp->redirect)
 	{
 		redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
+
 		if (tmp->redirect->next->type == var && file[0] == '\0')
 			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), -1);
+
 		if (redirect == op_redirect_input)
+		{
 			handle_input(&fd, file);
+			*input_redirected = 1;
+		}
 		else if (redirect == op_redirect_output)
+		{
 			handle_output(&fd, file);
+		}
 		else if (redirect == op_append)
+		{
 			handle_append(&fd, file);
+		}
 		else if (flag == 0 && redirect == op_herdoc)
 		{
 			flag = 1;
 			handle_her_doc(&fd, file, tmp->herdoc);
+			*input_redirected = 1;
 		}
 		tmp->redirect = tmp->redirect->next->next;
 	}
 	return (0);
 }
+
