@@ -19,8 +19,12 @@ int	append_(char *filename)
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror("open for append");
-		return (-1);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd(": ", 2);
+		perror("");
+		g_exit_status = 1;
+		exit(1);
 	}
 	return (fd);
 }
