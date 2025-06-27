@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:27 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:00:28 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:18:14 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	dollar_sign_in_quote(char *str, t_va *va, t_new_exp **exp)
 {
 	int		flag;
 	char	*new_str;
+	int reminder = 0;
 
 	new_str = NULL;
 	flag = 0;
@@ -34,11 +35,15 @@ int	dollar_sign_in_quote(char *str, t_va *va, t_new_exp **exp)
 		del_last_str(str, va, exp);
 	va->i++;
 	va->len++;
-	if (check_char(str[va->i]))
+	flag = get_flag_v(str[va->i]);
+	if (str[va->i] == '?')
+	{
 		flag = 6;
-	else
-		flag = 7;
-	if (str[va->i] && var_char(str[va->i]))
+		va->i++;
+		va->len++;
+		reminder = 1;
+	}
+	if (str[va->i] && var_char(str[va->i]) && reminder == 0)
 		skip_var_char(str, &va->i, &va->len);
 	new_str = ft_strlcpy(new_str, str, va->len, va->start);
 	add_to_string_lst(&(*exp)->string, new_str, flag);
@@ -59,9 +64,14 @@ char	*fnl_str(t_env *env, t_new_exp *exp)
 	{
 		if (exp->string->type == var)
 		{
-			tmp = get_env(exp->string->content + 1, env);
-			if (!tmp)
-				exp->string->content[0] = '\0';
+			if (!ft_strcmp(exp->string->content, "$?"))
+				tmp = ft_itoa(g_exit_status);
+			else
+			{
+				tmp = get_env(exp->string->content + 1, env);
+				if (!tmp)
+					exp->string->content[0] = '\0';
+				}
 			new_str = ft_strjoin(new_str, tmp);
 		}
 		else

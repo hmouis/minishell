@@ -53,6 +53,7 @@ libft/ft_putstr_fd.c \
 libft/ft_strcat.c \
 libft/ft_strchr.c \
 libft/ft_strcmp.c \
+libft/ft_itoa.c \
 libft/ft_strdup.c \
 libft/ft_strncpy.c \
 libft/ft_strtok.c \
