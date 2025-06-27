@@ -86,18 +86,7 @@ static void	msg_error(char *arg)
 		exit(126);
 	}
 	ft_putstr_fd("command not found: ", 2);
-	while (arg[i])
-	{
-		if (arg[i] == '$' && arg[i + 1] == '?')
-		{
-			printf("%d", g_exit_status);
-			i = i + 2;
-		}
-		else
-			printf("%c", arg[i]);
-		i++;
-	}
-	printf("\n");
+	printf("%s\n", arg);
 }
 
 int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
@@ -113,7 +102,7 @@ int exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		exit(g_exit_status);
 	}
 	file = file_path((*cmd)->args[0]);
-	if (!file)
+	if (!file || file[str_len(file) - 1] == '/')
 	{
 		msg_error((*cmd)->args[0]);
 		ft_malloc(0, 0);
