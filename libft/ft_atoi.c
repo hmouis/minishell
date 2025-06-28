@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:21:06 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/01 15:21:32 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:22:56 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-long	ft_atoi(char *str)
+long long	ft_atoi(char *str, int *track_of)
 {
 	int			i;
 	int			 sign;
-	long			result;
+	long long			result;
 
 	result = 0;
 	i = 0;
@@ -31,6 +31,11 @@ long	ft_atoi(char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		if (result > (LONG_MAX - (str[i] - '0')) / 10)
+		{
+			*track_of = 1;
+			return (0);
+		}		
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}

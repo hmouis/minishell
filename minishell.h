@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/28 10:50:57 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/28 17:55:15 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <fcntl.h>
+# include <errno.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -315,7 +316,7 @@ char						*ft_strncpy(char *dest, const char *src, size_t n);
 int							is_alpha(char c);
 int							is_alnum(char c);
 int							ft_is_digits(char c);
-long					ft_atoi(char *str);
+long long					ft_atoi(char *str, int *track_of);
 char						*ft_strchr(char *s, char c);
 char						*ft_substr(char *s, int start, int len);
 void						ft_putstr_fd(char *s, int fd);

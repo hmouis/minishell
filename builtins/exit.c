@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 15:56:45 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 18:42:23 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/28 18:23:05 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ static void	exit_error_msg(char *arg)
 
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
+	int track_of;
+	
+	track_of = 0;
 	if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
 		exit_error_msg((*cmd)->args[1]);
 	else if ((*cmd)->args[1] && (*cmd)->args[2])
@@ -59,9 +62,10 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 		ft_malloc(0, 0);
 		exit(0);
 	}
-	if (ft_atoi((*cmd)->args[1]) > LONG_MAX || ft_atoi((*cmd)->args[1]) < LONG_MIN)
+	ft_atoi((*cmd)->args[1], &track_of);
+	if (track_of)
 		exit_error_msg((*cmd)->args[1]);
-	g_exit_status = ft_atoi((*cmd)->args[1]) % 256;
+	g_exit_status = ft_atoi((*cmd)->args[1], &track_of) % 256;
 	ft_malloc(0, 0);
 	printf("exit\n");
 	exit(g_exit_status);
