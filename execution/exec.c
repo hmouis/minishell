@@ -104,43 +104,40 @@ static void	msg_error(char *arg)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
-/*char	*is_there_path(t_env *list)*/
-/*{*/
-/*	if (!list)*/
-/*		return NULL;*/
-/*	t_env	*tmp;*/
-/**/
-/*	tmp = list;*/
-/*	while (tmp)*/
-/*	{*/
-/*		if (ft_strcmp(tmp->key, "PATH") == 0)*/
-/*			return tmp->data;*/
-/*		tmp = tmp->next;*/
-/*	}*/
-/*	return NULL;*/
-/*}*/
+char	*is_there_path(t_env *list)
+{
+	t_env	*tmp;
+	if (!list)
+	{
+		printf("heereeee\n");
+		return NULL;
+	}
 
-int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
+	tmp = list;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, "PATH") == 0)
+			return tmp->data;
+		tmp = tmp->next;
+	}
+	return NULL;
+}
+
+int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 {
 	char	*file;
 	struct stat sb;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
-	if (is_builtins((*cmd)->args[0]) != -1)
+	if (!is_there_path(lst_env) && ((*cmd)->args[0][0] != '/' ))
 	{
-		exec_builtins(&(struc->lst_env), cmd, struc);
-		exit(g_exit_status);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd((*cmd)->args[0], 2);
+		ft_putstr_fd(":No such file or directory\n", 2);
+		exit(127);
 	}
 	file = file_path((*cmd)->args[0]);
-	/*if (!is_there_path(struc->lst_env))*/
-	/*{*/
-	/*	ft_putstr_fd("minishell: ", 2);*/
-	/*	ft_putstr_fd((*cmd)->args[0], 2);*/
-	/*	ft_putstr_fd(": No such file or directory\n", 2);*/
-	/*	exit(127);*/
-	/**/
-	/*}*/
 	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
