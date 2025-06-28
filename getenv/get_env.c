@@ -71,6 +71,22 @@ char	*get_env(char *str, t_env *env)
 	return (NULL);
 }
 
+void	add_env_if_empty(t_env **list)
+{
+	char	*cwd;
+	char	*ptr;
+	t_env	*first;
+
+	first = *list;
+	ptr = getcwd(NULL, 0);
+	cwd = ft_strdup(ptr);
+	free(ptr);
+	first = env_new_node("PWD", cwd);
+	first->next = env_new_node("SHLVL", "1");
+	first->next->next = env_new_node("_", "/usr/bin/env");
+	*list = first;
+}
+
 void	add_env_to_list(t_env **lst, char **env)
 {
 	t_var_env	var;
@@ -78,7 +94,10 @@ void	add_env_to_list(t_env **lst, char **env)
 	t_env		*first;
 
 	if (!env || !*env)
+	{
+		add_env_if_empty(lst);
 		return ;
+	}
 	temp = NULL;
 	first = NULL;
 	var.i = 1;
