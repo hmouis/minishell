@@ -37,7 +37,7 @@ void	child_process(t_final_struct *fnl, int in_fd, int out_fd,
 		exec_builtins(&lst_env, exec, fnl);
 		exit(EXIT_SUCCESS);
 	}
-	exec_cmd(env, exec, fnl);
+	exec_cmd(env, exec, lst_env);
 	exit(EXIT_FAILURE);
 }
 
@@ -96,10 +96,10 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	{
 		if (pid == last_pid && WIFEXITED(wstatus))
 			g_exit_status = WEXITSTATUS(wstatus);
-		else if (WIFSIGNALED(wstatus))
-			g_exit_status = 128 + WTERMSIG(wstatus);
-		else if (WIFSTOPPED(wstatus))
-			g_exit_status = 128 + WSTOPSIG(wstatus);
+		/*else if (WIFSIGNALED(wstatus))*/
+		/*	g_exit_status = 128 + WTERMSIG(wstatus);*/
+		/*else if (WIFSTOPPED(wstatus))*/
+		/*	g_exit_status = 128 + WSTOPSIG(wstatus);*/
 		if (g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
 			write(2, "\n", 1);
 	}
