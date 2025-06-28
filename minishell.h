@@ -315,7 +315,7 @@ char						*ft_strncpy(char *dest, const char *src, size_t n);
 int							is_alpha(char c);
 int							is_alnum(char c);
 int							ft_is_digits(char c);
-long						ft_atoi(char *str);
+long					ft_atoi(char *str);
 char						*ft_strchr(char *s, char c);
 char						*ft_substr(char *s, int start, int len);
 void						ft_putstr_fd(char *s, int fd);
