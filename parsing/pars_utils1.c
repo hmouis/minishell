@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/27 18:12:06 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:04:05 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,19 @@ int	is_quote(char c)
 	return (0);
 }
 
+int change_value(int value)
+{
+	static int in_herdoc = 0;
+	if (value == 2)
+		return (in_herdoc);
+	in_herdoc = value;
+	return (in_herdoc);
+}
+
 void	handle_sig_herdoc(int sig)
 {
 	(void)sig;
+	change_value(1);
 	g_exit_status = 130;
 }
 

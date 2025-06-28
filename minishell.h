@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/26 14:29:49 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/28 10:50:57 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,8 @@ char						*expand_herdoc(char *str, t_env *env);
 int							expand_in_herdoc(t_va *va, char *str,
 								char **new_str, t_env *env);
 int							add_inside_quote(char *str, char **new_str, int *i);
+int change_value(int value);
+void	handle_sig(int sig);
 
 /*expansion*/
 void						fnl_argm(t_env *list, t_lst *argm, t_new_exp **exp,

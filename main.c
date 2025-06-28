@@ -15,6 +15,7 @@
 void	empty__line(void)
 {
 	ft_malloc(0, 0);
+	printf("exit\n");
 	exit(0);
 }
 
@@ -30,6 +31,8 @@ int	tokenize_input(char *line, t_cmd **cmd)
 	err_msg = NULL;
 	status = 0;
 	split_input(line, &lst);
+	if (!lst)
+		return (0);
 	if (lst)
 	{
 		tokens_type(lst);
@@ -166,18 +169,17 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 		}
 		move_struct(&fnl, &cmd, herdoc);
 	}
-	tmp = pars_fnl(tmp);
+	// tmp = pars_fnl(tmp);
 	return (tmp);
 }
-
-int				g_in_heredoc = 0;
 
 void	handle_sig(int sig)
 {
 	(void)sig;
-	if (!g_in_heredoc)
-		write(1, "\n", 1);
 	rl_replace_line("", 0);
+	if (!change_value(2))
+		write(1, "\n", 1);
+	change_value(0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_exit_status = 130;
@@ -187,12 +189,12 @@ int				g_exit_status;
 
 int	main(int ac, char **av, char **env)
 {
-	char			*test_line;
+	char			*line;
 	t_final_struct	*fnl;
 	t_cmd			*cmd;
 	t_env			*list;
 
-	test_line = NULL;
+	line = NULL;
 	fnl = NULL;
 	cmd = NULL;
 	list = NULL;
@@ -203,24 +205,17 @@ int	main(int ac, char **av, char **env)
 	{
 		signal(SIGINT, handle_sig);
 		signal(SIGQUIT, SIG_IGN);
-		test_line = readline("minishell~ ");
+		line = readline("minishell~ ");
 		signal(SIGINT, SIG_IGN);
-		if (!test_line)
-		{
-			ft_malloc(0, 0);
-			printf("exit\n");
-			exit(0);
-		}
-		add_history(test_line);
-		if (!tokenize_input(test_line, &cmd))
+		signal(SIGQUIT, SIG_IGN);
+		add_history(line);
+		if (!tokenize_input(line, &cmd))
 			continue ;
 		fnl = fill_fnl(cmd, fnl, list);
 		if (cmd && fnl && fnl->herdoc)
 			pars_herdoc(fnl, cmd->redirect);
 		if (fnl)
 			execute(fnl, list, env);
-		if (g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
-			write(2, "\n", 1);
 		cmd = NULL;
 		fnl = NULL;
 	}

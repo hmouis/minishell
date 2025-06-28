@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/26 15:29:51 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/28 12:04:17 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,9 @@ t_herdoc	*fill_herdoc(t_lst *redirect, t_env *env, t_herdoc **herdoc)
 			allocate_herdoc(&remainder, herdoc);
 			redirect = redirect->next;
 			g_exit_status = 0;
-			g_in_heredoc = 0;
 			rl_getc_function = ft_getc;
 			(*herdoc)->list = her_doc(redirect->content, env, (*herdoc)->list);
 			rl_getc_function = rl_getc;
-			g_in_heredoc = 1;
 			if (!(*herdoc)->list && g_exit_status == 130)
 				return (NULL);
 			else

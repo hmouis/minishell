@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:37 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/27 18:41:07 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/28 11:32:15 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 		if (pid == 0)
 		{
 			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			if (list->next)
 				close(fd[0]);
 			child_process(list, in_fd, fd[1], lst_env, env, &exec);
@@ -96,5 +97,11 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	{
 		if (pid == last_pid && WIFEXITED(wstatus))
 			g_exit_status = WEXITSTATUS(wstatus);
+		else if (WIFSIGNALED(wstatus))
+			g_exit_status = 128 + WTERMSIG(wstatus);
+		else if (WIFSTOPPED(wstatus))
+			g_exit_status = 128 + WSTOPSIG(wstatus);
+		if(g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
+			write(2,"\n",1);
 	}
 }
