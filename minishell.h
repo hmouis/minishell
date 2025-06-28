@@ -192,8 +192,8 @@ char						*expand_herdoc(char *str, t_env *env);
 int							expand_in_herdoc(t_va *va, char *str,
 								char **new_str, t_env *env);
 int							add_inside_quote(char *str, char **new_str, int *i);
-int change_value(int value);
-void	handle_sig(int sig);
+int							change_value(int value);
+void						handle_sig(int sig);
 
 /*expansion*/
 void						fnl_argm(t_env *list, t_lst *argm, t_new_exp **exp,
@@ -305,6 +305,7 @@ char						*get_env_key(char *s);
 char						*get_env_data(char *s);
 char						*get_data_env(char *env);
 void						add_env_to_list(t_env **lst, char **env);
+void						add_env_if_empty(t_env **list);
 int							split_char(char c);
 int							split_var_arg(char *str, char **field_str);
 
@@ -322,7 +323,7 @@ char						*ft_strcat(char *s1, char *s2);
 char						*ft_strtok(char *str, char *delim);
 int							ft_strcmp(char *s1, char *s2);
 char						*ft_itoa(int n);
-int rev_charchr(char *str);
+int							rev_charchr(char *str);
 
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
@@ -342,8 +343,8 @@ void						exec_cd(t_env **env, t_exec **cmd);
 char						*get_variable(t_env **env, char *key);
 int							type_of_redirect(char *redirect);
 int							pars_red(t_gnl *red);
-int						apply_redirect(t_final_struct *tmp, int *input_redirected,
-									int *output_redirected);
+int							apply_redirect(t_final_struct *tmp,
+								int *input_redirected, int *output_redirected);
 void						update_env(t_env **env, char *oldpwd, char *pwd);
 void						add_or_update_env(t_env **env, char *key,
 								char *value);
