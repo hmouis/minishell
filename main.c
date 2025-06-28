@@ -104,8 +104,10 @@ t_final_struct	*pars_fnl(t_final_struct *fnl)
 	t_final_struct	*tmp;
 	t_gnl			*arg;
 	t_gnl			*head;
+	int				reminder;
 	int				flag;
 
+	reminder = 0;
 	flag = 0;
 	tmp = fnl;
 	head = NULL;
@@ -116,6 +118,7 @@ t_final_struct	*pars_fnl(t_final_struct *fnl)
 		{
 			if (tmp->args && tmp->args->str[0] == '\0' && tmp->args->type == 6)
 			{
+				reminder = 1;
 				tmp->args = tmp->args->next;
 				continue ;
 			}
@@ -133,6 +136,9 @@ t_final_struct	*pars_fnl(t_final_struct *fnl)
 			tmp->args = tmp->args->next;
 		}
 		flag = 0;
+		if (reminder == 1 && !head && !tmp->next)
+			return (NULL);
+		reminder = 0;
 		tmp->args = head;
 		tmp = tmp->next;
 	}
@@ -169,7 +175,7 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 		}
 		move_struct(&fnl, &cmd, herdoc);
 	}
-	// tmp = pars_fnl(tmp);
+	tmp = pars_fnl(tmp);
 	return (tmp);
 }
 
