@@ -26,14 +26,14 @@ int	charchr(char *str, int c)
 	return (0);
 }
 
-int rev_charchr(char *str)
+int	rev_charchr(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str && str_len(str) < 2)
 		return (0);
-	if (str && str[i] == '-' && str[i + 1] == 'n' )
+	if (str && str[i] == '-' && str[i + 1] == 'n')
 		i += 2;
 	else
 		return (0);
