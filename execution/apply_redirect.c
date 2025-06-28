@@ -119,8 +119,6 @@ int	apply_redirect(t_final_struct *tmp, int *input_redirected,
 	int		flag;
 
 	flag = 0;
-	*input_redirected = 0;
-	*output_redirected = 0;
 	if (!pars_red(tmp->redirect))
 		return (-1);
 	while (tmp->redirect)
