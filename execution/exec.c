@@ -19,7 +19,6 @@ char	*get_path(void)
 	path = getenv("PATH");
 	if (!path)
 	{
-		perror("getenv");
 		return (NULL);
 	}
 	return (path);
@@ -105,6 +104,22 @@ static void	msg_error(char *arg)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
+/*char	*is_there_path(t_env *list)*/
+/*{*/
+/*	if (!list)*/
+/*		return NULL;*/
+/*	t_env	*tmp;*/
+/**/
+/*	tmp = list;*/
+/*	while (tmp)*/
+/*	{*/
+/*		if (ft_strcmp(tmp->key, "PATH") == 0)*/
+/*			return tmp->data;*/
+/*		tmp = tmp->next;*/
+/*	}*/
+/*	return NULL;*/
+/*}*/
+
 int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 {
 	char	*file;
@@ -118,6 +133,14 @@ int	exec_cmd(char **env, t_exec **cmd, t_final_struct *struc)
 		exit(g_exit_status);
 	}
 	file = file_path((*cmd)->args[0]);
+	/*if (!is_there_path(struc->lst_env))*/
+	/*{*/
+	/*	ft_putstr_fd("minishell: ", 2);*/
+	/*	ft_putstr_fd((*cmd)->args[0], 2);*/
+	/*	ft_putstr_fd(": No such file or directory\n", 2);*/
+	/*	exit(127);*/
+	/**/
+	/*}*/
 	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);

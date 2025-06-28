@@ -47,9 +47,10 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	int		in_fd;
 	int		wstatus;
 	pid_t	pid;
-	pid_t	last_pid = -1;
+	pid_t	last_pid;
 	t_exec	*exec;
 
+	last_pid = -1;
 	in_fd = STDIN_FILENO;
 	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
 		&& !list->redirect)
@@ -61,7 +62,6 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 	while (list)
 	{
 		exec = gnl_to_array(list->args);
-
 		if (list->next)
 		{
 			if (pipe(fd) == -1)
@@ -88,7 +88,6 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 			close(in_fd);
 		if (list->next)
 			close(fd[1]);
-
 		in_fd = fd[0];
 		last_pid = pid;
 		list = list->next;
@@ -101,7 +100,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 			g_exit_status = 128 + WTERMSIG(wstatus);
 		else if (WIFSTOPPED(wstatus))
 			g_exit_status = 128 + WSTOPSIG(wstatus);
-		if(g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
-			write(2,"\n",1);
+		if (g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
+			write(2, "\n", 1);
 	}
 }

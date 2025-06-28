@@ -31,11 +31,14 @@ int	append_(char *filename)
 
 void	handle_input(int *fd, char *file)
 {
+	char	*msg;
+	char	*full;
+
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)
 	{
-		char *msg = ft_strjoin("minishell: ", file);
-		char *full = ft_strjoin(msg, "");
+		msg = ft_strjoin("minishell: ", file);
+		full = ft_strjoin(msg, "");
 		perror(full);
 		exit(1);
 	}
@@ -45,13 +48,16 @@ void	handle_input(int *fd, char *file)
 
 void	handle_output(int *fd, char *file)
 {
+	char	*msg;
+	char	*full;
+
 	*fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (*fd < 0)
 	{
-		char *msg = ft_strjoin("minishell: ", file);
-		char *full = ft_strjoin(msg, "");
+		msg = ft_strjoin("minishell: ", file);
+		full = ft_strjoin(msg, "");
 		perror(full);
-		exit(1) ;
+		exit(1);
 	}
 	dup2(*fd, STDOUT_FILENO);
 	close(*fd);
@@ -111,12 +117,12 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 }
 
 int	apply_redirect(t_final_struct *tmp, int *input_redirected,
-			int *output_redirected)
+		int *output_redirected)
 {
-	int		fd;
-	int		redirect;
-	char	*file;
-	int		flag;
+	int fd;
+	int redirect;
+	char *file;
+	int flag;
 
 	flag = 0;
 	if (!pars_red(tmp->redirect))
