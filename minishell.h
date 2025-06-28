@@ -328,8 +328,7 @@ int							rev_charchr(char *str);
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
 								t_final_struct *struc);
-int							exec_cmd(char **env, t_exec **cmd,
-								t_final_struct *tmp);
+int						exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
 
