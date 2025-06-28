@@ -42,9 +42,10 @@ int	is_quote(char c)
 	return (0);
 }
 
-int change_value(int value)
+int	change_value(int value)
 {
-	static int in_herdoc = 0;
+	static int	in_herdoc = 0;
+
 	if (value == 2)
 		return (in_herdoc);
 	in_herdoc = value;
