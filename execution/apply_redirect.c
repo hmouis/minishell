@@ -110,7 +110,8 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 	close(*fd);
 }
 
-int apply_redirect(t_final_struct *tmp, int *input_redirected)
+int	apply_redirect(t_final_struct *tmp, int *input_redirected,
+			int *output_redirected)
 {
 	int		fd;
 	int		redirect;
@@ -119,6 +120,7 @@ int apply_redirect(t_final_struct *tmp, int *input_redirected)
 
 	flag = 0;
 	*input_redirected = 0;
+	*output_redirected = 0;
 	if (!pars_red(tmp->redirect))
 		return (-1);
 	while (tmp->redirect)
@@ -133,9 +135,15 @@ int apply_redirect(t_final_struct *tmp, int *input_redirected)
 			*input_redirected = 1;
 		}
 		else if (redirect == op_redirect_output)
+		{
 			handle_output(&fd, file);
+			*output_redirected = 1;
+		}
 		else if (redirect == op_append)
+		{
 			handle_append(&fd, file);
+			*output_redirected = 1;
+		}
 		else if (flag == 0 && redirect == op_herdoc)
 		{
 			flag = 1;
@@ -146,4 +154,3 @@ int apply_redirect(t_final_struct *tmp, int *input_redirected)
 	}
 	return (0);
 }
-
