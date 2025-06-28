@@ -135,9 +135,12 @@ t_final_struct	*pars_fnl(t_final_struct *fnl)
 			}
 			tmp->args = tmp->args->next;
 		}
-		flag = 0;
-		if (reminder == 1 && !head && !tmp->next)
+		if (reminder == 1 && !flag && !tmp->next)
+		{
+			g_exit_status = 0;
 			return (NULL);
+		}
+		flag = 0;
 		reminder = 0;
 		tmp->args = head;
 		tmp = tmp->next;
@@ -224,5 +227,6 @@ int	main(int ac, char **av, char **env)
 			execute(fnl, list, env);
 		cmd = NULL;
 		fnl = NULL;
+		free(line);
 	}
 }
