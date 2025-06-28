@@ -45,12 +45,12 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
 	int		fd[2];
 	int		in_fd;
-	int		status;
+	int		wstatus;
 	pid_t	pid;
+	pid_t	last_pid = -1;
 	t_exec	*exec;
 
 	in_fd = STDIN_FILENO;
-
 	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
 		&& !list->redirect)
 	{
@@ -58,7 +58,6 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 		exec_builtins(&lst_env, &exec, list);
 		return ;
 	}
-
 	while (list)
 	{
 		exec = gnl_to_array(list->args);
@@ -82,7 +81,6 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 			signal(SIGINT, SIG_DFL);
 			if (list->next)
 				close(fd[0]);
-
 			child_process(list, in_fd, fd[1], lst_env, env, &exec);
 		}
 		if (in_fd != STDIN_FILENO)
@@ -91,11 +89,12 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 			close(fd[1]);
 
 		in_fd = fd[0];
+		last_pid = pid;
 		list = list->next;
 	}
-
-	while (wait(&status) > 0)
-		;
-	if (WIFEXITED(status))
-		g_exit_status = WEXITSTATUS(status);
+	while ((pid = wait(&wstatus)) > 0)
+	{
+		if (pid == last_pid && WIFEXITED(wstatus))
+			g_exit_status = WEXITSTATUS(wstatus);
+	}
 }
