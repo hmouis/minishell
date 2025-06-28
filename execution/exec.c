@@ -130,7 +130,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
-	if (!is_there_path(lst_env) && ((*cmd)->args[0][0] != '/' ))
+	if (!is_there_path(lst_env) && ((*cmd)->args[0][0] != '/'))
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd((*cmd)->args[0], 2);
