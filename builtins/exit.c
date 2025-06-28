@@ -59,8 +59,7 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 		ft_malloc(0, 0);
 		exit(0);
 	}
-	if (ft_atoi((*cmd)->args[1]) > LONG_MAX
-		|| ft_atoi((*cmd)->args[1]) < LONG_MIN)
+	if (ft_atoi((*cmd)->args[1]) > LONG_MAX || ft_atoi((*cmd)->args[1]) < LONG_MIN)
 		exit_error_msg((*cmd)->args[1]);
 	g_exit_status = ft_atoi((*cmd)->args[1]) % 256;
 	ft_malloc(0, 0);
