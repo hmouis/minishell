@@ -12,24 +12,7 @@
 
 #include "../minishell.h"
 
-int	append_(char *filename)
-{
-	int	fd;
-
-	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(filename, 2);
-		ft_putstr_fd(": ", 2);
-		perror("");
-		g_exit_status = 1;
-		exit(1);
-	}
-	return (fd);
-}
-
-void	handle_input(int *fd, char *file)
+void	handle_input(int *fd, char *file, int *input_redirected)
 {
 	char	*msg;
 	char	*full;
@@ -44,9 +27,10 @@ void	handle_input(int *fd, char *file)
 	}
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
+	*input_redirected = 1;
 }
 
-void	handle_output(int *fd, char *file)
+void	handle_output(int *fd, char *file, int *output_redirected)
 {
 	char	*msg;
 	char	*full;
@@ -61,21 +45,28 @@ void	handle_output(int *fd, char *file)
 	}
 	dup2(*fd, STDOUT_FILENO);
 	close(*fd);
+	*output_redirected = 1;
 }
 
-void	handle_append(int *fd, char *file)
+void	handle_append(int *fd, char *file, int *output_redirected)
 {
-	*fd = append_(file);
+	*fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (*fd < 0)
 	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd(": ", 2);
 		perror("");
-		return ;
+		g_exit_status = 1;
+		exit(1);
 	}
 	dup2(*fd, STDOUT_FILENO);
 	close(*fd);
+	*output_redirected = 1;
 }
 
-void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
+void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc,
+		int *input_redirected)
 {
 	int		fd2;
 	ssize_t	count;
@@ -114,46 +105,33 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 	unlink(file);
 	dup2(*fd, STDIN_FILENO);
 	close(*fd);
+	*input_redirected = 1;
 }
 
 int	apply_redirect(t_final_struct *tmp, int *input_redirected,
 		int *output_redirected)
 {
-	int	fd;
-	int	redirect;
+	t_apply_red	vars;
 	char	*file;
-	int	flag;
 
-	flag = 0;
+	vars.flag = 0;
 	if (!pars_red(tmp->redirect))
 		return (-1);
 	while (tmp->redirect)
 	{
-		redirect = tmp->redirect->type;
+		vars.redirect = tmp->redirect->type;
 		file = tmp->redirect->next->str;
 		if (tmp->redirect->next->type == var && file[0] == '\0')
 			return (ft_putstr_fd("minishell: ambiguous redirect\n", 2), -1);
-		if (redirect == op_redirect_input)
-		{
-			handle_input(&fd, file);
-			*input_redirected = 1;
-		}
-		else if (redirect == op_redirect_output)
-		{
-			handle_output(&fd, file);
-			*output_redirected = 1;
-		}
-		else if (redirect == op_append)
-		{
-			handle_append(&fd, file);
-			*output_redirected = 1;
-		}
-		else if (flag == 0 && redirect == op_herdoc)
-		{
-			flag = 1;
-			handle_her_doc(&fd, file, tmp->herdoc);
-			*input_redirected = 1;
-		}
+		if (vars.redirect == op_redirect_input)
+			handle_input(&vars.fd, file, input_redirected);
+		else if (vars.redirect == op_redirect_output)
+			handle_output(&vars.fd, file, output_redirected);
+		else if (vars.redirect == op_append)
+			handle_append(&vars.fd, file, output_redirected);
+		else if (vars.flag == 0 && vars.redirect == op_herdoc)
+			vars.flag = 1, (handle_her_doc(&vars.fd, file, tmp->herdoc,
+						input_redirected));
 		tmp->redirect = tmp->redirect->next->next;
 	}
 	return (0);
