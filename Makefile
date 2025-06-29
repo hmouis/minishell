@@ -6,7 +6,7 @@
 #    By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/06/29 15:33:55 by hmouis           ###   ########.fr        #
+#    Updated: 2025/06/29 16:46:58 by hmouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,12 @@ execution/apply_redirect.c \
 execution/pars_redirect.c \
 execution/update_env.c \
 builtins/env.c \
+getenv/env_utils.c \
 builtins/echo.c \
 builtins/pwd.c \
 builtins/export.c \
 builtins/unset.c \
 builtins/cd.c \
-builtins/get_env_utils.c \
 builtins/export_utils.c \
 builtins/exit.c \
 builtins/is_builtins.c \
@@ -63,9 +63,10 @@ libft/ft_substr.c \
 expansion/expansion_again.c \
 gc/garbage_collector.c \
 gc/gc_utils.c \
+utils/utils__1.c \
+utils/utils__2.c \
 parsing/herdoc.c \
 parsing/herdoc_utils1.c
-
 
 CC= cc 
 CFLAGS= -Wall -Wextra -Werror -g3

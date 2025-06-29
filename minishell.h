@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 15:32:07 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 16:40:50 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,12 @@ typedef struct s_helper_var
 	int						flag;
 }							t_helper_va;
 
+typedef struct s_h_pars_fnl
+{
+	int							reminder;
+	int							flag;
+}								t_v;
+
 /*her_doc*/
 char						*remove_quotes(char *str);
 t_gnl						*empty_line(char *line, t_gnl *lst, char *del);
@@ -273,6 +279,18 @@ int							charchr(char *str, int c);
 char						*ft_strlcpy(char *token, char *input, int len,
 								int j);
 t_exec						*gnl_to_array(t_gnl *head);
+void	empty__line(void);
+void	assigne_tokeniz_input(int *status, char *line);
+int	tokenize_input(char *line, t_cmd **cmd);
+void	process_herdoc_list(t_final_struct *fnl, t_lst **lst);
+void	pars_herdoc(t_final_struct *fnl, t_lst *lst);
+void	move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc);
+void	pars_fnl_utils(t_final_struct **tmp, t_v *va, t_gnl **head, t_gnl **arg);
+t_final_struct	*pars_fnl(t_final_struct *fnl);
+int	check_herdoc(t_herdoc **herdoc, t_lst *red, t_env *list);
+t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list);
+void	read_line(t_final_struct *fnl, t_cmd *cmd, t_env *list, char **env);
+void	handle_sig(int sig);
 
 /*tokenizing*/
 int							token_dollar_sign(int *i, char *input, t_var *var);
