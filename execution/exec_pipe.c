@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:37 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/28 11:32:15 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 14:06:56 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,28 @@ void	child_process(t_final_struct *fnl, t_exec_pipe *var, t_env *lst_env, char *
 
 static void	wait_for_children(int pid, int last_pid, int wstatus)
 {
+	int track_sig;
+
+	track_sig = 0;
 	while ((pid = wait(&wstatus)) > 0)
 	{
-		if (pid == last_pid && WIFEXITED(wstatus))
-			g_exit_status = WEXITSTATUS(wstatus);
-		else if (WIFSIGNALED(wstatus))
-			g_exit_status = 128 + WTERMSIG(wstatus);
-		else if (WIFSTOPPED(wstatus))
-			g_exit_status = 128 + WSTOPSIG(wstatus);
-		if (g_exit_status == 128 + SIGQUIT || g_exit_status == 128 + SIGINT)
-			write(2, "\n", 1);
+		if (WIFSIGNALED(wstatus))
+		{
+			if (WTERMSIG(wstatus) == SIGINT || WTERMSIG(wstatus) == SIGQUIT)
+				track_sig = 1;
+		}
+		if (pid == last_pid)
+		{
+			if (WIFEXITED(wstatus))
+				g_exit_status = WEXITSTATUS(wstatus);
+			else if (WIFSIGNALED(wstatus))
+				g_exit_status = 128 + WTERMSIG(wstatus);
+			else if (WIFSTOPPED(wstatus))
+				g_exit_status = 128 + WSTOPSIG(wstatus);
+		}
 	}
+	if (track_sig)
+		write(2, "\n", 1);
 }
 
 static int	exec_invalid_pipe_redirect(t_final_struct *list, t_env *lst_env, t_exec_pipe **var)
