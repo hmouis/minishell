@@ -43,8 +43,8 @@ static void	exit_error_msg(char *arg)
 
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
-	int track_of;
-	
+	int	track_of;
+
 	track_of = 0;
 	if ((*cmd)->args[1] && !is_numbers((*cmd)->args[1]))
 		exit_error_msg((*cmd)->args[1]);
