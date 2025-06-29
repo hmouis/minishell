@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   update_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:39:42 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/31 14:42:54 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/29 17:56:58 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,34 @@ void	update_env(t_env **env, char *oldpwd, char *pwd)
 			tmp->data = pwd;
 		tmp = tmp->next;
 	}
+}
+
+void	split_handle_herdoc(int fd2, t_herdoc *herdoc)
+{
+	ssize_t	count;
+
+	count = 0;
+	while (herdoc)
+	{
+		if (!herdoc->next)
+			break ;
+		herdoc = herdoc->next;
+	}
+	while (herdoc->list)
+	{
+		count = write(fd2, herdoc->list->str, str_len(herdoc->list->str));
+		if (count < 0)
+		{
+			perror("write");
+			close(fd2);
+			exit(1);
+		}
+		herdoc->list = herdoc->list->next;
+	}
+}
+
+void	assigned_var(t_final_struct *tmp, char **file, t_apply_red *vars)
+{
+	vars->redirect = tmp->redirect->type;
+	*file = tmp->redirect->next->str;
 }

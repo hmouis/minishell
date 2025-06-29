@@ -103,8 +103,8 @@ static void	run_in_child(t_final_struct *list, t_exec_pipe *var, t_env *lst_env,
 
 void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
-	t_exec_pipe	*var;
-	t_exec	*exec;
+	t_exec_pipe *var;
+	t_exec *exec;
 
 	if (exec_invalid_pipe_redirect(list, lst_env, &var))
 		return ;

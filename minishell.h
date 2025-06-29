@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 16:40:50 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 17:56:36 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,9 @@ int							is_operator(char *str);
 int							charchr(char *str, int c);
 char						*ft_strlcpy(char *token, char *input, int len,
 								int j);
+void						split_handle_herdoc(int fd2, t_herdoc *herdoc);
+void						assigned_var(t_final_struct *tmp, char **file,
+								t_apply_red *vars);
 t_exec						*gnl_to_array(t_gnl *head);
 void						empty__line(void);
 void						assigne_tokeniz_input(int *status, char *line);
