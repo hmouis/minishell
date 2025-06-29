@@ -188,7 +188,6 @@ void	handle_sig(int sig)
 	rl_replace_line("", 0);
 	if (!change_value(2))
 		write(1, "\n", 1);
-	change_value(0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_exit_status = 130;
@@ -215,6 +214,7 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, handle_sig);
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("minishell~ ");
+		change_value(0);
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
 		add_history(line);
