@@ -15,8 +15,8 @@
 long long	ft_atoi(char *str, int *track_of)
 {
 	int			i;
-	int			 sign;
-	long long			result;
+	int			sign;
+	long long	result;
 
 	result = 0;
 	i = 0;
@@ -35,7 +35,7 @@ long long	ft_atoi(char *str, int *track_of)
 		{
 			*track_of = 1;
 			return (0);
-		}		
+		}
 		result = result * 10 + (str[i] - 48);
 		i++;
 	}
