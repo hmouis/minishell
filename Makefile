@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/06/29 16:46:58 by hmouis           ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME=minishell
 
 SRC= main.c\
@@ -48,19 +36,6 @@ builtins/export_utils.c \
 builtins/exit.c \
 builtins/is_builtins.c \
 builtins/add_or_update_env.c \
-libft/ft_is_alnum.c \
-libft/ft_atoi.c \
-libft/ft_is_alpha.c \
-libft/ft_is_digits.c \
-libft/ft_putstr_fd.c \
-libft/ft_strcat.c \
-libft/ft_strchr.c \
-libft/ft_strcmp.c \
-libft/ft_itoa.c \
-libft/ft_strdup.c \
-libft/ft_strncpy.c \
-libft/ft_strtok.c \
-libft/ft_substr.c \
 expansion/expansion_again.c \
 gc/garbage_collector.c \
 gc/gc_utils.c \
@@ -70,22 +45,27 @@ parsing/herdoc.c \
 parsing/herdoc_utils1.c
 
 CC= cc 
-CFLAGS= -Wall -Wextra -Werror -g3
- #-Wall -Wextra -Werror
- #-fsanitize=address
+CFLAGS= -Wall -Wextra -Werror
 RFLAG= -lreadline
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
 
 OBJS= $(SRC:.c=.o)
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
+
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ $(RFLAG) 
+	$(CC) $(CFLAGS) $^ -o $@ $(RFLAG) $(LIBFT)
 
 clean:
 	rm -f $(OBJS)
+	make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) -C $(LIBFT_DIR)
+	rm -f $(NAME) $(LIBFT)
 
 re: fclean all
