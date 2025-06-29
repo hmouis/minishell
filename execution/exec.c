@@ -99,7 +99,7 @@ static void	msg_error(char *arg)
 		ft_putstr_fd(": No such file or directory\n", 2);
 		g_exit_status = 127;
 		exit(127);
-	}	
+	}
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
@@ -107,26 +107,26 @@ static void	msg_error(char *arg)
 char	*is_there_path(t_env *list)
 {
 	t_env	*tmp;
+
 	if (!list)
 	{
 		printf("heereeee\n");
-		return NULL;
+		return (NULL);
 	}
-
 	tmp = list;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, "PATH") == 0)
-			return tmp->data;
+			return (tmp->data);
 		tmp = tmp->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 {
-	char	*file;
-	struct stat sb;
+	char		*file;
+	struct stat	sb;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);

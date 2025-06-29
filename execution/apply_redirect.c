@@ -119,10 +119,10 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc)
 int	apply_redirect(t_final_struct *tmp, int *input_redirected,
 		int *output_redirected)
 {
-	int fd;
-	int redirect;
-	char *file;
-	int flag;
+	int	fd;
+	int	redirect;
+	char	*file;
+	int	flag;
 
 	flag = 0;
 	if (!pars_red(tmp->redirect))
