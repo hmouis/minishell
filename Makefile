@@ -6,7 +6,7 @@
 #    By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/19 18:29:04 by oait-h-m          #+#    #+#              #
-#    Updated: 2025/06/23 11:17:35 by hmouis           ###   ########.fr        #
+#    Updated: 2025/06/29 15:33:55 by hmouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ builtins/pwd.c \
 builtins/export.c \
 builtins/unset.c \
 builtins/cd.c \
+builtins/get_env_utils.c \
+builtins/export_utils.c \
 builtins/exit.c \
 builtins/is_builtins.c \
 builtins/add_or_update_env.c \

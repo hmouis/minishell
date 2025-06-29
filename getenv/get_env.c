@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:00:55 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:38:58 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,6 @@ char	*get_env_key(char *s)
 	return (ft_substr(s, 0, i));
 }
 
-char	*get_env_data(char *s)
-{
-	char	*equal;
-
-	equal = ft_strchr(s, '=');
-	if (!equal)
-		return (NULL);
-	return (ft_strdup(equal + 1));
-}
-
-char	*get_env(char *str, t_env *env)
-{
-	while (env)
-	{
-		if (!ft_strcmp(str, env->key))
-			return (env->data);
-		env = env->next;
-	}
-	return (NULL);
-}
-
 void	add_env_if_empty(t_env **list)
 {
 	char	*cwd;
@@ -87,6 +66,13 @@ void	add_env_if_empty(t_env **list)
 	*list = first;
 }
 
+static void	assigned(t_env **temp, t_env **first, t_var_env *var)
+{
+	*temp = NULL;
+	*first = NULL;
+	var->i = 1;
+}
+
 void	add_env_to_list(t_env **lst, char **env)
 {
 	t_var_env	var;
@@ -98,9 +84,7 @@ void	add_env_to_list(t_env **lst, char **env)
 		add_env_if_empty(lst);
 		return ;
 	}
-	temp = NULL;
-	first = NULL;
-	var.i = 1;
+	assigned(&temp, &first, &var);
 	first = env_new_node(get_env_key(env[0]), get_env_data(env[0]));
 	if (!first)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 15:13:57 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:32:07 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,8 @@ void						expand(t_new_exp *exp, t_env *env, t_gnl **gnl);
 int							is_digit(char c);
 char						*char_join(char *str, int count, char c);
 int							var_char(char c);
-void	exit_status_var(t_va *va, char *str, int *flag, int *reminder);
+void						exit_status_var(t_va *va, char *str, int *flag,
+								int *reminder);
 
 /*syntax errors*/
 void						error_msg(char *str, int status);
@@ -332,7 +333,7 @@ int							exec_builtins(t_env **lst_env, t_exec **cmd,
 int							exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
-
+void						only_export(t_env *env);
 void						exec_env(t_env **lst);
 void						exec_echo(t_exec **cmd);
 void						exec_export(t_env **env, t_exec **cmd);

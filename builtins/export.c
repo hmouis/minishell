@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:04:04 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:04:34 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/29 15:32:14 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,6 @@ static int	export_helper(t_env **env, char *s)
 	if (value)
 		add_or_update_env(env, key, value);
 	return (1);
-}
-
-void	only_export(t_env *env)
-{
-	if (!env)
-		return ;
-	while (env)
-	{
-		printf("declare -x ");
-		printf("%s=%s\n", env->key, env->data);
-		env = env->next;
-	}
 }
 
 void	exec_export(t_env **env, t_exec **cmd)

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 15:56:45 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/28 18:23:05 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:28:08 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ static void	exit_error_msg(char *arg)
 	exit(2);
 }
 
+static void	exit_with_g(void)
+{
+	ft_malloc(0, 0);
+	printf("exit\n");
+	exit(g_exit_status);
+}
+
 void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 {
 	int	track_of;
@@ -66,7 +73,5 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 	if (track_of)
 		exit_error_msg((*cmd)->args[1]);
 	g_exit_status = ft_atoi((*cmd)->args[1], &track_of) % 256;
-	ft_malloc(0, 0);
-	printf("exit\n");
-	exit(g_exit_status);
+	exit_with_g();
 }
