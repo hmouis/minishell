@@ -13,8 +13,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include <fcntl.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -139,15 +139,14 @@ typedef struct s_final_struct
 	struct s_final_struct	*next;
 }							t_final_struct;
 
-typedef struct s_child_params
+typedef struct s_exec_pipe
 {
-	t_final_struct			*fnl;
+	int						fd[2];
 	int						in_fd;
-	int						out_fd;
-	char					**env;
-	t_exec					**exec;
-	t_env					*lst_env;
-}							t_child_params;
+	int						wstatus;
+	pid_t					pid;
+	pid_t					last_pid;
+}							t_exec_pipe;
 
 typedef struct s_new_exp
 {
@@ -329,7 +328,7 @@ int							rev_charchr(char *str);
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
 								t_final_struct *struc);
-int						exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
+int							exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
 
