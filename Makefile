@@ -31,6 +31,7 @@ expansion/utils5.c \
 expansion/utils6.c \
 expansion/utils7.c \
 execution/add_args_to_array.c \
+execution/get_path.c \
 execution/exec.c \
 execution/exec_pipe.c \
 execution/apply_redirect.c \
