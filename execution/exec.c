@@ -12,63 +12,12 @@
 
 #include "../minishell.h"
 
-char	*get_path(void)
+static void	msg_no_such_file(char *arg)
 {
-	char	*path;
-
-	path = getenv("PATH");
-	if (!path)
-	{
-		return (NULL);
-	}
-	return (path);
-}
-
-char	*file_location(char *file, char *full_path)
-{
-	char	*tmp_path;
-	char	*token;
-	int		len;
-	char	*path;
-
-	tmp_path = ft_strdup(full_path);
-	if (!tmp_path)
-		return (NULL);
-	token = ft_strtok(tmp_path, ":");
-	while (token)
-	{
-		len = str_len(token) + 1 + str_len(file) + 1;
-		path = ft_malloc(len, 1);
-		if (!path)
-			return (NULL);
-		ft_strncpy(path, token, str_len(token));
-		path[str_len(token)] = '\0';
-		ft_strcat(path, "/");
-		ft_strcat(path, file);
-		if (access(path, X_OK) == 0)
-			return (path);
-		token = ft_strtok(NULL, ":");
-	}
-	return (NULL);
-}
-
-char	*file_path(char *file)
-{
-	char	*found;
-	char	*path;
-
-	if (file && (file[0] == '/' || ft_strchr(file, '/')))
-	{
-		if (access(file, X_OK) == 0)
-			return (ft_strdup(file));
-		else
-			return (NULL);
-	}
-	path = get_path();
-	if (!path)
-		return (NULL);
-	found = file_location(file, path);
-	return (found);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	exit(127);
 }
 
 static void	msg_error(char *arg)
@@ -77,13 +26,7 @@ static void	msg_error(char *arg)
 
 	i = 0;
 	if (arg[0] == '/')
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 127;
-		exit(127);
-	}
+		msg_no_such_file(arg);
 	else if (arg[0] == '.' && arg[1] == '/')
 	{
 		if (access(arg, F_OK) == 0 && access(arg, X_OK) != 0)
@@ -91,14 +34,9 @@ static void	msg_error(char *arg)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(arg, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
-			g_exit_status = 126;
 			exit(126);
 		}
-		ft_putstr_fd("minishell : ", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		g_exit_status = 127;
-		exit(127);
+		msg_no_such_file(arg);
 	}
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": command not found\n", 2);
@@ -109,10 +47,7 @@ char	*is_there_path(t_env *list)
 	t_env	*tmp;
 
 	if (!list)
-	{
-		printf("heereeee\n");
 		return (NULL);
-	}
 	tmp = list;
 	while (tmp)
 	{
@@ -125,18 +60,13 @@ char	*is_there_path(t_env *list)
 
 int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 {
-	char		*file;
+	char	*file;
 	struct stat	sb;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
 	if (!is_there_path(lst_env) && ((*cmd)->args[0][0] != '/'))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd((*cmd)->args[0], 2);
-		ft_putstr_fd(":No such file or directory\n", 2);
-		exit(127);
-	}
+		msg_no_such_file((*cmd)->args[0]);
 	file = file_path((*cmd)->args[0]);
 	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
