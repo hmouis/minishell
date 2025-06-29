@@ -148,6 +148,13 @@ typedef struct s_exec_pipe
 	pid_t					last_pid;
 }							t_exec_pipe;
 
+typedef struct s_apply_red
+{
+	int						fd;
+	int						redirect;
+	int						flag;
+}							t_apply_red;
+
 typedef struct s_new_exp
 {
 	t_lst					*string;
@@ -179,9 +186,9 @@ typedef struct s_helper_var
 
 typedef struct s_h_pars_fnl
 {
-	int							reminder;
-	int							flag;
-}								t_v;
+	int						reminder;
+	int						flag;
+}							t_v;
 
 /*her_doc*/
 char						*remove_quotes(char *str);
@@ -279,18 +286,24 @@ int							charchr(char *str, int c);
 char						*ft_strlcpy(char *token, char *input, int len,
 								int j);
 t_exec						*gnl_to_array(t_gnl *head);
-void	empty__line(void);
-void	assigne_tokeniz_input(int *status, char *line);
-int	tokenize_input(char *line, t_cmd **cmd);
-void	process_herdoc_list(t_final_struct *fnl, t_lst **lst);
-void	pars_herdoc(t_final_struct *fnl, t_lst *lst);
-void	move_struct(t_final_struct **fnl, t_cmd **cmd, t_herdoc *herdoc);
-void	pars_fnl_utils(t_final_struct **tmp, t_v *va, t_gnl **head, t_gnl **arg);
-t_final_struct	*pars_fnl(t_final_struct *fnl);
-int	check_herdoc(t_herdoc **herdoc, t_lst *red, t_env *list);
-t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list);
-void	read_line(t_final_struct *fnl, t_cmd *cmd, t_env *list, char **env);
-void	handle_sig(int sig);
+void						empty__line(void);
+void						assigne_tokeniz_input(int *status, char *line);
+int							tokenize_input(char *line, t_cmd **cmd);
+void						process_herdoc_list(t_final_struct *fnl,
+								t_lst **lst);
+void						pars_herdoc(t_final_struct *fnl, t_lst *lst);
+void						move_struct(t_final_struct **fnl, t_cmd **cmd,
+								t_herdoc *herdoc);
+void						pars_fnl_utils(t_final_struct **tmp, t_v *va,
+								t_gnl **head, t_gnl **arg);
+t_final_struct				*pars_fnl(t_final_struct *fnl);
+int							check_herdoc(t_herdoc **herdoc, t_lst *red,
+								t_env *list);
+t_final_struct				*fill_fnl(t_cmd *cmd, t_final_struct *fnl,
+								t_env *list);
+void						read_line(t_final_struct *fnl, t_cmd *cmd,
+								t_env *list, char **env);
+void						handle_sig(int sig);
 
 /*tokenizing*/
 int							token_dollar_sign(int *i, char *input, t_var *var);
@@ -348,6 +361,7 @@ int							rev_charchr(char *str);
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
 								t_final_struct *struc);
+char						*file_path(char *file);
 int							exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
