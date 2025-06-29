@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/27 18:45:30 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 17:37:31 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,19 +65,11 @@ void	handle_append(int *fd, char *file, int *output_redirected)
 	*output_redirected = 1;
 }
 
-void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc,
-		int *input_redirected)
+void split_handle_herdoc(int fd2, t_herdoc *herdoc)
 {
-	int		fd2;
-	ssize_t	count;
+	ssize_t count;
 
 	count = 0;
-	fd2 = open(file, O_WRONLY | O_CREAT | O_EXCL, 0644);
-	if (fd2 < 0)
-	{
-		perror("open");
-		exit(1);
-	}
 	while (herdoc)
 	{
 		if (!herdoc->next)
@@ -95,6 +87,22 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc,
 		}
 		herdoc->list = herdoc->list->next;
 	}
+}
+
+void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc,
+		int *input_redirected)
+{
+	int		fd2;
+	ssize_t	count;
+
+	count = 0;
+	fd2 = open(file, O_WRONLY | O_CREAT | O_EXCL, 0644);
+	if (fd2 < 0)
+	{
+		perror("open");
+		exit(1);
+	}
+	split_handle_herdoc(fd2, herdoc);
 	close(fd2);
 	*fd = open(file, O_RDONLY);
 	if (*fd < 0)

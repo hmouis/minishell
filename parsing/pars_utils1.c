@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/29 15:20:42 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 17:41:37 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_gnl	*her_doc(char *del, t_env *env, t_gnl *lst)
 		flag = 1;
 	del = remove_quotes(del);
 	signal(SIGINT, handle_sig_herdoc);
+	g_exit_status = 0;
 	while (1)
 	{
 		line = readline("> ");
