@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/28 12:04:05 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:20:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ void	error_msg(char *str, int status)
 	else
 		printf("%s\n", str);
 	g_exit_status = 2;
-}
-
-t_cmd	*node(void)
-{
-	t_cmd	*cmd;
-
-	cmd = ft_malloc(sizeof(t_cmd), 1);
-	if (!cmd)
-		return (NULL);
-	cmd->arg = NULL;
-	cmd->args = NULL;
-	cmd->redirect = NULL;
-	cmd->next = NULL;
-	return (cmd);
 }
 
 int	is_quote(char c)

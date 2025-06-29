@@ -6,11 +6,18 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/01 15:21:06 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/28 18:22:56 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:17:59 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	is_sign(char *str, int *sign, int *i)
+{
+	if (str[*i] == '-')
+		*sign = -1;
+	(*i)++;
+}
 
 long long	ft_atoi(char *str, int *track_of)
 {
@@ -24,11 +31,7 @@ long long	ft_atoi(char *str, int *track_of)
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-	}
+		is_sign(str, &sign, &i);
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		if (result > (LONG_MAX - (str[i] - '0')) / 10)

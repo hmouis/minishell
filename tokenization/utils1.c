@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@1337.ma>                    +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 10:36:07 by hmouis            #+#    #+#             */
-/*   Updated: 2025/05/02 18:17:08 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:21:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,17 +78,4 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] && s2[i] && (s1[i] == s2[i]))
 		i++;
 	return (s1[i] - s2[i]);
-}
-
-int	is_redirect(t_lst *lst)
-{
-	if (!ft_strcmp(lst->content, "<"))
-		return (1);
-	else if (!ft_strcmp(lst->content, ">"))
-		return (1);
-	else if (!ft_strcmp(lst->content, "<<"))
-		return (1);
-	else if (!ft_strcmp(lst->content, ">>"))
-		return (1);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:39:16 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:48:31 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:21:28 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,17 @@ void	add_to_lst(t_lst **lst, char *content)
 
 	node = new_node(content);
 	add_back(lst, node);
+}
+
+int	is_redirect(t_lst *lst)
+{
+	if (!ft_strcmp(lst->content, "<"))
+		return (1);
+	else if (!ft_strcmp(lst->content, ">"))
+		return (1);
+	else if (!ft_strcmp(lst->content, "<<"))
+		return (1);
+	else if (!ft_strcmp(lst->content, ">>"))
+		return (1);
+	return (0);
 }

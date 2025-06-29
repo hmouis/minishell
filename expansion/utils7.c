@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:22:47 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 10:41:36 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:13:14 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ int	split_var_arg(char *str, char **field_str)
 	if (remainder == 1)
 		*field_str = char_join(*field_str, count + 1, ' ');
 	return (check + remainder);
+}
+
+int	get_flag_v(char c)
+{
+	if (check_char(c))
+		return (6);
+	return (7);
 }

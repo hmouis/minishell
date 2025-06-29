@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:18:08 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/27 10:46:47 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:12:56 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ int	get_flag_q(char quote)
 	return (8);
 }
 
-int	get_flag_v(char c)
-{
-	if (check_char(c))
-		return (6);
-	return (7);
-}
-
 int	quote_string(char *str, t_va *va, t_new_exp **exp)
 {
 	char	quote;
@@ -68,6 +61,17 @@ int	quote_string(char *str, t_va *va, t_new_exp **exp)
 	return (1);
 }
 
+void	exit_status_var(t_va *va, char *str, int *flag, int *reminder)
+{
+	if (str[va->i] == '?')
+	{
+		*flag = 6;
+		va->i++;
+		va->len++;
+		*reminder = 1;
+	}
+}
+
 int	dollar_sign_string(char *str, t_va *va, t_new_exp **exp)
 {
 	int		flag;
@@ -82,13 +86,7 @@ int	dollar_sign_string(char *str, t_va *va, t_new_exp **exp)
 	va->i++;
 	va->len++;
 	flag = get_flag_v(str[va->i]);
-	if (str[va->i] == '?')
-	{
-		flag = 6;
-		va->i++;
-		va->len++;
-		reminder = 1;
-	}
+	exit_status_var(va, str, &flag, &reminder);
 	while (str[va->i] && var_char(str[va->i]) && reminder == 0)
 	{
 		va->i++;

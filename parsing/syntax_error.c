@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/27 18:09:42 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:20:58 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,18 @@ void	allocate_herdoc(int *remainder, t_herdoc **herdoc)
 		(*herdoc)->next = new_herdoc();
 		*herdoc = (*herdoc)->next;
 	}
+}
+
+t_cmd	*node(void)
+{
+	t_cmd	*cmd;
+
+	cmd = ft_malloc(sizeof(t_cmd), 1);
+	if (!cmd)
+		return (NULL);
+	cmd->arg = NULL;
+	cmd->args = NULL;
+	cmd->redirect = NULL;
+	cmd->next = NULL;
+	return (cmd);
 }

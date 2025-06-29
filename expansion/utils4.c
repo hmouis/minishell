@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:27 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/27 11:18:14 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/29 15:14:42 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,7 @@ int	dollar_sign_in_quote(char *str, t_va *va, t_new_exp **exp)
 	va->i++;
 	va->len++;
 	flag = get_flag_v(str[va->i]);
-	if (str[va->i] == '?')
-	{
-		flag = 6;
-		va->i++;
-		va->len++;
-		reminder = 1;
-	}
+	exit_status_var(va, str, &flag, &reminder);
 	if (str[va->i] && var_char(str[va->i]) && reminder == 0)
 		skip_var_char(str, &va->i, &va->len);
 	new_str = ft_strlcpy(new_str, str, va->len, va->start);
