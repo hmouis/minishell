@@ -12,7 +12,8 @@
 
 #include "../minishell.h"
 
-void	child_process(t_final_struct *fnl, t_exec_pipe *var, t_env *lst_env, char **env, t_exec **exec)
+void	child_process(t_final_struct *fnl, t_exec_pipe *var, t_env *lst_env,
+		char **env, t_exec **exec)
 {
 	int	input_redirected;
 	int	output_redirected;
@@ -42,7 +43,7 @@ void	child_process(t_final_struct *fnl, t_exec_pipe *var, t_env *lst_env, char *
 
 static void	wait_for_children(int pid, int last_pid, int wstatus)
 {
-	int track_sig;
+	int	track_sig;
 
 	track_sig = 0;
 	while ((pid = wait(&wstatus)) > 0)
@@ -66,20 +67,22 @@ static void	wait_for_children(int pid, int last_pid, int wstatus)
 		write(2, "\n", 1);
 }
 
-static int	exec_invalid_pipe_redirect(t_final_struct *list, t_env *lst_env, t_exec_pipe **var)
+static int	exec_invalid_pipe_redirect(t_final_struct *list, t_env *lst_env,
+		t_exec_pipe **var)
 {
+	t_exec	*exec;
+
 	*var = ft_malloc(sizeof(t_exec_pipe), 1);
 	if (!*var)
 		exit(1);
-	t_exec	*exec;
 	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
 		&& !list->redirect)
 	{
 		exec = gnl_to_array(list->args);
 		exec_builtins(&lst_env, &exec, list);
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }
 
 static void	initialize_fds(int *in_fd, int *out_fd)
@@ -88,7 +91,8 @@ static void	initialize_fds(int *in_fd, int *out_fd)
 	*out_fd = STDOUT_FILENO;
 }
 
-static void	run_in_child(t_final_struct *list, t_exec_pipe *var, t_env *lst_env, char **env, t_exec **exec)
+static void	run_in_child(t_final_struct *list, t_exec_pipe *var, t_env *lst_env,
+		char **env, t_exec **exec)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -101,6 +105,7 @@ void	execute(t_final_struct *list, t_env *lst_env, char **env)
 {
 	t_exec_pipe	*var;
 	t_exec	*exec;
+
 	if (exec_invalid_pipe_redirect(list, lst_env, &var))
 		return ;
 	var->last_pid = -1;
