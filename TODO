@@ -1,9 +1,0 @@
-handle leaks in this case "echo | cat"
-env -i causes leaks in child process when running a command
-exit should exit with the latest extcode not 0
-when write on file that dont have write permissions
-azbi when export PATH="newdirectory" it should work when running an command is in that path
-redirection on pipe should quite without leaks
-saib azbi getenv dialkom (9lb 3la variable f env dialkom)
-rd l9lawi dial linked list dial envirement l char **
-checki mzian command permission mzn asi zbi (./pp asi l9lawi)
