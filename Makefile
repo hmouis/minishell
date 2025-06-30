@@ -25,6 +25,8 @@ execution/exec_pipe.c \
 execution/apply_redirect.c \
 execution/pars_redirect.c \
 execution/update_env.c \
+execution/pipe_helpers.c \
+execution/pipe_setup.c \
 builtins/env.c \
 getenv/env_utils.c \
 builtins/echo.c \
@@ -65,7 +67,8 @@ clean:
 	make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME) -C $(LIBFT_DIR)
-	rm -f $(NAME) $(LIBFT)
+	rm -f $(NAME)
+	$(MAKE) fclean -C $(LIBFT_DIR)
+
 
 re: fclean all
