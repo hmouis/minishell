@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pars_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:26:17 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 11:39:57 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/07/01 00:17:53 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/parsing.h"
+#include "../includes/tokenization.h"
+#include "../includes/gc.h"
 
 char	*check_quote(char *str)
 {

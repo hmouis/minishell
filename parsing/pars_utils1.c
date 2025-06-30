@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pars_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/30 20:46:53 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/07/01 00:15:21 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/parsing.h"
+#include "../includes/expansions.h"
 
 void	error_msg(char *str, int status)
 {

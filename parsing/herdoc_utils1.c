@@ -3,13 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:59:11 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/30 20:41:30 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/07/01 00:21:34 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/parsing.h"
+#include "../includes/expansions.h"
+#include "../includes/tokenization.h"
+#include "../includes/gc.h"
 #include "../minishell.h"
 
 int	add_inside_quote(char *str, char **new_str, int *i)

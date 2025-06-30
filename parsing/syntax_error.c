@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 09:25:25 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/29 15:20:58 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/07/01 00:15:34 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/parsing.h"
+#include "../includes/gc.h"
 
 char	*n_of_herdoc(t_lst *lst, int *status)
 {

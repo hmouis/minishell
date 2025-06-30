@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/30 20:48:16 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/07/01 00:15:07 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/parsing.h"
+#include "../includes/expansions.h"
 
 char	*remove_quotes(char *str)
 {
