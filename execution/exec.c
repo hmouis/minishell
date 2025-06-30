@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:24 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/27 18:48:57 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:30:02 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
+#include "../includes/expansions.h"
+#include "../includes/gc.h"
 
 static void	msg_no_such_file(char *arg)
 {

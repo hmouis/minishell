@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   update_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/31 14:39:42 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 17:56:58 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:30:25 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
+#include "../includes/expansions.h"
 
 void	update_env(t_env **env, char *oldpwd, char *pwd)
 {

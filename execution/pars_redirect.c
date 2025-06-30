@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pars_redirect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/21 18:30:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/21 18:30:28 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:30:12 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
 
 int	pars_red(t_gnl *red)
 {

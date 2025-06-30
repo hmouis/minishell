@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/29 17:24:06 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 17:24:13 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:30:07 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
+#include "../includes/expansions.h"
+#include "../includes/gc.h"
 
 char	*get_path(t_env *env)
 {

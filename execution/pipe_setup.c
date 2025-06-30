@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_setup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 02:27:09 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/30 02:27:27 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:30:21 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
+#include "../includes/builtins.h"
+#include "../includes/gc.h"
 
 int	exec_invalid_pipe_redirect(t_final_struct *list, t_env *lst_env,
 		t_exec_pipe **var)

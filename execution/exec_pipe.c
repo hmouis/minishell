@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 02:05:17 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/30 02:05:18 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:29:54 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/execution.h"
+#include "../includes/builtins.h"
+#include "../includes/gc.h"
 
 static void	setup_redirections(t_final_struct *fnl, t_exec_pipe *var)
 {
