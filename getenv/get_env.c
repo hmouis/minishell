@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/gc.h"
 
 t_env	*env_new_node(char *key, char *data)
 {
