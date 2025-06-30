@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
 
 void	del_last_str(char *str, t_va *va, t_new_exp **exp)
 {

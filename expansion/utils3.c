@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/gc.h"
 
 t_final_struct	*fnl_node(void)
 {

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/gc.h"
+#include "../includes/expansions.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

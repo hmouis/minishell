@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
+#include "../includes/gc.h"
 
 t_new_exp	*new_lst_node(int type)
 {

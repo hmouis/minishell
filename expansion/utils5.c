@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
 
 t_gnl	*last_node_gnl(t_gnl *lst)
 {

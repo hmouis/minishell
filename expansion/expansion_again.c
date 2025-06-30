@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_again.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:07 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/25 15:52:36 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:39:33 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/expansions.h"
 
 void	fnl_argm(t_env *list, t_lst *argm, t_new_exp **exp,
 		t_final_struct **fnl)

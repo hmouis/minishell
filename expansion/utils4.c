@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
+#include "../includes/gc.h"
 
 void	skip_var_char(char *str, int *i, int *len)
 {

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
 
 void	split_string(char *str, t_new_exp **exp)
 {
