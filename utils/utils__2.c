@@ -99,7 +99,7 @@ t_final_struct	*fill_fnl(t_cmd *cmd, t_final_struct *fnl, t_env *list)
 		}
 		move_struct(&fnl, &cmd, herdoc);
 	}
-	tmp = pars_fnl(tmp);
+	// tmp = pars_fnl(tmp);
 	return (tmp);
 }
 

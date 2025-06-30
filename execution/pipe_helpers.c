@@ -14,11 +14,6 @@
 
 void	handle_signal_exit(int wstatus, int pid, int last_pid)
 {
-	if (WIFSIGNALED(wstatus))
-	{
-		if (WTERMSIG(wstatus) == SIGINT || WTERMSIG(wstatus) == SIGQUIT)
-			write(2, "\n", 1);
-	}
 	if (pid == last_pid)
 	{
 		if (WIFEXITED(wstatus))

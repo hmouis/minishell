@@ -47,7 +47,7 @@ parsing/herdoc.c \
 parsing/herdoc_utils1.c
 
 CC= cc 
-CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror -fsanitize=address -g
 RFLAG= -lreadline
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a

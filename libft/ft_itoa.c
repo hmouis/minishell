@@ -40,7 +40,7 @@ char	*ft_itoa(int n)
 
 	nbr = n;
 	n_len = count(nbr);
-	arr = malloc(sizeof(char) * n_len + 1);
+	arr = ft_malloc(sizeof(char) * n_len + 1, 1);
 	if (arr == NULL)
 		return (NULL);
 	if (nbr < 0)

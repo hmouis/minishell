@@ -36,6 +36,8 @@ static void	setup_redirections(t_final_struct *fnl, t_exec_pipe *var)
 void	child_process(t_child_params *params, t_exec **exec)
 {
 	setup_redirections(params->fnl, params->var);
+	if (!exec || !(*exec) || !(*exec)->args[0])
+		exit(0);
 	if (is_builtins((*exec)->args[0]) != -1)
 	{
 		exec_builtins(&params->lst_env, exec, params->fnl);

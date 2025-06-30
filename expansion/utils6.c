@@ -45,7 +45,7 @@ char	*char_join(char *str, int count, char c)
 	char	*new_str;
 
 	j = 0;
-	new_str = ft_malloc(sizeof(char) * count + 1, 1);
+	new_str = ft_malloc(sizeof(char) * count + 2, 1);
 	if (!new_str)
 		return (NULL);
 	while (str && str[j])
@@ -78,7 +78,7 @@ void	is_var(t_new_exp *exp, t_helper_va *va, t_env *env, t_gnl **gnl)
 	{
 		tmp = get_env(exp->string->content + 1, env);
 		if (!tmp)
-			exp->string->content[0] = '\0';
+			exp->string->content = NULL;
 	}
 	va->flag = split_var_arg(tmp, &va->field_str);
 	if (!va->flag)
