@@ -12,13 +12,17 @@
 
 #include "../minishell.h"
 
-static char	*get_path(void)
+char	*get_path(t_env *env)
 {
 	char	*path;
 
-	path = getenv("PATH");
-	if (!path)
-		return (NULL);
+	path = NULL;
+	while (env)
+	{
+		if (ft_strcmp(env->key, "PATH") == 0)
+			path = env->data;
+		env = env->next;
+	}
 	return (path);
 }
 
@@ -50,7 +54,7 @@ static char	*file_location(char *file, char *full_path)
 	return (NULL);
 }
 
-char	*file_path(char *file)
+char	*file_path(t_env *env, char *file)
 {
 	char	*found;
 	char	*path;
@@ -64,7 +68,7 @@ char	*file_path(char *file)
 		else
 			return (NULL);
 	}
-	path = get_path();
+	path = get_path(env);
 	if (!path)
 		return (NULL);
 	found = file_location(file, path);
