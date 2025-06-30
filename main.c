@@ -15,8 +15,9 @@
 void	empty__line(void)
 {
 	ft_malloc(0, 0);
+	ft_malloc_env(0, 0);
 	printf("exit\n");
-	exit(0);
+	exit(g_exit_status);
 }
 
 void	read_line(t_final_struct *fnl, t_cmd *cmd, t_env *list, char **env)

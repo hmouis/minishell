@@ -20,7 +20,10 @@ static void	setup_redirections(t_final_struct *fnl, t_exec_pipe *var)
 	input_redirected = 0;
 	output_redirected = 0;
 	if (apply_redirect(fnl, &input_redirected, &output_redirected) == -1)
+	{
+		ft_malloc(0, 0);
 		exit(EXIT_FAILURE);
+	}
 	if (!input_redirected && var->in_fd != STDIN_FILENO)
 	{
 		dup2(var->in_fd, STDIN_FILENO);
@@ -37,13 +40,18 @@ void	child_process(t_child_params *params, t_exec **exec)
 {
 	setup_redirections(params->fnl, params->var);
 	if (!exec || !(*exec) || !(*exec)->args[0])
+	{
+		ft_malloc(0, 0);
 		exit(0);
+	}
 	if (is_builtins((*exec)->args[0]) != -1)
 	{
 		exec_builtins(&params->lst_env, exec, params->fnl);
+		ft_malloc(0, 0);
 		exit(EXIT_SUCCESS);
 	}
 	exec_cmd(params->env, exec, params->lst_env);
+	ft_malloc(0, 0);
 	exit(EXIT_FAILURE);
 }
 

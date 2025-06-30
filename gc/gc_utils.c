@@ -1,36 +1,63 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gb_utils.c                                         :+:      :+:    :+:   */
+/*   gc_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 10:49:20 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/02 10:50:14 by hmouis           ###   ########.fr       */
+/*   Created: 2025/06/30 18:42:10 by oait-h-m          #+#    #+#             */
+/*   Updated: 2025/06/30 19:33:37 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+t_list_env	*ft_lstnew_env(void *content)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	t_list_env	*node;
+
+	node = malloc(sizeof(t_list_env));
+	if (!node)
+		return (NULL);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+void	ft_lstadd_front_env(t_list_env **lst, t_list_env *new)
 {
-	t_list	*p;
-
-	if (!lst || !del)
-		return ;
-	while (*lst)
+	if (lst && new)
 	{
-		p = *lst;
-		(*lst) = (*lst)->next;
-		ft_lstdelone(p, del);
+		new->next = *lst;
+		*lst = new;
 	}
-	*lst = NULL;
+}
+
+t_list_env	**get_list_env(void)
+{
+	static t_list_env	*list_env;
+
+	return (&list_env);
+}
+
+void	*ft_malloc_env(size_t size, int flag)
+{
+	t_list_env	*node;
+	void		*ptr;
+
+	node = NULL;
+	ptr = NULL;
+	if (flag == 0)
+	{
+		ft_lstclear_env(get_list_env(), free);
+		return (NULL);
+	}
+	ptr = malloc(size);
+	if (!ptr)
+		return (NULL);
+	node = ft_lstnew_env(ptr);
+	if (!node)
+		return (NULL);
+	ft_lstadd_front_env(get_list_env(), node);
+	return (ptr);
 }

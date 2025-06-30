@@ -41,6 +41,7 @@ builtins/add_or_update_env.c \
 expansion/expansion_again.c \
 gc/garbage_collector.c \
 gc/gc_utils.c \
+gc/gc_utils2.c \
 utils/utils__1.c \
 utils/utils__2.c \
 parsing/herdoc.c \

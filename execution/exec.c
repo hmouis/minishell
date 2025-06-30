@@ -65,7 +65,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
-	file = file_path(lst_env,(*cmd)->args[0]);
+	file = file_path(lst_env, (*cmd)->args[0]);
 	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
@@ -77,6 +77,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 	{
 		msg_error((*cmd)->args[0]);
 		ft_malloc(0, 0);
+		ft_malloc_env(0, 0);
 		exit(127);
 	}
 	execve(file, (*cmd)->args, env);

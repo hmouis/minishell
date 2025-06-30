@@ -38,12 +38,14 @@ static void	exit_error_msg(char *arg)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	ft_malloc(0, 0);
+	ft_malloc_env(0, 0);
 	exit(2);
 }
 
 static void	exit_with_g(void)
 {
 	ft_malloc(0, 0);
+	ft_malloc_env(0, 0);
 	printf("exit\n");
 	exit(g_exit_status);
 }
@@ -63,11 +65,11 @@ void	exec_exit(t_final_struct *fnl, t_exec **cmd)
 	}
 	if (!(*cmd)->args[1])
 	{
-		g_exit_status = 0;
 		if (fnl && !fnl->next)
 			printf("exit\n");
 		ft_malloc(0, 0);
-		exit(0);
+		ft_malloc_env(0, 0);
+		exit(g_exit_status);
 	}
 	ft_atoi((*cmd)->args[1], &track_of);
 	if (track_of)

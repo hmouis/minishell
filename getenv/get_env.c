@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:00:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 15:38:58 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 18:55:22 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_env	*env_new_node(char *key, char *data)
 
 	if (!key || !data)
 		return (NULL);
-	node = ft_malloc(sizeof(t_env), 1);
+	node = ft_malloc_env(sizeof(t_env), 1);
 	if (!node)
 		return (NULL);
 	node->key = key;
@@ -47,7 +47,7 @@ char	*get_env_key(char *s)
 			return (NULL);
 		i++;
 	}
-	return (ft_substr(s, 0, i));
+	return (ft_substr_env(s, 0, i));
 }
 
 void	add_env_if_empty(t_env **list)
@@ -58,7 +58,7 @@ void	add_env_if_empty(t_env **list)
 
 	first = *list;
 	ptr = getcwd(NULL, 0);
-	cwd = ft_strdup(ptr);
+	cwd = ft_strdup_env(ptr);
 	free(ptr);
 	first = env_new_node("PWD", cwd);
 	first->next = env_new_node("SHLVL", "1");

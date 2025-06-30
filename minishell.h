@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:05:54 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 17:56:36 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 19:34:53 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,12 @@ typedef struct s_list
 	void					*content;
 	struct s_list			*next;
 }							t_list;
+
+typedef struct s_list_env
+{
+	void					*content;
+	struct s_list_env		*next;
+}							t_list_env;
 
 typedef struct s_lst
 {
@@ -379,8 +385,8 @@ int							rev_charchr(char *str);
 // exec
 int							exec_builtins(t_env **lst_env, t_exec **cmd,
 								t_final_struct *struc);
-char	*get_path(t_env *env);
-char	*file_path(t_env *env, char *file);
+char						*get_path(t_env *env);
+char						*file_path(t_env *env, char *file);
 int							exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
@@ -416,8 +422,15 @@ void						add_or_update_env(t_env **env, char *key,
 
 /*garbage collector*/
 void						ft_lstdelone(t_list *lst, void (*del)(void *));
+void						ft_lstdelone_env(t_list_env *lst,
+								void (*del)(void *));
 void						*ft_malloc(size_t size, int flag);
 void						ft_lstclear(t_list **lst, void (*del)(void *));
+void						ft_lstclear_env(t_list_env **lst,
+								void (*del)(void *));
 void						ft_lstadd_front(t_list **lst, t_list *new_);
+char						*ft_strdup_env(char *s);
+void						*ft_malloc_env(size_t size, int flag);
+char						*ft_substr_env(char *s, int start, int len);
 
 #endif

@@ -19,7 +19,10 @@ int	exec_invalid_pipe_redirect(t_final_struct *list, t_env *lst_env,
 
 	*var = ft_malloc(sizeof(t_exec_pipe), 1);
 	if (!*var)
+	{
+		ft_malloc(0, 0);
 		exit(1);
+	}
 	if (list && !list->next && list->args && is_builtins(list->args->str) != -1
 		&& !list->redirect)
 	{
