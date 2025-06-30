@@ -65,9 +65,7 @@ int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
-	if (!is_there_path(lst_env) && ((*cmd)->args[0][0] != '/'))
-		msg_no_such_file((*cmd)->args[0]);
-	file = file_path((*cmd)->args[0]);
+	file = file_path(lst_env,(*cmd)->args[0]);
 	if (stat(file, &sb) == 0 && S_ISDIR(sb.st_mode))
 	{
 		ft_putstr_fd("minishell: ", 2);
