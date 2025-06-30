@@ -60,8 +60,8 @@ char	*is_there_path(t_env *list)
 
 int	exec_cmd(char **env, t_exec **cmd, t_env *lst_env)
 {
-	char *file;
-	struct stat sb;
+	char		*file;
+	struct stat	sb;
 
 	if (!cmd || !*cmd || !(*cmd)->args || !(*cmd)->args[0])
 		exit(127);
