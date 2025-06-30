@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:01:09 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:01:11 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:36:55 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/libft.h"
 
 char	*ft_strncpy(char *dest, const char *src, size_t n)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 12:18:41 by hmouis            #+#    #+#             */
-/*   Updated: 2024/11/07 12:43:54 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 22:36:08 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/libft.h"
+#include "../includes/gc.h"
 
 static size_t	count(long n)
 {

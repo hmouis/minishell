@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_is_alnum.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 18:47:57 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/19 18:48:20 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:35:45 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/libft.h"
 
 int	is_alnum(char c)
 {
