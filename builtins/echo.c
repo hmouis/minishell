@@ -3,13 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:03:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:03:02 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:28:19 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/builtins.h"
+#include "../includes/tokenization.h"
 #include "../minishell.h"
 
 void	print_with_exit_status(const char *arg)
