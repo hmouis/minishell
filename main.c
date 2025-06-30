@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "includes/execution.h"
 #include "minishell.h"
+#include "./includes/gc.h"
 
 void	empty__line(void)
 {
