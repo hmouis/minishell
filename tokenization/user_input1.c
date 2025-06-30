@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   user_input1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:02:22 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:02:24 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:59:21 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/tokenization.h"
 
 int	is_operator(char *str)
 {

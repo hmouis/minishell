@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   user_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 22:01:36 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/23 22:01:38 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 23:59:16 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/tokenization.h"
 #include "../minishell.h"
 
 int	split_input(char *input, t_lst **lst)

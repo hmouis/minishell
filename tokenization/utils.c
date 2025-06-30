@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/gc.h"
 
 void	*new_node(char *content)
 {

@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/gc.h"
+#include "../includes/expansions.h"
 
 int	charchr(char *str, int c)
 {

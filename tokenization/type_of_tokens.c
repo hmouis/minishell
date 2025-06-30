@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   type_of_tokens.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@1337.ma>                +#+  +:+       +#+        */
+/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:50:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/05/07 10:29:58 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 23:59:08 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/tokenization.h"
 
 int	is_redirection(t_lst *lst)
 {
