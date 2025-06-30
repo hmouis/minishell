@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
+#include "../includes/tokenization.h"
 
 void	assigne_tokeniz_input(int *status, char *line)
 {

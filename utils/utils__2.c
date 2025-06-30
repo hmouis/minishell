@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include "../includes/expansions.h"
 
 void	pars_fnl_utils(t_final_struct **tmp, t_v *va, t_gnl **head, t_gnl **arg)
 {
