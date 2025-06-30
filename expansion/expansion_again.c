@@ -98,8 +98,6 @@ void	expand(t_new_exp *exp, t_env *env, t_gnl **gnl)
 				va.str = ft_strjoin(va.str, exp->string->content);
 			exp->string = exp->string->next;
 		}
-		// if (!va.str && va.flag != 2)
-		// 	va.str = ft_strdup("");
 		va.flag = 0;
 		add_to_gnl_lst(gnl, va.str, exp->type);
 		exp = exp->next;

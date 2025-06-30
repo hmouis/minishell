@@ -394,7 +394,8 @@ void						run_in_child(t_child_params *params, t_exec **exec);
 void						setup_pipes_and_fork(t_final_struct *list,
 								t_exec_pipe *var, t_child_params *params,
 								t_exec *exec);
-void	child_process(t_child_params *params, t_exec **exec);
+void						child_process(t_child_params *params,
+								t_exec **exec);
 void						only_export(t_env *env);
 void						exec_env(t_env **lst);
 void						exec_echo(t_exec **cmd);

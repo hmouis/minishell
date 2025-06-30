@@ -26,8 +26,8 @@ int	len_nodes(t_gnl *list)
 		if (!tmp->str)
 		{
 			tmp = tmp->next;
-			continue;
-		}	
+			continue ;
+		}
 		tmp = tmp->next;
 		counter++;
 	}
@@ -65,7 +65,7 @@ t_exec	*gnl_to_array(t_gnl *head)
 		if (!tmp->str)
 		{
 			tmp = tmp->next;
-			continue;
+			continue ;
 		}
 		arg->args[i] = tmp->str;
 		tmp = tmp->next;
