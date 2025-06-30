@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pars_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 09:37:06 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/30 19:38:24 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 20:46:53 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ t_gnl	*her_doc(char *del, t_env *env, t_gnl *lst)
 		if (!line || !ft_strcmp(line, del))
 			return (empty_line(line, lst, del));
 		else if (line[0] == '\0')
-		{
-			line = char_join(line, 2, '\n');
-			add_to_gnl_lst(&lst, line, -1);
-		}
+			add_to_gnl_lst(&lst, ft_strdup("\n"), -1);
 		else
 			fill_lst(line, flag, env, &lst);
 		free(line);

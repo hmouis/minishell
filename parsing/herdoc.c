@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:26:08 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/29 17:41:25 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 20:48:16 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,19 @@ t_gnl	*empty_line(char *line, t_gnl *lst, char *del)
 void	fill_lst(char *line, int flag, t_env *env, t_gnl **lst)
 {
 	char	*var;
+	char	*new_line;
 
+	new_line = NULL;
 	var = NULL;
 	if (flag)
 	{
-		line = char_join(line, str_len(line) + 1, '\n');
-		add_to_gnl_lst(lst, line, -1);
+		new_line = char_join(line, str_len(line), '\n');
+		add_to_gnl_lst(lst, new_line, -1);
 	}
 	else
 	{
 		var = expand_herdoc(line, env);
-		var = char_join(var, str_len(var) + 1, '\n');
+		var = char_join(var, str_len(var), '\n');
 		add_to_gnl_lst(lst, var, -1);
 	}
 }

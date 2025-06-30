@@ -6,7 +6,7 @@
 /*   By: hmouis <hmouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 10:59:11 by hmouis            #+#    #+#             */
-/*   Updated: 2025/06/21 09:44:54 by hmouis           ###   ########.fr       */
+/*   Updated: 2025/06/30 20:41:30 by hmouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*expand_herdoc(char *str, t_env *env)
 	{
 		if (expand_in_herdoc(&va, str, &new_str, env))
 			continue ;
-		new_str = char_join(new_str, str_len(new_str) + 1, str[va.i]);
+		new_str = char_join(new_str, str_len(new_str), str[va.i]);
 		va.i++;
 	}
 	return (new_str);
