@@ -190,6 +190,21 @@ typedef struct s_h_pars_fnl
 	int						flag;
 }							t_v;
 
+typedef struct s_child_params
+{
+	t_final_struct			*fnl;
+	t_exec_pipe				*var;
+	t_env					*lst_env;
+	char					**env;
+}							t_child_params;
+
+typedef struct s_child_var
+{
+	t_final_struct			*fnl;
+	t_exec_pipe				*var;
+	t_env					*lst_env;
+}							t_child_v;
+
 /*her_doc*/
 char						*remove_quotes(char *str);
 t_gnl						*empty_line(char *line, t_gnl *lst, char *del);
@@ -368,6 +383,18 @@ char						*file_path(char *file);
 int							exec_cmd(char **env, t_exec **cmd, t_env *lst_env);
 void						execute(t_final_struct *list, t_env *env_list,
 								char **env);
+void						handle_signal_exit(int wstatus, int pid,
+								int last_pid);
+void						wait_for_children(int pid, int last_pid,
+								int wstatus);
+void						initialize_fds(int *in_fd, int *out_fd);
+int							exec_invalid_pipe_redirect(t_final_struct *list,
+								t_env *lst_env, t_exec_pipe **var);
+void						run_in_child(t_child_params *params, t_exec **exec);
+void						setup_pipes_and_fork(t_final_struct *list,
+								t_exec_pipe *var, t_child_params *params,
+								t_exec *exec);
+void	child_process(t_child_params *params, t_exec **exec);
 void						only_export(t_env *env);
 void						exec_env(t_env **lst);
 void						exec_echo(t_exec **cmd);
