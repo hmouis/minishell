@@ -6,11 +6,11 @@
 /*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 18:42:10 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/30 19:33:37 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/06/30 22:49:22 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../includes/gc.h"
 
 t_list_env	*ft_lstnew_env(void *content)
 {
