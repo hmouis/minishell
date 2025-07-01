@@ -6,7 +6,7 @@
 /*   By: oait-h-m <oait-h-m@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 22:25:01 by oait-h-m          #+#    #+#             */
-/*   Updated: 2025/06/30 22:29:34 by oait-h-m         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:48:27 by oait-h-m         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	handle_her_doc(int *fd, char *file, t_herdoc *herdoc,
 	ssize_t	count;
 
 	count = 0;
+	if (access(file, F_OK) == 0)
+		file = char_join(file, str_len(file), '0');
 	fd2 = open(file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 	if (fd2 < 0)
 	{
